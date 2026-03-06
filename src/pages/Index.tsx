@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import {
   Sparkles, ArrowRight, Star, Users, BookOpen, Award,
@@ -8,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import CourseCard from "@/components/CourseCard";
 import { courses } from "@/data/mockData";
 import heroBg from "@/assets/hero-bg.jpg";
+
+const HeroParticles = lazy(() => import("@/components/HeroParticles"));
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -32,6 +35,11 @@ const Index = () => {
           backgroundImage: `linear-gradient(hsl(265 55% 52% / 0.3) 1px, transparent 1px), linear-gradient(90deg, hsl(265 55% 52% / 0.3) 1px, transparent 1px)`,
           backgroundSize: '60px 60px'
         }} />
+
+        {/* 3D Particles */}
+        <Suspense fallback={null}>
+          <HeroParticles />
+        </Suspense>
 
         <div className="relative z-10 container mx-auto px-5 sm:px-6 text-center pt-16 sm:pt-0">
           <motion.div {...fadeUp}>
