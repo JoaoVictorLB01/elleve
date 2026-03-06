@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { lazy, Suspense } from "react";
-import { motion } from "framer-motion";
+import { lazy, Suspense, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
   Sparkles, ArrowRight, Star, Users, BookOpen, Award,
   Zap, Eye, Heart
@@ -20,28 +20,47 @@ const fadeUp = {
 
 const Index = () => {
   const featuredCourses = courses.filter((c) => c.featured);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll();
+
+  // Parallax transforms for different sections
+  const heroBgY = useTransform(scrollYProgress, [0, 0.3], ["0%", "20%"]);
+  const heroContentY = useTransform(scrollYProgress, [0, 0.25], ["0%", "30%"]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const gridY = useTransform(scrollYProgress, [0, 0.15], ["0%", "-8%"]);
+  const featuresFloat = useTransform(scrollYProgress, [0.3, 0.6], ["0%", "-5%"]);
+  const philosophyScale = useTransform(scrollYProgress, [0.5, 0.7], [0.95, 1]);
+  const ctaY = useTransform(scrollYProgress, [0.7, 1], ["40px", "0px"]);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" ref={containerRef}>
       {/* Hero */}
       <section className="relative min-h-[85vh] sm:min-h-screen flex items-center justify-center overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center scale-105"
-          style={{ backgroundImage: `url(${heroBg})` }}
+        <motion.div
+          className="absolute inset-0 bg-cover bg-center scale-110"
+          style={{ backgroundImage: `url(${heroBg})`, y: heroBgY }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background" />
         
-        <div className="absolute inset-0 opacity-[0.03] hidden sm:block" style={{
-          backgroundImage: `linear-gradient(hsl(265 55% 52% / 0.3) 1px, transparent 1px), linear-gradient(90deg, hsl(265 55% 52% / 0.3) 1px, transparent 1px)`,
-          backgroundSize: '60px 60px'
-        }} />
+        <motion.div
+          className="absolute inset-0 opacity-[0.03] hidden sm:block"
+          style={{
+            backgroundImage: `linear-gradient(hsl(265 55% 52% / 0.3) 1px, transparent 1px), linear-gradient(90deg, hsl(265 55% 52% / 0.3) 1px, transparent 1px)`,
+            backgroundSize: '60px 60px',
+            y: gridY,
+          }}
+        />
 
         {/* 3D Particles */}
         <Suspense fallback={null}>
           <HeroParticles />
         </Suspense>
 
-        <div className="relative z-10 container mx-auto px-5 sm:px-6 text-center pt-16 sm:pt-0">
+        <motion.div
+          className="relative z-10 container mx-auto px-5 sm:px-6 text-center pt-16 sm:pt-0"
+          style={{ y: heroContentY, opacity: heroOpacity }}
+        >
           <motion.div {...fadeUp}>
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -78,7 +97,7 @@ const Index = () => {
               </Button>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
 
         <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-background to-transparent" />
       </section>
@@ -95,9 +114,9 @@ const Index = () => {
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ delay: i * 0.12, duration: 0.6 }}
                 viewport={{ once: true }}
                 className="text-center p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-border bg-card/50"
               >
@@ -111,7 +130,7 @@ const Index = () => {
       </section>
 
       {/* Featured Courses */}
-      <section className="py-12 sm:py-20">
+      <section className="py-12 sm:py-20 relative">
         <div className="container mx-auto px-5 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -138,15 +157,39 @@ const Index = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
             {featuredCourses.map((course, i) => (
-              <CourseCard key={course.id} course={course} index={i} />
+              <motion.div
+                key={course.id}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.15, duration: 0.6 }}
+                viewport={{ once: true, margin: "-50px" }}
+              >
+                <CourseCard course={course} index={i} />
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Features */}
-      <section className="py-12 sm:py-20 bg-gradient-cosmic-subtle">
-        <div className="container mx-auto px-5 sm:px-6">
+      <section className="py-12 sm:py-20 bg-gradient-cosmic-subtle relative overflow-hidden">
+        {/* Parallax decorative orbs */}
+        <motion.div
+          className="absolute -top-20 -left-20 w-72 h-72 rounded-full opacity-[0.07]"
+          style={{
+            background: "radial-gradient(circle, hsl(265 55% 52%), transparent 70%)",
+            y: featuresFloat,
+          }}
+        />
+        <motion.div
+          className="absolute -bottom-32 -right-20 w-96 h-96 rounded-full opacity-[0.05]"
+          style={{
+            background: "radial-gradient(circle, hsl(40 80% 58%), transparent 70%)",
+            y: featuresFloat,
+          }}
+        />
+
+        <div className="container mx-auto px-5 sm:px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -181,10 +224,10 @@ const Index = () => {
             ].map((feature, i) => (
               <motion.div
                 key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                viewport={{ once: true }}
+                initial={{ opacity: 0, y: 30, rotateX: 5 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                transition={{ delay: i * 0.15, duration: 0.6 }}
+                viewport={{ once: true, margin: "-30px" }}
                 className="p-6 sm:p-8 rounded-xl sm:rounded-2xl border border-border bg-card/50 text-center"
               >
                 <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary/10 mb-4 sm:mb-5">
@@ -199,11 +242,15 @@ const Index = () => {
       </section>
 
       {/* Philosophy */}
-      <section className="py-16 sm:py-24">
-        <div className="container mx-auto px-5 sm:px-6 max-w-3xl text-center">
+      <section className="py-16 sm:py-24 overflow-hidden">
+        <motion.div
+          className="container mx-auto px-5 sm:px-6 max-w-3xl text-center"
+          style={{ scale: philosophyScale }}
+        >
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
             <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-accent/10 mb-6 sm:mb-8">
@@ -224,16 +271,18 @@ const Index = () => {
               para elevar sua frequência e expandir sua percepção.
             </p>
           </motion.div>
-        </div>
+        </motion.div>
       </section>
 
       {/* CTA */}
       <section className="py-12 sm:py-20">
         <div className="container mx-auto px-5 sm:px-6">
           <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
             viewport={{ once: true }}
+            style={{ y: ctaY }}
             className="relative overflow-hidden rounded-2xl sm:rounded-3xl p-8 sm:p-12 md:p-16 text-center"
           >
             <div className="absolute inset-0 bg-gradient-cosmic" />
