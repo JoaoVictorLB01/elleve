@@ -55,7 +55,7 @@ const Index = () => {
               </span>
             </motion.div>
 
-            <h1 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-4 sm:mb-6 leading-[1.1] tracking-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-4 sm:mb-6 leading-[1.1] tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
               Eleve sua
               <br />
               <span className="text-gradient-cosmic">consciência</span>
