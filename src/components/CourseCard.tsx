@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Clock, Users, Star } from "lucide-react";
 import { Course } from "@/data/mockData";
-import { Badge } from "@/components/ui/badge";
 
 interface CourseCardProps {
   course: Course;
@@ -11,46 +10,50 @@ interface CourseCardProps {
 
 const CourseCard = ({ course, index = 0 }: CourseCardProps) => (
   <motion.div
-    initial={{ opacity: 0, y: 20 }}
+    initial={{ opacity: 0, y: 24 }}
     whileInView={{ opacity: 1, y: 0 }}
-    transition={{ delay: index * 0.1 }}
+    transition={{ delay: index * 0.08, duration: 0.5 }}
     viewport={{ once: true }}
   >
-    <Link to={`/curso/${course.id}`} className="group block">
-      <div className="overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 hover:border-primary/50 hover:glow-purple">
-        <div className="relative aspect-[4/3] overflow-hidden">
+    <Link to={`/curso/${course.id}`} className="group block h-full">
+      <div className="h-full overflow-hidden rounded-2xl border border-border bg-card transition-all duration-500 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-1">
+        <div className="relative aspect-[16/10] overflow-hidden">
           <img
             src={course.image}
             alt={course.title}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
-          <Badge className="absolute top-3 left-3 bg-gradient-cosmic border-0 text-primary-foreground">
-            {course.category}
-          </Badge>
+          <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent" />
+          <div className="absolute top-4 left-4">
+            <span className="inline-flex items-center rounded-full bg-primary/90 backdrop-blur-sm px-3 py-1 text-xs font-medium text-primary-foreground">
+              {course.category}
+            </span>
+          </div>
+          <div className="absolute top-4 right-4 flex items-center gap-1 rounded-full bg-background/80 backdrop-blur-sm px-2.5 py-1">
+            <Star className="h-3 w-3 text-accent fill-accent" />
+            <span className="text-xs font-semibold">{course.rating}</span>
+          </div>
         </div>
-        <div className="p-5">
-          <h3 className="font-display text-lg font-semibold mb-2 group-hover:text-gradient-cosmic transition-colors">
+        <div className="p-5 pb-6">
+          <h3 className="font-display text-lg font-semibold mb-2 leading-snug transition-colors group-hover:text-primary">
             {course.title}
           </h3>
-          <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
+          <p className="text-sm text-muted-foreground line-clamp-2 mb-5 leading-relaxed">
             {course.description}
           </p>
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <div className="flex items-center gap-1">
-              <Clock className="h-3 w-3" />
-              {course.duration}
-            </div>
-            <div className="flex items-center gap-1">
-              <Users className="h-3 w-3" />
-              {course.enrolledStudents}
-            </div>
-            <div className="flex items-center gap-1 text-accent">
-              <Star className="h-3 w-3 fill-current" />
-              {course.rating}
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-muted-foreground">por <span className="text-foreground/80 font-medium">{course.instructor}</span></span>
+            <div className="flex items-center gap-3 text-xs text-muted-foreground">
+              <span className="flex items-center gap-1">
+                <Clock className="h-3.5 w-3.5" />
+                {course.duration}
+              </span>
+              <span className="flex items-center gap-1">
+                <Users className="h-3.5 w-3.5" />
+                {course.enrolledStudents}
+              </span>
             </div>
           </div>
-          <p className="text-xs text-muted-foreground mt-3">por {course.instructor}</p>
         </div>
       </div>
     </Link>

@@ -12,17 +12,20 @@ const Courses = () => {
 
   return (
     <div className="min-h-screen pt-24 pb-16">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
+          className="text-center mb-14"
         >
-          <h1 className="font-display text-4xl font-bold mb-4">
-            Nossos <span className="text-gradient-cosmic">Cursos</span>
+          <span className="text-xs font-semibold text-primary uppercase tracking-widest mb-3 block">
+            Catálogo
+          </span>
+          <h1 className="font-display text-4xl md:text-5xl font-bold mb-4">
+            Nossos Cursos
           </h1>
-          <p className="text-muted-foreground max-w-lg mx-auto">
-            Explore nossa coleção de cursos transformadores
+          <p className="text-muted-foreground max-w-md mx-auto">
+            Explore nossa coleção de cursos transformadores para sua evolução pessoal
           </p>
         </motion.div>
 
@@ -32,10 +35,10 @@ const Courses = () => {
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+              className={`px-5 py-2 rounded-xl text-sm font-medium transition-all ${
                 activeCategory === cat
-                  ? "bg-gradient-cosmic text-primary-foreground"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80"
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "bg-muted text-muted-foreground hover:text-foreground hover:bg-muted/80"
               }`}
             >
               {cat}
