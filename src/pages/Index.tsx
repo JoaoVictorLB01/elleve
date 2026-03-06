@@ -36,12 +36,12 @@ const Index = () => {
   return (
     <div className="min-h-screen" ref={containerRef}>
       {/* Hero */}
-      <section className="relative min-h-[85vh] sm:min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[80vh] sm:min-h-screen flex items-center justify-center overflow-hidden">
         <motion.div
           className="absolute inset-0 bg-cover bg-center scale-110"
           style={{ backgroundImage: `url(${heroBg})`, y: heroBgY }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background" />
         
         <motion.div
           className="absolute inset-0 opacity-[0.03] hidden sm:block"
@@ -58,7 +58,7 @@ const Index = () => {
         </Suspense>
 
         <motion.div
-          className="relative z-10 container mx-auto px-5 sm:px-6 text-center pt-16 sm:pt-0"
+          className="relative z-10 container mx-auto px-4 sm:px-6 text-center pt-20 sm:pt-0"
           style={{ y: heroContentY, opacity: heroOpacity }}
         >
           <motion.div {...fadeUp}>
@@ -66,46 +66,46 @@ const Index = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              className="inline-flex items-center gap-2 mb-6 sm:mb-8 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-border bg-muted/40 backdrop-blur-sm"
+              className="inline-flex items-center gap-2 mb-5 sm:mb-8 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-border bg-muted/40 backdrop-blur-sm"
             >
-              <Sparkles className="h-3 sm:h-3.5 w-3 sm:w-3.5 text-accent animate-pulse-slow" />
+              <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-accent animate-pulse-slow" />
               <span className="text-[10px] sm:text-xs font-medium text-muted-foreground tracking-wider uppercase">
                 Plataforma de Evolução Pessoal
               </span>
             </motion.div>
 
-            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-4 sm:mb-6 leading-[1.1] tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h1 className="text-[2.5rem] sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-4 sm:mb-6 leading-[1.05] tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
               Eleve sua
               <br />
               <span className="text-gradient-cosmic">consciência</span>
             </h1>
 
-            <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-8 sm:mb-12 leading-relaxed px-2">
+            <p className="text-[13px] sm:text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-8 sm:mb-12 leading-relaxed px-1">
               Cursos transformadores sobre energia, cura e autoconhecimento.
               Desperte o potencial que já existe dentro de você.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-              <Button variant="cosmic" size="lg" className="w-full sm:w-auto sm:min-w-[200px]" asChild>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-2 sm:px-0">
+              <Button variant="cosmic" size="lg" className="w-full sm:w-auto sm:min-w-[200px] h-12 sm:h-11 text-[15px] sm:text-sm" asChild>
                 <Link to="/cursos">
                   Explorar Cursos
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button variant="outline" size="lg" className="w-full sm:w-auto sm:min-w-[200px] border-border/60" asChild>
+              <Button variant="outline" size="lg" className="w-full sm:w-auto sm:min-w-[200px] h-12 sm:h-11 text-[15px] sm:text-sm border-border/60" asChild>
                 <Link to="/cadastro">Criar Conta Gratuita</Link>
               </Button>
             </div>
           </motion.div>
         </motion.div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-background to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-20 sm:h-32 bg-gradient-to-t from-background to-transparent" />
       </section>
 
       {/* Stats */}
-      <section className="py-12 sm:py-20 relative">
-        <div className="container mx-auto px-5 sm:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
+      <section className="py-10 sm:py-20 relative">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-6">
             {[
               { icon: BookOpen, label: "Cursos", value: "15+", color: "text-primary" },
               { icon: Users, label: "Alunos Ativos", value: "1.200+", color: "text-primary" },
@@ -118,10 +118,10 @@ const Index = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.12, duration: 0.6 }}
                 viewport={{ once: true }}
-                className="text-center p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-border bg-card/50"
+                className="text-center p-3.5 sm:p-6 rounded-xl sm:rounded-2xl border border-border bg-card/50"
               >
-                <stat.icon className={`h-4 sm:h-5 w-4 sm:w-5 mx-auto mb-2 sm:mb-3 ${stat.color}`} />
-                <div className="text-xl sm:text-3xl font-bold font-display mb-0.5 sm:mb-1">{stat.value}</div>
+                <stat.icon className={`h-4 sm:h-5 w-4 sm:w-5 mx-auto mb-1.5 sm:mb-3 ${stat.color}`} />
+                <div className="text-lg sm:text-3xl font-bold mb-0.5 sm:mb-1">{stat.value}</div>
                 <div className="text-[10px] sm:text-xs text-muted-foreground font-medium">{stat.label}</div>
               </motion.div>
             ))}
@@ -275,15 +275,15 @@ const Index = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-12 sm:py-20">
-        <div className="container mx-auto px-5 sm:px-6">
+      <section className="py-10 sm:py-20">
+        <div className="container mx-auto px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
             viewport={{ once: true }}
             style={{ y: ctaY }}
-            className="relative overflow-hidden rounded-2xl sm:rounded-3xl p-8 sm:p-12 md:p-16 text-center"
+            className="relative overflow-hidden rounded-2xl sm:rounded-3xl p-6 sm:p-12 md:p-16 text-center"
           >
             <div className="absolute inset-0 bg-gradient-cosmic" />
             <div className="absolute inset-0 opacity-10" style={{
@@ -291,16 +291,16 @@ const Index = () => {
             }} />
 
             <div className="relative z-10">
-              <h2 className="font-display text-2xl sm:text-3xl md:text-5xl font-bold mb-4 sm:mb-5 text-primary-foreground leading-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-3 sm:mb-5 text-primary-foreground leading-tight">
                 Pronto para sua
                 <br />
                 transformação?
               </h2>
-              <p className="text-sm sm:text-base text-primary-foreground/70 mb-8 sm:mb-10 max-w-md mx-auto leading-relaxed">
+              <p className="text-[13px] sm:text-base text-primary-foreground/70 mb-6 sm:mb-10 max-w-md mx-auto leading-relaxed">
                 Comece sua jornada de evolução pessoal hoje. Acesse cursos exclusivos e
                 conecte-se com sua melhor versão.
               </p>
-              <Button variant="gold" size="lg" className="w-full sm:w-auto sm:min-w-[220px]" asChild>
+              <Button variant="gold" size="lg" className="w-full sm:w-auto sm:min-w-[220px] h-12 sm:h-11 text-[15px] sm:text-sm" asChild>
                 <Link to="/cadastro">
                   Começar Agora
                   <Sparkles className="ml-2 h-4 w-4" />
