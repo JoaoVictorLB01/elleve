@@ -2,9 +2,11 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import CourseCard from "@/components/CourseCard";
 import { courses, categories } from "@/data/mockData";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Courses = () => {
   const [activeCategory, setActiveCategory] = useState("Todos");
+  const { t } = useLanguage();
 
   const filtered = activeCategory === "Todos"
     ? courses
@@ -19,17 +21,16 @@ const Courses = () => {
           className="text-center mb-8 sm:mb-14"
         >
           <span className="text-[10px] sm:text-xs font-semibold text-primary uppercase tracking-widest mb-2 sm:mb-3 block">
-            Catálogo
+            {t("courses.label")}
           </span>
           <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
-            Nossos Cursos
+            {t("courses.title")}
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto px-2">
-            Explore nossa coleção de cursos transformadores para sua evolução pessoal
+            {t("courses.desc")}
           </p>
         </motion.div>
 
-        {/* Category Filter - horizontal scroll on mobile */}
         <div className="flex gap-2 mb-8 sm:mb-12 overflow-x-auto pb-2 sm:pb-0 sm:flex-wrap sm:justify-center -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
           {categories.map((cat) => (
             <button
@@ -41,7 +42,7 @@ const Courses = () => {
                   : "bg-muted text-muted-foreground hover:text-foreground hover:bg-muted/80"
               }`}
             >
-              {cat}
+              {t(`cat.${cat}`)}
             </button>
           ))}
         </div>

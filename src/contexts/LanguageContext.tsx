@@ -1,0 +1,705 @@
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+
+export type Language = "pt" | "en" | "fr" | "es";
+
+export interface LanguageInfo {
+  code: Language;
+  label: string;
+  flag: string;
+  short: string;
+}
+
+export const languages: LanguageInfo[] = [
+  { code: "pt", label: "Português", flag: "🇧🇷", short: "PT" },
+  { code: "en", label: "English", flag: "🇺🇸", short: "EN" },
+  { code: "fr", label: "Français", flag: "🇫🇷", short: "FR" },
+  { code: "es", label: "Español", flag: "🇪🇸", short: "ES" },
+];
+
+type TranslationKey = string;
+type Translations = Record<Language, Record<TranslationKey, string>>;
+
+const translations: Translations = {
+  pt: {
+    // Navbar
+    "nav.home": "Início",
+    "nav.courses": "Cursos",
+    "nav.myArea": "Minha Área",
+    "nav.admin": "Admin",
+    "nav.login": "Entrar",
+    "nav.start": "Começar",
+    "nav.startNow": "Começar Agora",
+    "nav.loginAccount": "Entrar na Conta",
+
+    // Hero
+    "hero.badge": "Plataforma de Evolução Pessoal",
+    "hero.title1": "Eleve sua",
+    "hero.title2": "consciência",
+    "hero.desc": "Cursos transformadores sobre energia, cura e autoconhecimento. Desperte o potencial que já existe dentro de você.",
+    "hero.explore": "Explorar Cursos",
+    "hero.createAccount": "Criar Conta Gratuita",
+
+    // Stats
+    "stats.courses": "Cursos",
+    "stats.activeStudents": "Alunos Ativos",
+    "stats.avgRating": "Avaliação Média",
+    "stats.certificates": "Certificados",
+
+    // Featured
+    "featured.label": "Destaques",
+    "featured.title": "Cursos em Destaque",
+    "featured.viewAll": "Ver todos",
+
+    // Features
+    "features.label": "Por que Elleve?",
+    "features.title": "Uma plataforma feita para sua",
+    "features.titleHighlight": "evolução",
+    "features.1.title": "Conteúdo Transformador",
+    "features.1.desc": "Cursos criados por especialistas com décadas de experiência em desenvolvimento humano e práticas energéticas.",
+    "features.2.title": "Aprendizado no seu Ritmo",
+    "features.2.desc": "Assista quando quiser, de onde quiser. Seu progresso é salvo automaticamente para que nunca perca uma aula.",
+    "features.3.title": "Certificação Reconhecida",
+    "features.3.desc": "Receba certificados ao concluir cada curso e compartilhe suas conquistas na sua jornada de evolução.",
+
+    // Philosophy
+    "philosophy.title": "A Filosofia",
+    "philosophy.p1": "Acreditamos que cada ser humano carrega dentro de si uma luz única, uma energia pronta para ser despertada. A Elleve é mais do que uma plataforma de cursos — é um portal de transformação, onde conhecimento ancestral encontra ferramentas modernas de evolução pessoal.",
+    "philosophy.p2": "Nossos instrutores são guias experientes que dedicaram suas vidas ao estudo da energia, consciência e cura. Cada curso é uma jornada cuidadosamente desenhada para elevar sua frequência e expandir sua percepção.",
+
+    // CTA
+    "cta.title1": "Pronto para sua",
+    "cta.title2": "transformação?",
+    "cta.desc": "Comece sua jornada de evolução pessoal hoje. Acesse cursos exclusivos e conecte-se com sua melhor versão.",
+    "cta.button": "Começar Agora",
+
+    // Courses page
+    "courses.label": "Catálogo",
+    "courses.title": "Nossos Cursos",
+    "courses.desc": "Explore nossa coleção de cursos transformadores para sua evolução pessoal",
+    "courses.all": "Todos",
+
+    // Course card
+    "course.by": "por",
+
+    // Dashboard
+    "dashboard.hello": "Olá,",
+    "dashboard.student": "Aluno",
+    "dashboard.subtitle": "Continue sua jornada de evolução",
+    "dashboard.activeCourses": "Cursos Ativos",
+    "dashboard.hoursStudied": "Horas Estudadas",
+    "dashboard.progress": "Progresso",
+    "dashboard.certificates": "Certificados",
+    "dashboard.continueWatching": "Continuar Assistindo",
+    "dashboard.next": "Próxima:",
+    "dashboard.continueBtn": "Continuar Assistindo",
+    "dashboard.continueShort": "Continuar",
+    "dashboard.recommended": "Recomendados",
+    "dashboard.viewAll": "Ver todos",
+
+    // Login
+    "login.title": "Bem-vindo de volta",
+    "login.subtitle": "Entre na sua conta Elleve",
+    "login.email": "E-mail",
+    "login.password": "Senha",
+    "login.forgot": "Esqueceu a senha?",
+    "login.button": "Entrar",
+    "login.noAccount": "Não tem conta?",
+    "login.register": "Cadastre-se",
+
+    // Register
+    "register.title": "Comece sua jornada",
+    "register.subtitle": "Crie sua conta na Elleve",
+    "register.name": "Nome completo",
+    "register.namePlaceholder": "Seu nome",
+    "register.email": "E-mail",
+    "register.password": "Senha",
+    "register.passwordPlaceholder": "Mínimo 8 caracteres",
+    "register.button": "Criar Conta",
+    "register.hasAccount": "Já tem conta?",
+    "register.login": "Entrar",
+
+    // Footer
+    "footer.tagline": "Eleve sua consciência. Transforme sua energia. Evolua como ser.",
+    "footer.platform": "Plataforma",
+    "footer.courses": "Cursos",
+    "footer.myArea": "Minha Área",
+    "footer.account": "Conta",
+    "footer.login": "Login",
+    "footer.register": "Cadastro",
+    "footer.rights": "© 2026 Elleve. Todos os direitos reservados.",
+    "footer.terms": "Termos",
+    "footer.privacy": "Privacidade",
+
+    // Admin
+    "admin.label": "Administração",
+    "admin.title": "Painel de Controle",
+    "admin.courses": "Cursos",
+    "admin.students": "Alunos",
+    "admin.stats": "Stats",
+    "admin.searchCourses": "Buscar cursos...",
+    "admin.newCourse": "Novo Curso",
+    "admin.modules": "módulos",
+    "admin.lessons": "aulas",
+    "admin.studentsCount": "alunos",
+    "admin.searchStudents": "Buscar alunos...",
+    "admin.courseCount": "curso(s)",
+    "admin.totalStudents": "Total de Alunos",
+    "admin.activeCourses": "Cursos Ativos",
+    "admin.completedLessons": "Aulas Concluídas",
+    "admin.student": "Aluno",
+    "admin.email": "E-mail",
+
+    // Course Detail
+    "courseDetail.duration": "Duração",
+    "courseDetail.lessons": "Aulas",
+    "courseDetail.students": "Alunos",
+    "courseDetail.rating": "Nota",
+    "courseDetail.ratingFull": "Avaliação",
+    "courseDetail.instructor": "Instrutor",
+    "courseDetail.startCourse": "Começar Curso",
+    "courseDetail.content": "Conteúdo do Curso",
+    "courseDetail.modulesAndLessons": "módulos",
+    "courseDetail.lessonsOf": "aulas",
+    "courseDetail.ofContent": "de conteúdo",
+    "courseDetail.module": "Módulo",
+    "courseDetail.notFound": "Curso não encontrado.",
+
+    // Lesson Player
+    "lesson.backToCourse": "Voltar ao curso",
+    "lesson.lessonsCount": "aulas",
+    "lesson.module": "Módulo",
+    "lesson.navigation": "Navegação",
+    "lesson.completed": "Concluída",
+    "lesson.markComplete": "Marcar como concluída",
+    "lesson.supplementary": "Texto Complementar",
+    "lesson.previous": "Anterior",
+    "lesson.next": "Próxima Aula",
+    "lesson.nextShort": "Próxima",
+    "lesson.courseCompleted": "🎉 Curso Concluído!",
+    "lesson.courseCompletedShort": "🎉 Concluído!",
+    "lesson.notFound": "Curso não encontrado",
+    "lesson.lessonNotFound": "Aula não encontrada",
+
+    // 404
+    "notFound.title": "404",
+    "notFound.message": "Oops! Página não encontrada",
+    "notFound.back": "Voltar ao Início",
+
+    // Categories
+    "cat.Todos": "Todos",
+    "cat.Energia": "Energia",
+    "cat.Cristais": "Cristais",
+    "cat.Consciência": "Consciência",
+    "cat.Meditação": "Meditação",
+    "cat.Desenvolvimento Pessoal": "Desenvolvimento Pessoal",
+  },
+
+  en: {
+    "nav.home": "Home",
+    "nav.courses": "Courses",
+    "nav.myArea": "My Area",
+    "nav.admin": "Admin",
+    "nav.login": "Sign In",
+    "nav.start": "Get Started",
+    "nav.startNow": "Get Started Now",
+    "nav.loginAccount": "Sign In",
+
+    "hero.badge": "Personal Evolution Platform",
+    "hero.title1": "Elevate your",
+    "hero.title2": "consciousness",
+    "hero.desc": "Transformative courses on energy, healing and self-knowledge. Awaken the potential that already exists within you.",
+    "hero.explore": "Explore Courses",
+    "hero.createAccount": "Create Free Account",
+
+    "stats.courses": "Courses",
+    "stats.activeStudents": "Active Students",
+    "stats.avgRating": "Average Rating",
+    "stats.certificates": "Certificates",
+
+    "featured.label": "Featured",
+    "featured.title": "Featured Courses",
+    "featured.viewAll": "View all",
+
+    "features.label": "Why Elleve?",
+    "features.title": "A platform designed for your",
+    "features.titleHighlight": "evolution",
+    "features.1.title": "Transformative Content",
+    "features.1.desc": "Courses created by specialists with decades of experience in human development and energy practices.",
+    "features.2.title": "Learn at Your Pace",
+    "features.2.desc": "Watch whenever and wherever you want. Your progress is saved automatically so you never miss a lesson.",
+    "features.3.title": "Recognized Certification",
+    "features.3.desc": "Receive certificates upon completing each course and share your achievements on your evolution journey.",
+
+    "philosophy.title": "The Philosophy",
+    "philosophy.p1": "We believe that every human being carries within a unique light, an energy ready to be awakened. Elleve is more than a course platform — it's a transformation portal, where ancient knowledge meets modern tools of personal evolution.",
+    "philosophy.p2": "Our instructors are experienced guides who have dedicated their lives to the study of energy, consciousness and healing. Each course is a journey carefully designed to elevate your frequency and expand your perception.",
+
+    "cta.title1": "Ready for your",
+    "cta.title2": "transformation?",
+    "cta.desc": "Start your personal evolution journey today. Access exclusive courses and connect with your best self.",
+    "cta.button": "Get Started Now",
+
+    "courses.label": "Catalog",
+    "courses.title": "Our Courses",
+    "courses.desc": "Explore our collection of transformative courses for your personal evolution",
+    "courses.all": "All",
+
+    "course.by": "by",
+
+    "dashboard.hello": "Hello,",
+    "dashboard.student": "Student",
+    "dashboard.subtitle": "Continue your evolution journey",
+    "dashboard.activeCourses": "Active Courses",
+    "dashboard.hoursStudied": "Hours Studied",
+    "dashboard.progress": "Progress",
+    "dashboard.certificates": "Certificates",
+    "dashboard.continueWatching": "Continue Watching",
+    "dashboard.next": "Next:",
+    "dashboard.continueBtn": "Continue Watching",
+    "dashboard.continueShort": "Continue",
+    "dashboard.recommended": "Recommended",
+    "dashboard.viewAll": "View all",
+
+    "login.title": "Welcome back",
+    "login.subtitle": "Sign in to your Elleve account",
+    "login.email": "Email",
+    "login.password": "Password",
+    "login.forgot": "Forgot password?",
+    "login.button": "Sign In",
+    "login.noAccount": "Don't have an account?",
+    "login.register": "Sign Up",
+
+    "register.title": "Start your journey",
+    "register.subtitle": "Create your Elleve account",
+    "register.name": "Full name",
+    "register.namePlaceholder": "Your name",
+    "register.email": "Email",
+    "register.password": "Password",
+    "register.passwordPlaceholder": "Minimum 8 characters",
+    "register.button": "Create Account",
+    "register.hasAccount": "Already have an account?",
+    "register.login": "Sign In",
+
+    "footer.tagline": "Elevate your consciousness. Transform your energy. Evolve as a being.",
+    "footer.platform": "Platform",
+    "footer.courses": "Courses",
+    "footer.myArea": "My Area",
+    "footer.account": "Account",
+    "footer.login": "Login",
+    "footer.register": "Sign Up",
+    "footer.rights": "© 2026 Elleve. All rights reserved.",
+    "footer.terms": "Terms",
+    "footer.privacy": "Privacy",
+
+    "admin.label": "Administration",
+    "admin.title": "Control Panel",
+    "admin.courses": "Courses",
+    "admin.students": "Students",
+    "admin.stats": "Stats",
+    "admin.searchCourses": "Search courses...",
+    "admin.newCourse": "New Course",
+    "admin.modules": "modules",
+    "admin.lessons": "lessons",
+    "admin.studentsCount": "students",
+    "admin.searchStudents": "Search students...",
+    "admin.courseCount": "course(s)",
+    "admin.totalStudents": "Total Students",
+    "admin.activeCourses": "Active Courses",
+    "admin.completedLessons": "Completed Lessons",
+    "admin.student": "Student",
+    "admin.email": "Email",
+
+    "courseDetail.duration": "Duration",
+    "courseDetail.lessons": "Lessons",
+    "courseDetail.students": "Students",
+    "courseDetail.rating": "Rating",
+    "courseDetail.ratingFull": "Rating",
+    "courseDetail.instructor": "Instructor",
+    "courseDetail.startCourse": "Start Course",
+    "courseDetail.content": "Course Content",
+    "courseDetail.modulesAndLessons": "modules",
+    "courseDetail.lessonsOf": "lessons",
+    "courseDetail.ofContent": "of content",
+    "courseDetail.module": "Module",
+    "courseDetail.notFound": "Course not found.",
+
+    "lesson.backToCourse": "Back to course",
+    "lesson.lessonsCount": "lessons",
+    "lesson.module": "Module",
+    "lesson.navigation": "Navigation",
+    "lesson.completed": "Completed",
+    "lesson.markComplete": "Mark as completed",
+    "lesson.supplementary": "Supplementary Text",
+    "lesson.previous": "Previous",
+    "lesson.next": "Next Lesson",
+    "lesson.nextShort": "Next",
+    "lesson.courseCompleted": "🎉 Course Completed!",
+    "lesson.courseCompletedShort": "🎉 Completed!",
+    "lesson.notFound": "Course not found",
+    "lesson.lessonNotFound": "Lesson not found",
+
+    "notFound.title": "404",
+    "notFound.message": "Oops! Page not found",
+    "notFound.back": "Return to Home",
+
+    "cat.Todos": "All",
+    "cat.Energia": "Energy",
+    "cat.Cristais": "Crystals",
+    "cat.Consciência": "Consciousness",
+    "cat.Meditação": "Meditation",
+    "cat.Desenvolvimento Pessoal": "Personal Development",
+  },
+
+  fr: {
+    "nav.home": "Accueil",
+    "nav.courses": "Cours",
+    "nav.myArea": "Mon Espace",
+    "nav.admin": "Admin",
+    "nav.login": "Connexion",
+    "nav.start": "Commencer",
+    "nav.startNow": "Commencer Maintenant",
+    "nav.loginAccount": "Se Connecter",
+
+    "hero.badge": "Plateforme d'Évolution Personnelle",
+    "hero.title1": "Élevez votre",
+    "hero.title2": "conscience",
+    "hero.desc": "Des cours transformateurs sur l'énergie, la guérison et la connaissance de soi. Éveillez le potentiel qui existe déjà en vous.",
+    "hero.explore": "Explorer les Cours",
+    "hero.createAccount": "Créer un Compte Gratuit",
+
+    "stats.courses": "Cours",
+    "stats.activeStudents": "Étudiants Actifs",
+    "stats.avgRating": "Note Moyenne",
+    "stats.certificates": "Certificats",
+
+    "featured.label": "En Vedette",
+    "featured.title": "Cours en Vedette",
+    "featured.viewAll": "Voir tout",
+
+    "features.label": "Pourquoi Elleve ?",
+    "features.title": "Une plateforme conçue pour votre",
+    "features.titleHighlight": "évolution",
+    "features.1.title": "Contenu Transformateur",
+    "features.1.desc": "Cours créés par des spécialistes avec des décennies d'expérience en développement humain et pratiques énergétiques.",
+    "features.2.title": "Apprenez à Votre Rythme",
+    "features.2.desc": "Regardez quand et où vous voulez. Votre progression est sauvegardée automatiquement.",
+    "features.3.title": "Certification Reconnue",
+    "features.3.desc": "Recevez des certificats à la fin de chaque cours et partagez vos réalisations.",
+
+    "philosophy.title": "La Philosophie",
+    "philosophy.p1": "Nous croyons que chaque être humain porte en lui une lumière unique, une énergie prête à être éveillée. Elleve est plus qu'une plateforme de cours — c'est un portail de transformation, où la connaissance ancestrale rencontre les outils modernes d'évolution personnelle.",
+    "philosophy.p2": "Nos instructeurs sont des guides expérimentés qui ont consacré leur vie à l'étude de l'énergie, de la conscience et de la guérison. Chaque cours est un voyage soigneusement conçu pour élever votre fréquence.",
+
+    "cta.title1": "Prêt pour votre",
+    "cta.title2": "transformation ?",
+    "cta.desc": "Commencez votre parcours d'évolution personnelle aujourd'hui. Accédez à des cours exclusifs et connectez-vous à votre meilleure version.",
+    "cta.button": "Commencer Maintenant",
+
+    "courses.label": "Catalogue",
+    "courses.title": "Nos Cours",
+    "courses.desc": "Explorez notre collection de cours transformateurs pour votre évolution personnelle",
+    "courses.all": "Tous",
+
+    "course.by": "par",
+
+    "dashboard.hello": "Bonjour,",
+    "dashboard.student": "Étudiant",
+    "dashboard.subtitle": "Continuez votre parcours d'évolution",
+    "dashboard.activeCourses": "Cours Actifs",
+    "dashboard.hoursStudied": "Heures Étudiées",
+    "dashboard.progress": "Progression",
+    "dashboard.certificates": "Certificats",
+    "dashboard.continueWatching": "Continuer à Regarder",
+    "dashboard.next": "Suivant :",
+    "dashboard.continueBtn": "Continuer à Regarder",
+    "dashboard.continueShort": "Continuer",
+    "dashboard.recommended": "Recommandés",
+    "dashboard.viewAll": "Voir tout",
+
+    "login.title": "Bienvenue",
+    "login.subtitle": "Connectez-vous à votre compte Elleve",
+    "login.email": "E-mail",
+    "login.password": "Mot de passe",
+    "login.forgot": "Mot de passe oublié ?",
+    "login.button": "Se Connecter",
+    "login.noAccount": "Pas de compte ?",
+    "login.register": "S'inscrire",
+
+    "register.title": "Commencez votre parcours",
+    "register.subtitle": "Créez votre compte Elleve",
+    "register.name": "Nom complet",
+    "register.namePlaceholder": "Votre nom",
+    "register.email": "E-mail",
+    "register.password": "Mot de passe",
+    "register.passwordPlaceholder": "Minimum 8 caractères",
+    "register.button": "Créer un Compte",
+    "register.hasAccount": "Déjà un compte ?",
+    "register.login": "Se Connecter",
+
+    "footer.tagline": "Élevez votre conscience. Transformez votre énergie. Évoluez en tant qu'être.",
+    "footer.platform": "Plateforme",
+    "footer.courses": "Cours",
+    "footer.myArea": "Mon Espace",
+    "footer.account": "Compte",
+    "footer.login": "Connexion",
+    "footer.register": "Inscription",
+    "footer.rights": "© 2026 Elleve. Tous droits réservés.",
+    "footer.terms": "Conditions",
+    "footer.privacy": "Confidentialité",
+
+    "admin.label": "Administration",
+    "admin.title": "Panneau de Contrôle",
+    "admin.courses": "Cours",
+    "admin.students": "Étudiants",
+    "admin.stats": "Stats",
+    "admin.searchCourses": "Rechercher des cours...",
+    "admin.newCourse": "Nouveau Cours",
+    "admin.modules": "modules",
+    "admin.lessons": "leçons",
+    "admin.studentsCount": "étudiants",
+    "admin.searchStudents": "Rechercher des étudiants...",
+    "admin.courseCount": "cours",
+    "admin.totalStudents": "Total Étudiants",
+    "admin.activeCourses": "Cours Actifs",
+    "admin.completedLessons": "Leçons Terminées",
+    "admin.student": "Étudiant",
+    "admin.email": "E-mail",
+
+    "courseDetail.duration": "Durée",
+    "courseDetail.lessons": "Leçons",
+    "courseDetail.students": "Étudiants",
+    "courseDetail.rating": "Note",
+    "courseDetail.ratingFull": "Évaluation",
+    "courseDetail.instructor": "Instructeur",
+    "courseDetail.startCourse": "Commencer le Cours",
+    "courseDetail.content": "Contenu du Cours",
+    "courseDetail.modulesAndLessons": "modules",
+    "courseDetail.lessonsOf": "leçons",
+    "courseDetail.ofContent": "de contenu",
+    "courseDetail.module": "Module",
+    "courseDetail.notFound": "Cours introuvable.",
+
+    "lesson.backToCourse": "Retour au cours",
+    "lesson.lessonsCount": "leçons",
+    "lesson.module": "Module",
+    "lesson.navigation": "Navigation",
+    "lesson.completed": "Terminée",
+    "lesson.markComplete": "Marquer comme terminée",
+    "lesson.supplementary": "Texte Supplémentaire",
+    "lesson.previous": "Précédent",
+    "lesson.next": "Leçon Suivante",
+    "lesson.nextShort": "Suivant",
+    "lesson.courseCompleted": "🎉 Cours Terminé !",
+    "lesson.courseCompletedShort": "🎉 Terminé !",
+    "lesson.notFound": "Cours introuvable",
+    "lesson.lessonNotFound": "Leçon introuvable",
+
+    "notFound.title": "404",
+    "notFound.message": "Oops ! Page introuvable",
+    "notFound.back": "Retour à l'Accueil",
+
+    "cat.Todos": "Tous",
+    "cat.Energia": "Énergie",
+    "cat.Cristais": "Cristaux",
+    "cat.Consciência": "Conscience",
+    "cat.Meditação": "Méditation",
+    "cat.Desenvolvimento Pessoal": "Développement Personnel",
+  },
+
+  es: {
+    "nav.home": "Inicio",
+    "nav.courses": "Cursos",
+    "nav.myArea": "Mi Área",
+    "nav.admin": "Admin",
+    "nav.login": "Entrar",
+    "nav.start": "Empezar",
+    "nav.startNow": "Empezar Ahora",
+    "nav.loginAccount": "Iniciar Sesión",
+
+    "hero.badge": "Plataforma de Evolución Personal",
+    "hero.title1": "Eleva tu",
+    "hero.title2": "conciencia",
+    "hero.desc": "Cursos transformadores sobre energía, sanación y autoconocimiento. Despierta el potencial que ya existe dentro de ti.",
+    "hero.explore": "Explorar Cursos",
+    "hero.createAccount": "Crear Cuenta Gratis",
+
+    "stats.courses": "Cursos",
+    "stats.activeStudents": "Estudiantes Activos",
+    "stats.avgRating": "Calificación Promedio",
+    "stats.certificates": "Certificados",
+
+    "featured.label": "Destacados",
+    "featured.title": "Cursos Destacados",
+    "featured.viewAll": "Ver todos",
+
+    "features.label": "¿Por qué Elleve?",
+    "features.title": "Una plataforma hecha para tu",
+    "features.titleHighlight": "evolución",
+    "features.1.title": "Contenido Transformador",
+    "features.1.desc": "Cursos creados por especialistas con décadas de experiencia en desarrollo humano y prácticas energéticas.",
+    "features.2.title": "Aprende a Tu Ritmo",
+    "features.2.desc": "Mira cuando quieras, desde donde quieras. Tu progreso se guarda automáticamente.",
+    "features.3.title": "Certificación Reconocida",
+    "features.3.desc": "Recibe certificados al completar cada curso y comparte tus logros en tu camino de evolución.",
+
+    "philosophy.title": "La Filosofía",
+    "philosophy.p1": "Creemos que cada ser humano lleva dentro de sí una luz única, una energía lista para ser despertada. Elleve es más que una plataforma de cursos — es un portal de transformación, donde el conocimiento ancestral se encuentra con herramientas modernas de evolución personal.",
+    "philosophy.p2": "Nuestros instructores son guías experimentados que han dedicado sus vidas al estudio de la energía, la conciencia y la sanación. Cada curso es un viaje cuidadosamente diseñado para elevar tu frecuencia.",
+
+    "cta.title1": "¿Listo para tu",
+    "cta.title2": "transformación?",
+    "cta.desc": "Comienza tu camino de evolución personal hoy. Accede a cursos exclusivos y conéctate con tu mejor versión.",
+    "cta.button": "Empezar Ahora",
+
+    "courses.label": "Catálogo",
+    "courses.title": "Nuestros Cursos",
+    "courses.desc": "Explora nuestra colección de cursos transformadores para tu evolución personal",
+    "courses.all": "Todos",
+
+    "course.by": "por",
+
+    "dashboard.hello": "Hola,",
+    "dashboard.student": "Estudiante",
+    "dashboard.subtitle": "Continúa tu camino de evolución",
+    "dashboard.activeCourses": "Cursos Activos",
+    "dashboard.hoursStudied": "Horas Estudiadas",
+    "dashboard.progress": "Progreso",
+    "dashboard.certificates": "Certificados",
+    "dashboard.continueWatching": "Seguir Viendo",
+    "dashboard.next": "Siguiente:",
+    "dashboard.continueBtn": "Seguir Viendo",
+    "dashboard.continueShort": "Continuar",
+    "dashboard.recommended": "Recomendados",
+    "dashboard.viewAll": "Ver todos",
+
+    "login.title": "Bienvenido de nuevo",
+    "login.subtitle": "Inicia sesión en tu cuenta Elleve",
+    "login.email": "Correo electrónico",
+    "login.password": "Contraseña",
+    "login.forgot": "¿Olvidaste la contraseña?",
+    "login.button": "Iniciar Sesión",
+    "login.noAccount": "¿No tienes cuenta?",
+    "login.register": "Regístrate",
+
+    "register.title": "Comienza tu camino",
+    "register.subtitle": "Crea tu cuenta en Elleve",
+    "register.name": "Nombre completo",
+    "register.namePlaceholder": "Tu nombre",
+    "register.email": "Correo electrónico",
+    "register.password": "Contraseña",
+    "register.passwordPlaceholder": "Mínimo 8 caracteres",
+    "register.button": "Crear Cuenta",
+    "register.hasAccount": "¿Ya tienes cuenta?",
+    "register.login": "Iniciar Sesión",
+
+    "footer.tagline": "Eleva tu conciencia. Transforma tu energía. Evoluciona como ser.",
+    "footer.platform": "Plataforma",
+    "footer.courses": "Cursos",
+    "footer.myArea": "Mi Área",
+    "footer.account": "Cuenta",
+    "footer.login": "Login",
+    "footer.register": "Registro",
+    "footer.rights": "© 2026 Elleve. Todos los derechos reservados.",
+    "footer.terms": "Términos",
+    "footer.privacy": "Privacidad",
+
+    "admin.label": "Administración",
+    "admin.title": "Panel de Control",
+    "admin.courses": "Cursos",
+    "admin.students": "Estudiantes",
+    "admin.stats": "Stats",
+    "admin.searchCourses": "Buscar cursos...",
+    "admin.newCourse": "Nuevo Curso",
+    "admin.modules": "módulos",
+    "admin.lessons": "lecciones",
+    "admin.studentsCount": "estudiantes",
+    "admin.searchStudents": "Buscar estudiantes...",
+    "admin.courseCount": "curso(s)",
+    "admin.totalStudents": "Total Estudiantes",
+    "admin.activeCourses": "Cursos Activos",
+    "admin.completedLessons": "Lecciones Completadas",
+    "admin.student": "Estudiante",
+    "admin.email": "Correo",
+
+    "courseDetail.duration": "Duración",
+    "courseDetail.lessons": "Lecciones",
+    "courseDetail.students": "Estudiantes",
+    "courseDetail.rating": "Nota",
+    "courseDetail.ratingFull": "Calificación",
+    "courseDetail.instructor": "Instructor",
+    "courseDetail.startCourse": "Empezar Curso",
+    "courseDetail.content": "Contenido del Curso",
+    "courseDetail.modulesAndLessons": "módulos",
+    "courseDetail.lessonsOf": "lecciones",
+    "courseDetail.ofContent": "de contenido",
+    "courseDetail.module": "Módulo",
+    "courseDetail.notFound": "Curso no encontrado.",
+
+    "lesson.backToCourse": "Volver al curso",
+    "lesson.lessonsCount": "lecciones",
+    "lesson.module": "Módulo",
+    "lesson.navigation": "Navegación",
+    "lesson.completed": "Completada",
+    "lesson.markComplete": "Marcar como completada",
+    "lesson.supplementary": "Texto Complementario",
+    "lesson.previous": "Anterior",
+    "lesson.next": "Siguiente Lección",
+    "lesson.nextShort": "Siguiente",
+    "lesson.courseCompleted": "🎉 ¡Curso Completado!",
+    "lesson.courseCompletedShort": "🎉 ¡Completado!",
+    "lesson.notFound": "Curso no encontrado",
+    "lesson.lessonNotFound": "Lección no encontrada",
+
+    "notFound.title": "404",
+    "notFound.message": "¡Oops! Página no encontrada",
+    "notFound.back": "Volver al Inicio",
+
+    "cat.Todos": "Todos",
+    "cat.Energia": "Energía",
+    "cat.Cristais": "Cristales",
+    "cat.Consciência": "Conciencia",
+    "cat.Meditação": "Meditación",
+    "cat.Desenvolvimento Pessoal": "Desarrollo Personal",
+  },
+};
+
+interface LanguageContextType {
+  language: Language;
+  setLanguage: (lang: Language) => void;
+  t: (key: string) => string;
+}
+
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
+export const LanguageProvider = ({ children }: { children: ReactNode }) => {
+  const [language, setLanguageState] = useState<Language>(() => {
+    const saved = localStorage.getItem("elleve-lang");
+    return (saved as Language) || "pt";
+  });
+
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang);
+    localStorage.setItem("elleve-lang", lang);
+    document.documentElement.lang = lang;
+  };
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, []);
+
+  const t = (key: string): string => {
+    return translations[language]?.[key] || translations.pt[key] || key;
+  };
+
+  return (
+    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+};
+
+export const useLanguage = () => {
+  const context = useContext(LanguageContext);
+  if (!context) throw new Error("useLanguage must be used within LanguageProvider");
+  return context;
+};

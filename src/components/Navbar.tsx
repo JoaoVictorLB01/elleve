@@ -3,12 +3,15 @@ import { motion } from "framer-motion";
 import { Menu, X, LogIn, Sparkles, ChevronRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import LanguageSelector from "@/components/LanguageSelector";
+import { useLanguage } from "@/contexts/LanguageContext";
 import logo from "@/assets/elleve-logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -16,12 +19,10 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close menu on route change
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
 
-  // Lock body scroll when menu is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -32,10 +33,10 @@ const Navbar = () => {
   }, [isOpen]);
 
   const links = [
-    { to: "/", label: "Início" },
-    { to: "/cursos", label: "Cursos" },
-    { to: "/dashboard", label: "Minha Área" },
-    { to: "/admin", label: "Admin" },
+    { to: "/", label: t("nav.home") },
+    { to: "/cursos", label: t("nav.courses") },
+    { to: "/dashboard", label: t("nav.myArea") },
+    { to: "/admin", label: t("nav.admin") },
   ];
 
   return (
@@ -80,17 +81,18 @@ const Navbar = () => {
             ))}
           </div>
 
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-2">
+            <LanguageSelector />
             <Button variant="ghost" size="sm" asChild>
               <Link to="/login">
                 <LogIn className="mr-1.5 h-4 w-4" />
-                Entrar
+                {t("nav.login")}
               </Link>
             </Button>
             <Button variant="cosmic" size="sm" asChild>
               <Link to="/cadastro">
                 <Sparkles className="mr-1.5 h-3.5 w-3.5" />
-                Começar
+                {t("nav.start")}
               </Link>
             </Button>
           </div>
@@ -109,13 +111,12 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile Nav Overlay - outside nav to avoid z-index issues */}
+      {/* Mobile Nav Overlay */}
       <div
         className={`md:hidden fixed inset-0 z-40 transition-all duration-300 ${
           isOpen ? "visible" : "invisible pointer-events-none"
         }`}
       >
-        {/* Backdrop */}
         <div
           className={`absolute inset-0 bg-background/80 backdrop-blur-sm transition-opacity duration-300 ${
             isOpen ? "opacity-100" : "opacity-0"
@@ -123,7 +124,6 @@ const Navbar = () => {
           onClick={() => setIsOpen(false)}
         />
 
-        {/* Menu Panel */}
         <div
           className={`absolute top-14 left-0 right-0 bottom-0 bg-background border-t border-border/60 transition-all duration-300 ease-out ${
             isOpen ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"
@@ -147,18 +147,23 @@ const Navbar = () => {
                   <ChevronRight className={`h-4 w-4 transition-colors ${location.pathname === link.to ? "text-primary" : "text-muted-foreground/40"}`} />
                 </Link>
               ))}
+
+              {/* Language selector in mobile menu */}
+              <div className="mt-3 border-t border-border/50 pt-3">
+                <LanguageSelector variant="mobile" onSelect={() => setIsOpen(false)} />
+              </div>
             </div>
 
             <div className="px-5 pb-8 pt-4 border-t border-border/50 space-y-3 safe-area-bottom">
               <Button variant="cosmic" size="lg" className="w-full h-12 text-[15px]" asChild>
                 <Link to="/cadastro" onClick={() => setIsOpen(false)}>
                   <Sparkles className="mr-2 h-4 w-4" />
-                  Começar Agora
+                  {t("nav.startNow")}
                 </Link>
               </Button>
               <Button variant="outline" size="lg" className="w-full h-12 text-[15px] border-border/60" asChild>
                 <Link to="/login" onClick={() => setIsOpen(false)}>
-                  Entrar na Conta
+                  {t("nav.loginAccount")}
                 </Link>
               </Button>
             </div>

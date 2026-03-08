@@ -6,16 +6,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { courses } from "@/data/mockData";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type Tab = "cursos" | "alunos" | "estatisticas";
 
 const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState<Tab>("cursos");
+  const { t } = useLanguage();
 
   const tabs = [
-    { id: "cursos" as Tab, label: "Cursos", icon: BookOpen },
-    { id: "alunos" as Tab, label: "Alunos", icon: Users },
-    { id: "estatisticas" as Tab, label: "Stats", icon: BarChart3 },
+    { id: "cursos" as Tab, label: t("admin.courses"), icon: BookOpen },
+    { id: "alunos" as Tab, label: t("admin.students"), icon: Users },
+    { id: "estatisticas" as Tab, label: t("admin.stats"), icon: BarChart3 },
   ];
 
   return (
@@ -27,14 +29,13 @@ const AdminPanel = () => {
           className="mb-6 sm:mb-8"
         >
           <span className="text-[10px] sm:text-xs font-semibold text-primary uppercase tracking-widest mb-1.5 sm:mb-2 block">
-            Administração
+            {t("admin.label")}
           </span>
           <h1 className="font-display text-2xl sm:text-3xl font-bold">
-            Painel de Controle
+            {t("admin.title")}
           </h1>
         </motion.div>
 
-        {/* Tabs */}
         <div className="flex gap-1 mb-6 sm:mb-8 p-1 rounded-xl bg-muted/50 border border-border w-full sm:w-fit overflow-x-auto">
           {tabs.map((tab) => (
             <button
@@ -52,17 +53,16 @@ const AdminPanel = () => {
           ))}
         </div>
 
-        {/* Courses Tab */}
         {activeTab === "cursos" && (
           <div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-5 sm:mb-6">
               <div className="relative w-full sm:max-w-sm">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input placeholder="Buscar cursos..." className="pl-10 h-10 sm:h-11 rounded-xl text-sm" />
+                <Input placeholder={t("admin.searchCourses")} className="pl-10 h-10 sm:h-11 rounded-xl text-sm" />
               </div>
               <Button variant="cosmic" size="sm" className="w-full sm:w-auto">
                 <Plus className="mr-1.5 h-4 w-4" />
-                Novo Curso
+                {t("admin.newCourse")}
               </Button>
             </div>
             <div className="space-y-3">
@@ -75,11 +75,7 @@ const AdminPanel = () => {
                   className="border border-border rounded-xl sm:rounded-2xl bg-card p-3.5 sm:p-5 hover:border-primary/20 transition-colors"
                 >
                   <div className="flex items-start gap-3 sm:gap-4">
-                    <img
-                      src={course.image}
-                      alt={course.title}
-                      className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg sm:rounded-xl object-cover shrink-0"
-                    />
+                    <img src={course.image} alt={course.title} className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg sm:rounded-xl object-cover shrink-0" />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0">
@@ -98,11 +94,11 @@ const AdminPanel = () => {
                         </div>
                       </div>
                       <div className="flex gap-2 sm:gap-3 mt-1.5 sm:mt-2 text-[10px] sm:text-xs text-muted-foreground">
-                        <span>{course.modules.length} módulos</span>
+                        <span>{course.modules.length} {t("admin.modules")}</span>
                         <span>•</span>
-                        <span>{course.modules.reduce((a, m) => a + m.lessons.length, 0)} aulas</span>
+                        <span>{course.modules.reduce((a, m) => a + m.lessons.length, 0)} {t("admin.lessons")}</span>
                         <span className="hidden sm:inline">•</span>
-                        <span className="hidden sm:inline text-accent">{course.enrolledStudents} alunos</span>
+                        <span className="hidden sm:inline text-accent">{course.enrolledStudents} {t("admin.studentsCount")}</span>
                       </div>
                     </div>
                   </div>
@@ -112,31 +108,26 @@ const AdminPanel = () => {
           </div>
         )}
 
-        {/* Students Tab */}
         {activeTab === "alunos" && (
           <div>
             <div className="relative w-full sm:max-w-sm mb-5 sm:mb-6">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Buscar alunos..." className="pl-10 h-10 sm:h-11 rounded-xl text-sm" />
+              <Input placeholder={t("admin.searchStudents")} className="pl-10 h-10 sm:h-11 rounded-xl text-sm" />
             </div>
             
-            {/* Mobile: card layout */}
             <div className="sm:hidden space-y-3">
               {["Ana Silva", "Carlos Santos", "Maria Luz", "Pedro Estrela"].map((name, i) => (
                 <div key={name} className="border border-border rounded-xl bg-card p-3.5">
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-medium text-sm">{name}</span>
-                    <span className="text-xs text-muted-foreground">{i + 1} curso(s)</span>
+                    <span className="text-xs text-muted-foreground">{i + 1} {t("admin.courseCount")}</span>
                   </div>
                   <p className="text-[11px] text-muted-foreground mb-2">
                     {name.toLowerCase().replace(" ", ".")}@email.com
                   </p>
                   <div className="flex items-center gap-2">
                     <div className="flex-1 h-1.5 rounded-full bg-muted overflow-hidden">
-                      <div
-                        className="h-full rounded-full bg-gradient-cosmic"
-                        style={{ width: `${[45, 78, 20, 92][i]}%` }}
-                      />
+                      <div className="h-full rounded-full bg-gradient-cosmic" style={{ width: `${[45, 78, 20, 92][i]}%` }} />
                     </div>
                     <span className="text-[10px] text-muted-foreground font-medium">{[45, 78, 20, 92][i]}%</span>
                   </div>
@@ -144,32 +135,26 @@ const AdminPanel = () => {
               ))}
             </div>
 
-            {/* Desktop: table layout */}
             <div className="hidden sm:block border border-border rounded-2xl bg-card overflow-hidden">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-border">
-                    <th className="text-left p-4 font-medium text-xs text-muted-foreground uppercase tracking-wider">Aluno</th>
-                    <th className="text-left p-4 font-medium text-xs text-muted-foreground uppercase tracking-wider hidden md:table-cell">E-mail</th>
-                    <th className="text-left p-4 font-medium text-xs text-muted-foreground uppercase tracking-wider">Cursos</th>
-                    <th className="text-left p-4 font-medium text-xs text-muted-foreground uppercase tracking-wider">Progresso</th>
+                    <th className="text-left p-4 font-medium text-xs text-muted-foreground uppercase tracking-wider">{t("admin.student")}</th>
+                    <th className="text-left p-4 font-medium text-xs text-muted-foreground uppercase tracking-wider hidden md:table-cell">{t("admin.email")}</th>
+                    <th className="text-left p-4 font-medium text-xs text-muted-foreground uppercase tracking-wider">{t("admin.courses")}</th>
+                    <th className="text-left p-4 font-medium text-xs text-muted-foreground uppercase tracking-wider">{t("dashboard.progress")}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {["Ana Silva", "Carlos Santos", "Maria Luz", "Pedro Estrela"].map((name, i) => (
                     <tr key={name} className="border-b border-border last:border-0 hover:bg-muted/20 transition-colors">
                       <td className="p-4 font-medium">{name}</td>
-                      <td className="p-4 text-muted-foreground hidden md:table-cell">
-                        {name.toLowerCase().replace(" ", ".")}@email.com
-                      </td>
+                      <td className="p-4 text-muted-foreground hidden md:table-cell">{name.toLowerCase().replace(" ", ".")}@email.com</td>
                       <td className="p-4">{i + 1}</td>
                       <td className="p-4">
                         <div className="flex items-center gap-2">
                           <div className="w-20 h-1.5 rounded-full bg-muted overflow-hidden">
-                            <div
-                              className="h-full rounded-full bg-gradient-cosmic"
-                              style={{ width: `${[45, 78, 20, 92][i]}%` }}
-                            />
+                            <div className="h-full rounded-full bg-gradient-cosmic" style={{ width: `${[45, 78, 20, 92][i]}%` }} />
                           </div>
                           <span className="text-xs text-muted-foreground">{[45, 78, 20, 92][i]}%</span>
                         </div>
@@ -182,13 +167,12 @@ const AdminPanel = () => {
           </div>
         )}
 
-        {/* Stats Tab */}
         {activeTab === "estatisticas" && (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
             {[
-              { label: "Total de Alunos", value: "1.216", icon: Users, change: "+12%" },
-              { label: "Cursos Ativos", value: "3", icon: BookOpen, change: "+1" },
-              { label: "Aulas Concluídas", value: "4.523", icon: FileVideo, change: "+340" },
+              { label: t("admin.totalStudents"), value: "1.216", icon: Users, change: "+12%" },
+              { label: t("admin.activeCourses"), value: "3", icon: BookOpen, change: "+1" },
+              { label: t("admin.completedLessons"), value: "4.523", icon: FileVideo, change: "+340" },
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}

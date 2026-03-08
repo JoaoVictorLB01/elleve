@@ -3,15 +3,17 @@ import { motion } from "framer-motion";
 import { Clock, Users, Star, BookOpen, ArrowRight, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { courses } from "@/data/mockData";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const CourseDetail = () => {
   const { id } = useParams();
+  const { t } = useLanguage();
   const course = courses.find((c) => c.id === id);
 
   if (!course) {
     return (
       <div className="min-h-screen pt-24 flex items-center justify-center">
-        <p className="text-muted-foreground">Curso não encontrado.</p>
+        <p className="text-muted-foreground">{t("courseDetail.notFound")}</p>
       </div>
     );
   }
@@ -20,7 +22,6 @@ const CourseDetail = () => {
 
   return (
     <div className="min-h-screen pt-16 pb-16">
-      {/* Hero */}
       <div className="relative h-[35vh] sm:h-[45vh] min-h-[280px] sm:min-h-[360px] overflow-hidden">
         <img src={course.image} alt={course.title} className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
@@ -28,7 +29,7 @@ const CourseDetail = () => {
           <div className="container mx-auto px-0 sm:px-6">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <span className="inline-flex items-center rounded-full bg-primary/90 backdrop-blur-sm px-2.5 py-1 text-[10px] sm:text-xs font-medium text-primary-foreground mb-3 sm:mb-4">
-                {course.category}
+                {t(`cat.${course.category}`)}
               </span>
               <h1 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-3 leading-tight">
                 {course.title}
@@ -42,15 +43,14 @@ const CourseDetail = () => {
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 mt-6 sm:mt-10">
-        {/* Mobile: CTA card first */}
         <div className="lg:hidden mb-6">
           <div className="border border-border rounded-xl bg-card p-4 space-y-4">
             <div className="grid grid-cols-2 gap-3">
               {[
-                { icon: Clock, label: "Duração", value: course.duration },
-                { icon: BookOpen, label: "Aulas", value: `${totalLessons}` },
-                { icon: Users, label: "Alunos", value: String(course.enrolledStudents) },
-                { icon: Star, label: "Nota", value: String(course.rating), accent: true },
+                { icon: Clock, label: t("courseDetail.duration"), value: course.duration },
+                { icon: BookOpen, label: t("courseDetail.lessons"), value: `${totalLessons}` },
+                { icon: Users, label: t("courseDetail.students"), value: String(course.enrolledStudents) },
+                { icon: Star, label: t("courseDetail.rating"), value: String(course.rating), accent: true },
               ].map((item) => (
                 <div key={item.label} className="flex items-center gap-2 text-xs">
                   <item.icon className={`h-3.5 w-3.5 ${item.accent ? "text-accent" : "text-primary"}`} />
@@ -60,12 +60,12 @@ const CourseDetail = () => {
               ))}
             </div>
             <div className="flex items-center gap-2 text-xs border-t border-border pt-3">
-              <span className="text-muted-foreground">Instrutor:</span>
+              <span className="text-muted-foreground">{t("courseDetail.instructor")}:</span>
               <span className="font-semibold">{course.instructor}</span>
             </div>
             <Button variant="cosmic" className="w-full" size="lg" asChild>
               <Link to={`/curso/${course.id}/aula/${course.modules[0]?.lessons[0]?.id}`}>
-                Começar Curso
+                {t("courseDetail.startCourse")}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
@@ -73,11 +73,10 @@ const CourseDetail = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-10">
-          {/* Content */}
           <div className="lg:col-span-2">
-            <h2 className="font-display text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Conteúdo do Curso</h2>
+            <h2 className="font-display text-xl sm:text-2xl font-bold mb-4 sm:mb-6">{t("courseDetail.content")}</h2>
             <div className="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-6">
-              {course.modules.length} módulos • {totalLessons} aulas • {course.duration} de conteúdo
+              {course.modules.length} {t("courseDetail.modulesAndLessons")} • {totalLessons} {t("courseDetail.lessonsOf")} • {course.duration} {t("courseDetail.ofContent")}
             </div>
             <div className="space-y-3 sm:space-y-4">
               {course.modules.map((mod, mi) => (
@@ -122,16 +121,15 @@ const CourseDetail = () => {
             </div>
           </div>
 
-          {/* Desktop Sidebar */}
           <div className="hidden lg:block">
             <div className="sticky top-24 border border-border rounded-2xl bg-card overflow-hidden">
               <div className="p-6 space-y-5">
                 <div className="space-y-4">
                   {[
-                    { icon: Clock, label: "Duração", value: course.duration },
-                    { icon: BookOpen, label: "Aulas", value: `${totalLessons} aulas` },
-                    { icon: Users, label: "Alunos", value: String(course.enrolledStudents) },
-                    { icon: Star, label: "Avaliação", value: String(course.rating), accent: true },
+                    { icon: Clock, label: t("courseDetail.duration"), value: course.duration },
+                    { icon: BookOpen, label: t("courseDetail.lessons"), value: `${totalLessons} ${t("courseDetail.lessonsOf")}` },
+                    { icon: Users, label: t("courseDetail.students"), value: String(course.enrolledStudents) },
+                    { icon: Star, label: t("courseDetail.ratingFull"), value: String(course.rating), accent: true },
                   ].map((item) => (
                     <div key={item.label} className="flex items-center justify-between text-sm">
                       <span className="flex items-center gap-2 text-muted-foreground">
@@ -143,12 +141,12 @@ const CourseDetail = () => {
                   ))}
                 </div>
                 <div className="border-t border-border pt-5">
-                  <p className="text-xs text-muted-foreground mb-1">Instrutor</p>
+                  <p className="text-xs text-muted-foreground mb-1">{t("courseDetail.instructor")}</p>
                   <p className="font-semibold text-sm">{course.instructor}</p>
                 </div>
                 <Button variant="cosmic" className="w-full" size="lg" asChild>
                   <Link to={`/curso/${course.id}/aula/${course.modules[0]?.lessons[0]?.id}`}>
-                    Começar Curso
+                    {t("courseDetail.startCourse")}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>

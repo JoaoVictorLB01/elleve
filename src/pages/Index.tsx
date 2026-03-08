@@ -8,6 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import CourseCard from "@/components/CourseCard";
 import { courses } from "@/data/mockData";
+import { useLanguage } from "@/contexts/LanguageContext";
 import heroBg from "@/assets/hero-bg.jpg";
 
 const HeroParticles = lazy(() => import("@/components/HeroParticles"));
@@ -19,12 +20,12 @@ const fadeUp = {
 };
 
 const Index = () => {
+  const { t } = useLanguage();
   const featuredCourses = courses.filter((c) => c.featured);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll();
 
-  // Parallax transforms for different sections
   const heroBgY = useTransform(scrollYProgress, [0, 0.3], ["0%", "20%"]);
   const heroContentY = useTransform(scrollYProgress, [0, 0.25], ["0%", "30%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
@@ -32,6 +33,19 @@ const Index = () => {
   const featuresFloat = useTransform(scrollYProgress, [0.3, 0.6], ["0%", "-5%"]);
   const philosophyScale = useTransform(scrollYProgress, [0.5, 0.7], [0.95, 1]);
   const ctaY = useTransform(scrollYProgress, [0.7, 1], ["40px", "0px"]);
+
+  const stats = [
+    { icon: BookOpen, label: t("stats.courses"), value: "15+", color: "text-primary" },
+    { icon: Users, label: t("stats.activeStudents"), value: "1.200+", color: "text-primary" },
+    { icon: Star, label: t("stats.avgRating"), value: "4.9", color: "text-accent" },
+    { icon: Award, label: t("stats.certificates"), value: "800+", color: "text-primary" },
+  ];
+
+  const features = [
+    { icon: Zap, title: t("features.1.title"), desc: t("features.1.desc") },
+    { icon: Eye, title: t("features.2.title"), desc: t("features.2.desc") },
+    { icon: Heart, title: t("features.3.title"), desc: t("features.3.desc") },
+  ];
 
   return (
     <div className="min-h-screen" ref={containerRef}>
@@ -52,7 +66,6 @@ const Index = () => {
           }}
         />
 
-        {/* 3D Particles */}
         <Suspense fallback={null}>
           <HeroParticles />
         </Suspense>
@@ -70,30 +83,29 @@ const Index = () => {
             >
               <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-accent animate-pulse-slow" />
               <span className="text-[10px] sm:text-xs font-medium text-muted-foreground tracking-wider uppercase">
-                Plataforma de Evolução Pessoal
+                {t("hero.badge")}
               </span>
             </motion.div>
 
             <h1 className="text-[2.5rem] sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-4 sm:mb-6 leading-[1.05] tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Eleve sua
+              {t("hero.title1")}
               <br />
-              <span className="text-gradient-cosmic">consciência</span>
+              <span className="text-gradient-cosmic">{t("hero.title2")}</span>
             </h1>
 
             <p className="text-[13px] sm:text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-8 sm:mb-12 leading-relaxed px-1">
-              Cursos transformadores sobre energia, cura e autoconhecimento.
-              Desperte o potencial que já existe dentro de você.
+              {t("hero.desc")}
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-2 sm:px-0">
               <Button variant="cosmic" size="lg" className="w-full sm:w-auto sm:min-w-[200px] h-12 sm:h-11 text-[15px] sm:text-sm" asChild>
                 <Link to="/cursos">
-                  Explorar Cursos
+                  {t("hero.explore")}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button variant="outline" size="lg" className="w-full sm:w-auto sm:min-w-[200px] h-12 sm:h-11 text-[15px] sm:text-sm border-border/60" asChild>
-                <Link to="/cadastro">Criar Conta Gratuita</Link>
+                <Link to="/cadastro">{t("hero.createAccount")}</Link>
               </Button>
             </div>
           </motion.div>
@@ -106,12 +118,7 @@ const Index = () => {
       <section className="py-10 sm:py-20 relative">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-6">
-            {[
-              { icon: BookOpen, label: "Cursos", value: "15+", color: "text-primary" },
-              { icon: Users, label: "Alunos Ativos", value: "1.200+", color: "text-primary" },
-              { icon: Star, label: "Avaliação Média", value: "4.9", color: "text-accent" },
-              { icon: Award, label: "Certificados", value: "800+", color: "text-primary" },
-            ].map((stat, i) => (
+            {stats.map((stat, i) => (
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 40 }}
@@ -140,17 +147,17 @@ const Index = () => {
           >
             <div>
               <span className="text-[10px] sm:text-xs font-semibold text-primary uppercase tracking-widest mb-2 sm:mb-3 block">
-                Destaques
+                {t("featured.label")}
               </span>
               <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold">
-                Cursos em Destaque
+                {t("featured.title")}
               </h2>
             </div>
             <Link
               to="/cursos"
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
             >
-              Ver todos
+              {t("featured.viewAll")}
               <ArrowRight className="h-4 w-4" />
             </Link>
           </motion.div>
@@ -173,7 +180,6 @@ const Index = () => {
 
       {/* Features */}
       <section className="py-12 sm:py-20 bg-gradient-cosmic-subtle relative overflow-hidden">
-        {/* Parallax decorative orbs */}
         <motion.div
           className="absolute -top-20 -left-20 w-72 h-72 rounded-full opacity-[0.07]"
           style={{
@@ -197,31 +203,15 @@ const Index = () => {
             className="text-center mb-10 sm:mb-16"
           >
             <span className="text-[10px] sm:text-xs font-semibold text-primary uppercase tracking-widest mb-2 sm:mb-3 block">
-              Por que Elleve?
+              {t("features.label")}
             </span>
             <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold px-2">
-              Uma plataforma feita para sua <span className="text-gradient-gold">evolução</span>
+              {t("features.title")} <span className="text-gradient-gold">{t("features.titleHighlight")}</span>
             </h2>
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
-            {[
-              {
-                icon: Zap,
-                title: "Conteúdo Transformador",
-                desc: "Cursos criados por especialistas com décadas de experiência em desenvolvimento humano e práticas energéticas.",
-              },
-              {
-                icon: Eye,
-                title: "Aprendizado no seu Ritmo",
-                desc: "Assista quando quiser, de onde quiser. Seu progresso é salvo automaticamente para que nunca perca uma aula.",
-              },
-              {
-                icon: Heart,
-                title: "Certificação Reconhecida",
-                desc: "Receba certificados ao concluir cada curso e compartilhe suas conquistas na sua jornada de evolução.",
-              },
-            ].map((feature, i) => (
+            {features.map((feature, i) => (
               <motion.div
                 key={feature.title}
                 initial={{ opacity: 0, y: 30, rotateX: 5 }}
@@ -257,18 +247,13 @@ const Index = () => {
               <Sparkles className="h-5 sm:h-6 w-5 sm:w-6 text-accent" />
             </div>
             <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8">
-              A Filosofia <span className="text-gradient-gold">Elleve</span>
+              {t("philosophy.title")} <span className="text-gradient-gold">Elleve</span>
             </h2>
             <p className="text-sm sm:text-base text-muted-foreground leading-[1.8] mb-4 sm:mb-6">
-              Acreditamos que cada ser humano carrega dentro de si uma luz única, uma energia
-              pronta para ser despertada. A Elleve é mais do que uma plataforma de cursos — é
-              um portal de transformação, onde conhecimento ancestral encontra ferramentas
-              modernas de evolução pessoal.
+              {t("philosophy.p1")}
             </p>
             <p className="text-sm sm:text-base text-muted-foreground leading-[1.8]">
-              Nossos instrutores são guias experientes que dedicaram suas vidas ao estudo da
-              energia, consciência e cura. Cada curso é uma jornada cuidadosamente desenhada
-              para elevar sua frequência e expandir sua percepção.
+              {t("philosophy.p2")}
             </p>
           </motion.div>
         </motion.div>
@@ -292,17 +277,16 @@ const Index = () => {
 
             <div className="relative z-10">
               <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-3 sm:mb-5 text-primary-foreground leading-tight">
-                Pronto para sua
+                {t("cta.title1")}
                 <br />
-                transformação?
+                {t("cta.title2")}
               </h2>
               <p className="text-[13px] sm:text-base text-primary-foreground/70 mb-6 sm:mb-10 max-w-md mx-auto leading-relaxed">
-                Comece sua jornada de evolução pessoal hoje. Acesse cursos exclusivos e
-                conecte-se com sua melhor versão.
+                {t("cta.desc")}
               </p>
               <Button variant="gold" size="lg" className="w-full sm:w-auto sm:min-w-[220px] h-12 sm:h-11 text-[15px] sm:text-sm" asChild>
                 <Link to="/cadastro">
-                  Começar Agora
+                  {t("cta.button")}
                   <Sparkles className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
