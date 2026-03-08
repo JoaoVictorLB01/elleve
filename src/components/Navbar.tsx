@@ -48,7 +48,7 @@ const Navbar = () => {
             : "bg-transparent"
         }`}
       >
-        <div className="container mx-auto flex h-14 sm:h-16 items-center justify-between px-4 sm:px-6">
+        <div className="container mx-auto flex h-[56px] sm:h-16 items-center justify-between px-5 sm:px-6">
           <Link to="/" className="flex items-center gap-2 group">
             <img src={logo} alt="Elleve" className="h-6 w-6 sm:h-7 sm:w-7 transition-transform group-hover:scale-110" />
             <span className="text-base sm:text-lg font-bold text-gradient-gold tracking-wide">
@@ -99,7 +99,7 @@ const Navbar = () => {
 
           {/* Mobile toggle */}
           <button
-            className="md:hidden p-2 -mr-1 rounded-lg text-foreground hover:bg-muted/60 transition-colors active:scale-95"
+            className="md:hidden p-2.5 -mr-1.5 rounded-xl text-foreground hover:bg-muted/60 transition-colors active:scale-95"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Menu"
           >
@@ -125,12 +125,12 @@ const Navbar = () => {
         />
 
         <div
-          className={`absolute top-14 left-0 right-0 bottom-0 bg-background border-t border-border/60 transition-all duration-300 ease-out ${
+          className={`absolute top-[56px] left-0 right-0 bottom-0 bg-background border-t border-border/40 transition-all duration-300 ease-out ${
             isOpen ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"
           }`}
         >
           <div className="flex flex-col h-full">
-            <div className="flex-1 flex flex-col px-5 pt-6 gap-1 overflow-y-auto">
+            <div className="flex-1 flex flex-col px-5 pt-5 gap-0.5 overflow-y-auto">
               {links.map((link, i) => (
                 <Link
                   key={link.to}
@@ -139,29 +139,29 @@ const Navbar = () => {
                   className={`flex items-center justify-between px-4 py-3.5 text-[15px] font-medium rounded-xl transition-all duration-200 ${
                     location.pathname === link.to
                       ? "bg-primary/10 text-foreground"
-                      : "text-muted-foreground hover:text-foreground active:bg-muted/50"
+                      : "text-muted-foreground hover:text-foreground active:bg-muted/40"
                   }`}
-                  style={{ transitionDelay: isOpen ? `${i * 50}ms` : "0ms" }}
+                  style={{ transitionDelay: isOpen ? `${i * 40}ms` : "0ms" }}
                 >
                   {link.label}
-                  <ChevronRight className={`h-4 w-4 transition-colors ${location.pathname === link.to ? "text-primary" : "text-muted-foreground/40"}`} />
+                  <ChevronRight className={`h-4 w-4 transition-colors ${location.pathname === link.to ? "text-primary" : "text-muted-foreground/30"}`} />
                 </Link>
               ))}
 
               {/* Language selector in mobile menu */}
-              <div className="mt-3 border-t border-border/50 pt-3">
+              <div className="mt-4 border-t border-border/40 pt-4">
                 <LanguageSelector variant="mobile" onSelect={() => setIsOpen(false)} />
               </div>
             </div>
 
-            <div className="px-5 pb-8 pt-4 border-t border-border/50 space-y-3 safe-area-bottom">
-              <Button variant="cosmic" size="lg" className="w-full h-12 text-[15px]" asChild>
+            <div className="px-5 pb-8 pt-4 border-t border-border/40 space-y-2.5 safe-area-bottom">
+              <Button variant="cosmic" size="lg" className="w-full h-[52px] text-[15px] rounded-xl" asChild>
                 <Link to="/cadastro" onClick={() => setIsOpen(false)}>
                   <Sparkles className="mr-2 h-4 w-4" />
                   {t("nav.startNow")}
                 </Link>
               </Button>
-              <Button variant="outline" size="lg" className="w-full h-12 text-[15px] border-border/60" asChild>
+              <Button variant="outline" size="lg" className="w-full h-[52px] text-[15px] border-border/50 rounded-xl" asChild>
                 <Link to="/login" onClick={() => setIsOpen(false)}>
                   {t("nav.loginAccount")}
                 </Link>

@@ -39,18 +39,18 @@ const CourseCard = ({ course, index = 0 }: CourseCardProps) => {
               <span className="text-[10px] sm:text-xs font-semibold">{course.rating}</span>
             </div>
           </div>
-          <div className="p-4 pb-4 sm:p-5 sm:pb-6">
+          <div className="p-4 pb-5 sm:p-5 sm:pb-6">
             <h3 className="text-[15px] sm:text-lg font-semibold mb-1.5 sm:mb-2 leading-snug transition-colors group-hover:text-primary">
               {course.title}
             </h3>
-            <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 mb-4 sm:mb-5 leading-relaxed">
+            <p className="text-[13px] sm:text-sm text-muted-foreground line-clamp-2 mb-4 sm:mb-5 leading-[1.6]">
               {course.description}
             </p>
             <div className="flex items-center justify-between">
               <span className="text-[11px] sm:text-xs text-muted-foreground">
                 {t("course.by")} <span className="text-foreground/80 font-medium">{course.instructor}</span>
               </span>
-              <div className="flex items-center gap-2.5 sm:gap-3 text-[11px] sm:text-xs text-muted-foreground">
+              <div className="flex items-center gap-3 sm:gap-3 text-[11px] sm:text-xs text-muted-foreground">
                 <span className="flex items-center gap-1">
                   <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                   {course.duration}
