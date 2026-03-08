@@ -15,17 +15,17 @@ const Dashboard = () => {
   }));
 
   return (
-    <div className="min-h-screen pt-[72px] sm:pt-24 pb-12 sm:pb-16">
-      <div className="container mx-auto px-4 sm:px-6">
+    <div className="min-h-screen pt-[76px] sm:pt-24 pb-12 sm:pb-16">
+      <div className="container mx-auto px-5 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-6 sm:mb-10"
         >
-          <h1 className="text-xl sm:text-3xl md:text-4xl font-bold mb-1">
+          <h1 className="text-[1.35rem] sm:text-3xl md:text-4xl font-bold mb-1.5">
             {t("dashboard.hello")} <span className="text-gradient-gold">{t("dashboard.student")}</span> ✨
           </h1>
-          <p className="text-[13px] sm:text-base text-muted-foreground">{t("dashboard.subtitle")}</p>
+          <p className="text-[13px] sm:text-base text-muted-foreground leading-relaxed">{t("dashboard.subtitle")}</p>
         </motion.div>
 
         <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-4 mb-6 sm:mb-12">

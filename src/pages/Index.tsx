@@ -50,12 +50,12 @@ const Index = () => {
   return (
     <div className="min-h-screen" ref={containerRef}>
       {/* Hero */}
-      <section className="relative min-h-[80vh] sm:min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[85vh] sm:min-h-screen flex items-center justify-center overflow-hidden">
         <motion.div
           className="absolute inset-0 bg-cover bg-center scale-110"
           style={{ backgroundImage: `url(${heroBg})`, y: heroBgY }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/65 to-background" />
         
         <motion.div
           className="absolute inset-0 opacity-[0.03] hidden sm:block"
@@ -87,24 +87,24 @@ const Index = () => {
               </span>
             </motion.div>
 
-            <h1 className="text-[2.5rem] sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-4 sm:mb-6 leading-[1.05] tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h1 className="text-[2.25rem] leading-[1.08] sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-4 sm:mb-6 tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
               {t("hero.title1")}
               <br />
               <span className="text-gradient-cosmic">{t("hero.title2")}</span>
             </h1>
 
-            <p className="text-[13px] sm:text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-8 sm:mb-12 leading-relaxed px-1">
+            <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-8 sm:mb-12 leading-[1.7] px-3 sm:px-1">
               {t("hero.desc")}
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-2 sm:px-0">
-              <Button variant="cosmic" size="lg" className="w-full sm:w-auto sm:min-w-[200px] h-12 sm:h-11 text-[15px] sm:text-sm" asChild>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full px-4 sm:px-0">
+              <Button variant="cosmic" size="lg" className="w-full sm:w-auto sm:min-w-[200px] h-[52px] sm:h-11 text-[15px] sm:text-sm rounded-xl" asChild>
                 <Link to="/cursos">
                   {t("hero.explore")}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button variant="outline" size="lg" className="w-full sm:w-auto sm:min-w-[200px] h-12 sm:h-11 text-[15px] sm:text-sm border-border/60" asChild>
+              <Button variant="outline" size="lg" className="w-full sm:w-auto sm:min-w-[200px] h-[52px] sm:h-11 text-[15px] sm:text-sm border-border/60 rounded-xl" asChild>
                 <Link to="/cadastro">{t("hero.createAccount")}</Link>
               </Button>
             </div>
@@ -115,9 +115,9 @@ const Index = () => {
       </section>
 
       {/* Stats */}
-      <section className="py-10 sm:py-20 relative">
+      <section className="py-12 sm:py-20 relative">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
             {stats.map((stat, i) => (
               <motion.div
                 key={stat.label}
@@ -125,11 +125,11 @@ const Index = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.12, duration: 0.6 }}
                 viewport={{ once: true }}
-                className="text-center p-3.5 sm:p-6 rounded-xl sm:rounded-2xl border border-border bg-card/50"
+                className="text-center p-4 sm:p-6 rounded-2xl border border-border bg-card/50"
               >
-                <stat.icon className={`h-4 sm:h-5 w-4 sm:w-5 mx-auto mb-1.5 sm:mb-3 ${stat.color}`} />
-                <div className="text-lg sm:text-3xl font-bold mb-0.5 sm:mb-1">{stat.value}</div>
-                <div className="text-[10px] sm:text-xs text-muted-foreground font-medium">{stat.label}</div>
+                <stat.icon className={`h-4.5 sm:h-5 w-4.5 sm:w-5 mx-auto mb-2 sm:mb-3 ${stat.color}`} />
+                <div className="text-xl sm:text-3xl font-bold mb-0.5 sm:mb-1">{stat.value}</div>
+                <div className="text-[11px] sm:text-xs text-muted-foreground font-medium">{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -218,13 +218,13 @@ const Index = () => {
                 whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
                 transition={{ delay: i * 0.15, duration: 0.6 }}
                 viewport={{ once: true, margin: "-30px" }}
-                className="p-6 sm:p-8 rounded-xl sm:rounded-2xl border border-border bg-card/50 text-center"
+                className="p-6 sm:p-8 rounded-2xl border border-border bg-card/50 text-center"
               >
-                <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary/10 mb-4 sm:mb-5">
-                  <feature.icon className="h-4 sm:h-5 w-4 sm:w-5 text-primary" />
+                <div className="inline-flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-primary/10 mb-4 sm:mb-5">
+                  <feature.icon className="h-5 sm:h-5 w-5 sm:w-5 text-primary" />
                 </div>
-                <h3 className="font-display text-base sm:text-lg font-semibold mb-2 sm:mb-3">{feature.title}</h3>
-                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{feature.desc}</p>
+                <h3 className="font-display text-[15px] sm:text-lg font-semibold mb-2 sm:mb-3">{feature.title}</h3>
+                <p className="text-[13px] sm:text-sm text-muted-foreground leading-[1.7]">{feature.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -249,10 +249,10 @@ const Index = () => {
             <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8">
               {t("philosophy.title")} <span className="text-gradient-gold">Elleve</span>
             </h2>
-            <p className="text-sm sm:text-base text-muted-foreground leading-[1.8] mb-4 sm:mb-6">
+            <p className="text-[13px] sm:text-base text-muted-foreground leading-[1.8] mb-4 sm:mb-6">
               {t("philosophy.p1")}
             </p>
-            <p className="text-sm sm:text-base text-muted-foreground leading-[1.8]">
+            <p className="text-[13px] sm:text-base text-muted-foreground leading-[1.8]">
               {t("philosophy.p2")}
             </p>
           </motion.div>
