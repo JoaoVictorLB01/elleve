@@ -30,6 +30,7 @@ const translations: Translations = {
     "nav.start": "Começar",
     "nav.startNow": "Começar Agora",
     "nav.loginAccount": "Entrar na Conta",
+    "nav.logout": "Sair",
 
     // Hero
     "hero.badge": "Plataforma de Evolução Pessoal",
