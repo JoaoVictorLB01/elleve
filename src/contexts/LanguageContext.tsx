@@ -496,6 +496,7 @@ const translations: Translations = {
     "nav.start": "Commencer",
     "nav.startNow": "Commencer Maintenant",
     "nav.loginAccount": "Se Connecter",
+    "nav.logout": "Déconnexion",
 
     "hero.badge": "Plateforme d'Évolution Personnelle",
     "hero.title1": "Élevez votre",
