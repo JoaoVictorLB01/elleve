@@ -129,6 +129,7 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
 
 const Library = () => {
   const { t } = useLanguage();
+  const { libraryBooks: books } = useBooks();
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);

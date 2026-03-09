@@ -40,8 +40,8 @@ const AdminPanel = () => {
   const { t } = useLanguage();
   const { toast } = useToast();
 
-  // Library state
-  const [libraryBooks, setLibraryBooks] = useState<Book[]>(initialBooks);
+  // Library state (shared context)
+  const { libraryBooks, setLibraryBooks } = useBooks();
   const [bookSearch, setBookSearch] = useState("");
   const [showBookForm, setShowBookForm] = useState(false);
   const [editingBook, setEditingBook] = useState<Book | null>(null);
