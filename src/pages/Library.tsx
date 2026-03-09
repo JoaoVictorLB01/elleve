@@ -142,7 +142,7 @@ const Library = () => {
       const matchesCategory = activeCategory === "all" || book.category === activeCategory;
       return matchesSearch && matchesCategory;
     });
-  }, [search, activeCategory, t]);
+  }, [search, activeCategory, t, books]);
 
   const popularBooks = books.filter((b) => b.popular);
   const recentBooks = books.filter((b) => b.recent);
