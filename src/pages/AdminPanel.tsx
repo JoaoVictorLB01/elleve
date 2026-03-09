@@ -1,24 +1,154 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
-  BookOpen, Users, FileVideo, Plus, Edit, Trash2, BarChart3, Search
+  BookOpen, Users, FileVideo, Plus, Edit, Trash2, BarChart3, Search,
+  Library, X, Upload, FileText, Download, Image as ImageIcon
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { courses } from "@/data/mockData";
+import { books as initialBooks, bookCategories, Book } from "@/data/booksData";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useToast } from "@/hooks/use-toast";
 
-type Tab = "cursos" | "alunos" | "estatisticas";
+type Tab = "cursos" | "alunos" | "estatisticas" | "biblioteca";
+
+interface BookFormData {
+  titleKey: string;
+  authorKey: string;
+  descriptionKey: string;
+  category: string;
+  pages: number;
+  cover: string;
+  pdfUrl: string;
+}
+
+const emptyForm: BookFormData = {
+  titleKey: "",
+  authorKey: "",
+  descriptionKey: "",
+  category: "",
+  pages: 0,
+  cover: "",
+  pdfUrl: "#",
+};
 
 const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState<Tab>("cursos");
   const { t } = useLanguage();
+  const { toast } = useToast();
+
+  // Library state
+  const [libraryBooks, setLibraryBooks] = useState<Book[]>(initialBooks);
+  const [bookSearch, setBookSearch] = useState("");
+  const [showBookForm, setShowBookForm] = useState(false);
+  const [editingBook, setEditingBook] = useState<Book | null>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [formData, setFormData] = useState<BookFormData>(emptyForm);
+
+  const filteredBooks = useMemo(() => {
+    if (!bookSearch) return libraryBooks;
+    const q = bookSearch.toLowerCase();
+    return libraryBooks.filter(
+      (b) =>
+        t(b.titleKey).toLowerCase().includes(q) ||
+        t(b.authorKey).toLowerCase().includes(q)
+    );
+  }, [bookSearch, libraryBooks, t]);
+
+  const openAddForm = () => {
+    setEditingBook(null);
+    setFormData(emptyForm);
+    setShowBookForm(true);
+  };
+
+  const openEditForm = (book: Book) => {
+    setEditingBook(book);
+    setFormData({
+      titleKey: t(book.titleKey),
+      authorKey: t(book.authorKey),
+      descriptionKey: t(book.descriptionKey),
+      category: book.category,
+      pages: book.pages,
+      cover: book.cover,
+      pdfUrl: book.pdfUrl,
+    });
+    setShowBookForm(true);
+  };
+
+  const handleCoverUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setFormData((prev) => ({ ...prev, cover: url }));
+    }
+  };
+
+  const handlePdfUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setFormData((prev) => ({ ...prev, pdfUrl: url }));
+    }
+  };
+
+  const handleSaveBook = () => {
+    if (!formData.titleKey || !formData.authorKey || !formData.category) return;
+
+    if (editingBook) {
+      setLibraryBooks((prev) =>
+        prev.map((b) =>
+          b.id === editingBook.id
+            ? {
+                ...b,
+                titleKey: formData.titleKey,
+                authorKey: formData.authorKey,
+                descriptionKey: formData.descriptionKey,
+                category: formData.category,
+                pages: formData.pages,
+                cover: formData.cover || b.cover,
+                pdfUrl: formData.pdfUrl || b.pdfUrl,
+              }
+            : b
+        )
+      );
+    } else {
+      const newBook: Book = {
+        id: `b${Date.now()}`,
+        titleKey: formData.titleKey,
+        authorKey: formData.authorKey,
+        descriptionKey: formData.descriptionKey,
+        cover: formData.cover || "/placeholder.svg",
+        category: formData.category,
+        downloads: 0,
+        popular: false,
+        recent: true,
+        pdfUrl: formData.pdfUrl,
+        pages: formData.pages,
+      };
+      setLibraryBooks((prev) => [newBook, ...prev]);
+    }
+
+    setShowBookForm(false);
+    setEditingBook(null);
+    toast({ title: t("admin.bookSaved") });
+  };
+
+  const handleDeleteBook = (id: string) => {
+    setLibraryBooks((prev) => prev.filter((b) => b.id !== id));
+    setDeleteConfirm(null);
+    toast({ title: t("admin.bookDeleted") });
+  };
 
   const tabs = [
     { id: "cursos" as Tab, label: t("admin.courses"), icon: BookOpen },
+    { id: "biblioteca" as Tab, label: t("admin.library"), icon: Library },
     { id: "alunos" as Tab, label: t("admin.students"), icon: Users },
     { id: "estatisticas" as Tab, label: t("admin.stats"), icon: BarChart3 },
   ];
+
+  const categoryOptions = bookCategories.filter((c) => c !== "all");
 
   return (
     <div className="min-h-screen pt-20 sm:pt-24 pb-16">
@@ -53,6 +183,7 @@ const AdminPanel = () => {
           ))}
         </div>
 
+        {/* CURSOS TAB */}
         {activeTab === "cursos" && (
           <div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-5 sm:mb-6">
@@ -108,6 +239,130 @@ const AdminPanel = () => {
           </div>
         )}
 
+        {/* BIBLIOTECA TAB */}
+        {activeTab === "biblioteca" && (
+          <div>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-5 sm:mb-6">
+              <div className="relative w-full sm:max-w-sm">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder={t("admin.searchBooks")}
+                  value={bookSearch}
+                  onChange={(e) => setBookSearch(e.target.value)}
+                  className="pl-10 h-10 sm:h-11 rounded-xl text-sm"
+                />
+              </div>
+              <Button variant="cosmic" size="sm" className="w-full sm:w-auto" onClick={openAddForm}>
+                <Plus className="mr-1.5 h-4 w-4" />
+                {t("admin.newBook")}
+              </Button>
+            </div>
+
+            {/* Mobile cards */}
+            <div className="sm:hidden space-y-3">
+              {filteredBooks.map((book, i) => (
+                <motion.div
+                  key={book.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.04 }}
+                  className="border border-border rounded-xl bg-card p-3.5"
+                >
+                  <div className="flex gap-3">
+                    <img
+                      src={book.cover}
+                      alt={t(book.titleKey)}
+                      className="w-14 h-20 rounded-lg object-cover shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-sm truncate">{t(book.titleKey)}</h3>
+                      <p className="text-[11px] text-muted-foreground mt-0.5">{t(book.authorKey)}</p>
+                      <div className="flex items-center gap-2 mt-1 text-[10px] text-muted-foreground">
+                        <span>{t(`library.cat.${book.category}`)}</span>
+                        <span>•</span>
+                        <span className="flex items-center gap-0.5">
+                          <Download className="h-2.5 w-2.5" />
+                          {book.downloads}
+                        </span>
+                      </div>
+                      <div className="flex gap-1.5 mt-2">
+                        <Button variant="outline" size="sm" className="h-7 text-[11px] px-2.5 rounded-lg" onClick={() => openEditForm(book)}>
+                          <Edit className="h-3 w-3 mr-1" />
+                          {t("admin.editBook").split(" ")[0]}
+                        </Button>
+                        <Button variant="outline" size="sm" className="h-7 text-[11px] px-2.5 rounded-lg text-destructive hover:text-destructive" onClick={() => setDeleteConfirm(book.id)}>
+                          <Trash2 className="h-3 w-3 mr-1" />
+                          {t("admin.delete")}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Desktop table */}
+            <div className="hidden sm:block border border-border rounded-2xl bg-card overflow-hidden">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="text-left p-4 font-medium text-xs text-muted-foreground uppercase tracking-wider">{t("admin.bookCover")}</th>
+                    <th className="text-left p-4 font-medium text-xs text-muted-foreground uppercase tracking-wider">{t("admin.bookTitle")}</th>
+                    <th className="text-left p-4 font-medium text-xs text-muted-foreground uppercase tracking-wider hidden md:table-cell">{t("admin.author")}</th>
+                    <th className="text-left p-4 font-medium text-xs text-muted-foreground uppercase tracking-wider hidden lg:table-cell">{t("admin.category")}</th>
+                    <th className="text-left p-4 font-medium text-xs text-muted-foreground uppercase tracking-wider hidden lg:table-cell">{t("admin.downloads")}</th>
+                    <th className="text-right p-4 font-medium text-xs text-muted-foreground uppercase tracking-wider">{t("admin.actions")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredBooks.map((book, i) => (
+                    <motion.tr
+                      key={book.id}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: i * 0.03 }}
+                      className="border-b border-border last:border-0 hover:bg-muted/20 transition-colors"
+                    >
+                      <td className="p-4">
+                        <img src={book.cover} alt={t(book.titleKey)} className="w-10 h-14 rounded-md object-cover" />
+                      </td>
+                      <td className="p-4 font-medium">{t(book.titleKey)}</td>
+                      <td className="p-4 text-muted-foreground hidden md:table-cell">{t(book.authorKey)}</td>
+                      <td className="p-4 hidden lg:table-cell">
+                        <span className="text-xs bg-muted px-2.5 py-1 rounded-full">{t(`library.cat.${book.category}`)}</span>
+                      </td>
+                      <td className="p-4 text-muted-foreground hidden lg:table-cell">
+                        <span className="flex items-center gap-1">
+                          <Download className="h-3 w-3" />
+                          {book.downloads.toLocaleString()}
+                        </span>
+                      </td>
+                      <td className="p-4">
+                        <div className="flex gap-2 justify-end">
+                          <Button variant="outline" size="icon" className="h-9 w-9 rounded-xl" onClick={() => openEditForm(book)}>
+                            <Edit className="h-3.5 w-3.5" />
+                          </Button>
+                          <Button variant="outline" size="icon" className="h-9 w-9 rounded-xl text-destructive hover:text-destructive" onClick={() => setDeleteConfirm(book.id)}>
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </Button>
+                        </div>
+                      </td>
+                    </motion.tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {filteredBooks.length === 0 && (
+              <div className="text-center py-16">
+                <Library className="h-12 w-12 text-muted-foreground/30 mx-auto mb-4" />
+                <p className="text-muted-foreground">{t("library.noResults")}</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ALUNOS TAB */}
         {activeTab === "alunos" && (
           <div>
             <div className="relative w-full sm:max-w-sm mb-5 sm:mb-6">
@@ -167,6 +422,7 @@ const AdminPanel = () => {
           </div>
         )}
 
+        {/* ESTATÍSTICAS TAB */}
         {activeTab === "estatisticas" && (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
             {[
@@ -192,6 +448,149 @@ const AdminPanel = () => {
           </div>
         )}
       </div>
+
+      {/* Book Form Modal */}
+      {showBookForm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setShowBookForm(false)} />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="relative w-full max-w-lg rounded-2xl border border-border bg-card p-5 sm:p-7 shadow-2xl z-10 max-h-[90vh] overflow-y-auto"
+          >
+            <button
+              onClick={() => setShowBookForm(false)}
+              className="absolute top-4 right-4 p-2 rounded-lg hover:bg-muted transition-colors"
+            >
+              <X className="h-5 w-5 text-muted-foreground" />
+            </button>
+
+            <h2 className="text-lg sm:text-xl font-bold mb-5">
+              {editingBook ? t("admin.editBook") : t("admin.addBook")}
+            </h2>
+
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">{t("admin.bookTitle")}</label>
+                <Input
+                  value={formData.titleKey}
+                  onChange={(e) => setFormData((p) => ({ ...p, titleKey: e.target.value }))}
+                  className="rounded-xl"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">{t("admin.bookAuthor")}</label>
+                <Input
+                  value={formData.authorKey}
+                  onChange={(e) => setFormData((p) => ({ ...p, authorKey: e.target.value }))}
+                  className="rounded-xl"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">{t("admin.bookCategory")}</label>
+                <select
+                  value={formData.category}
+                  onChange={(e) => setFormData((p) => ({ ...p, category: e.target.value }))}
+                  className="flex h-10 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                >
+                  <option value="">{t("admin.selectCategory")}</option>
+                  {categoryOptions.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {t(`library.cat.${cat}`)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">{t("admin.bookPages")}</label>
+                <Input
+                  type="number"
+                  value={formData.pages || ""}
+                  onChange={(e) => setFormData((p) => ({ ...p, pages: parseInt(e.target.value) || 0 }))}
+                  className="rounded-xl"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">{t("admin.bookDescription")}</label>
+                <Textarea
+                  value={formData.descriptionKey}
+                  onChange={(e) => setFormData((p) => ({ ...p, descriptionKey: e.target.value }))}
+                  className="rounded-xl min-h-[100px]"
+                />
+              </div>
+
+              {/* Cover upload */}
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">{t("admin.bookCover")}</label>
+                <div className="flex items-center gap-3">
+                  {formData.cover && (
+                    <img src={formData.cover} alt="Cover" className="w-12 h-16 rounded-lg object-cover border border-border" />
+                  )}
+                  <label className="cursor-pointer flex items-center gap-2 px-4 py-2.5 rounded-xl border border-dashed border-border hover:border-primary/40 transition-colors text-sm text-muted-foreground hover:text-foreground">
+                    <ImageIcon className="h-4 w-4" />
+                    {formData.cover ? t("admin.changeCover") : t("admin.uploadCover")}
+                    <input type="file" accept="image/*" className="hidden" onChange={handleCoverUpload} />
+                  </label>
+                </div>
+              </div>
+
+              {/* PDF upload */}
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">{t("admin.bookPdf")}</label>
+                <label className="cursor-pointer flex items-center gap-2 px-4 py-2.5 rounded-xl border border-dashed border-border hover:border-primary/40 transition-colors text-sm text-muted-foreground hover:text-foreground">
+                  <Upload className="h-4 w-4" />
+                  {formData.pdfUrl && formData.pdfUrl !== "#" ? t("admin.changePdf") : t("admin.uploadPdf")}
+                  <input type="file" accept=".pdf" className="hidden" onChange={handlePdfUpload} />
+                </label>
+              </div>
+
+              <div className="flex gap-3 pt-2">
+                <Button variant="outline" className="flex-1 rounded-xl" onClick={() => setShowBookForm(false)}>
+                  {t("admin.cancel")}
+                </Button>
+                <Button
+                  variant="cosmic"
+                  className="flex-1 rounded-xl"
+                  onClick={handleSaveBook}
+                  disabled={!formData.titleKey || !formData.authorKey || !formData.category}
+                >
+                  {t("admin.save")}
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deleteConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setDeleteConfirm(null)} />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="relative w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-2xl z-10 text-center"
+          >
+            <div className="w-12 h-12 rounded-full bg-destructive/10 flex items-center justify-center mx-auto mb-4">
+              <Trash2 className="h-5 w-5 text-destructive" />
+            </div>
+            <h3 className="text-lg font-semibold mb-1">{t("admin.deleteConfirm")}</h3>
+            <p className="text-sm text-muted-foreground mb-5">{t("admin.deleteConfirmDesc")}</p>
+            <div className="flex gap-3">
+              <Button variant="outline" className="flex-1 rounded-xl" onClick={() => setDeleteConfirm(null)}>
+                {t("admin.cancel")}
+              </Button>
+              <Button variant="destructive" className="flex-1 rounded-xl" onClick={() => handleDeleteBook(deleteConfirm)}>
+                {t("admin.delete")}
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 };
