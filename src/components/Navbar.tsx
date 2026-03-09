@@ -1,17 +1,20 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Menu, X, LogIn, Sparkles, ChevronRight } from "lucide-react";
+import { Menu, X, LogIn, LogOut, Sparkles, ChevronRight, Shield } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
 import logo from "@/assets/elleve-logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { t } = useLanguage();
+  const { user, isAdmin, signOut } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -32,12 +35,17 @@ const Navbar = () => {
     return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
 
+  const handleLogout = async () => {
+    await signOut();
+    navigate("/");
+  };
+
   const links = [
     { to: "/", label: t("nav.home") },
     { to: "/cursos", label: t("nav.courses") },
     { to: "/biblioteca", label: t("nav.library") },
     { to: "/dashboard", label: t("nav.myArea") },
-    { to: "/admin", label: t("nav.admin") },
+    ...(isAdmin ? [{ to: "/admin", label: t("nav.admin") }] : []),
   ];
 
   return (
@@ -84,18 +92,35 @@ const Navbar = () => {
 
           <div className="hidden md:flex items-center gap-2">
             <LanguageSelector />
-            <Button variant="ghost" size="sm" asChild>
-              <Link to="/login">
-                <LogIn className="mr-1.5 h-4 w-4" />
-                {t("nav.login")}
-              </Link>
-            </Button>
-            <Button variant="cosmic" size="sm" asChild>
-              <Link to="/cadastro">
-                <Sparkles className="mr-1.5 h-3.5 w-3.5" />
-                {t("nav.start")}
-              </Link>
-            </Button>
+            {user ? (
+              <>
+                {isAdmin && (
+                  <span className="text-[10px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full flex items-center gap-1">
+                    <Shield className="h-3 w-3" />
+                    Admin
+                  </span>
+                )}
+                <Button variant="ghost" size="sm" onClick={handleLogout}>
+                  <LogOut className="mr-1.5 h-4 w-4" />
+                  {t("nav.logout") || "Sair"}
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="ghost" size="sm" asChild>
+                  <Link to="/login">
+                    <LogIn className="mr-1.5 h-4 w-4" />
+                    {t("nav.login")}
+                  </Link>
+                </Button>
+                <Button variant="cosmic" size="sm" asChild>
+                  <Link to="/cadastro">
+                    <Sparkles className="mr-1.5 h-3.5 w-3.5" />
+                    {t("nav.start")}
+                  </Link>
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile toggle */}
@@ -156,17 +181,34 @@ const Navbar = () => {
             </div>
 
             <div className="px-5 pb-8 pt-4 border-t border-border/40 space-y-2.5 safe-area-bottom">
-              <Button variant="cosmic" size="lg" className="w-full h-[52px] text-[15px] rounded-xl" asChild>
-                <Link to="/cadastro" onClick={() => setIsOpen(false)}>
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  {t("nav.startNow")}
-                </Link>
-              </Button>
-              <Button variant="outline" size="lg" className="w-full h-[52px] text-[15px] border-border/50 rounded-xl" asChild>
-                <Link to="/login" onClick={() => setIsOpen(false)}>
-                  {t("nav.loginAccount")}
-                </Link>
-              </Button>
+              {user ? (
+                <>
+                  {isAdmin && (
+                    <div className="flex items-center justify-center gap-1.5 text-xs font-semibold text-primary mb-2">
+                      <Shield className="h-3.5 w-3.5" />
+                      Admin
+                    </div>
+                  )}
+                  <Button variant="outline" size="lg" className="w-full h-[52px] text-[15px] border-border/50 rounded-xl" onClick={() => { handleLogout(); setIsOpen(false); }}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    {t("nav.logout") || "Sair"}
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="cosmic" size="lg" className="w-full h-[52px] text-[15px] rounded-xl" asChild>
+                    <Link to="/cadastro" onClick={() => setIsOpen(false)}>
+                      <Sparkles className="mr-2 h-4 w-4" />
+                      {t("nav.startNow")}
+                    </Link>
+                  </Button>
+                  <Button variant="outline" size="lg" className="w-full h-[52px] text-[15px] border-border/50 rounded-xl" asChild>
+                    <Link to="/login" onClick={() => setIsOpen(false)}>
+                      {t("nav.loginAccount")}
+                    </Link>
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>
