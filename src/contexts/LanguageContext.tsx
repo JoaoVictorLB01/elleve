@@ -272,6 +272,7 @@ const translations: Translations = {
     "nav.start": "Get Started",
     "nav.startNow": "Get Started Now",
     "nav.loginAccount": "Sign In",
+    "nav.logout": "Sign Out",
 
     "hero.badge": "Personal Evolution Platform",
     "hero.title1": "Elevate your",
