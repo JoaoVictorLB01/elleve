@@ -1,13 +1,12 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Search, Download, BookOpen, TrendingUp, Clock, FileText, X, Loader2 } from "lucide-react";
+import { Search, Download, BookOpen, TrendingUp, Clock, FileText, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useBooks, DbBook } from "@/hooks/useBooks";
-import { bookCategories } from "@/data/booksData";
+import { books, bookCategories, Book } from "@/data/booksData";
 
-const BookCard = ({ book, index, onOpen }: { book: DbBook; index: number; onOpen: (b: DbBook) => void }) => {
+const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: (b: Book) => void }) => {
   const { t } = useLanguage();
 
   return (
@@ -22,8 +21,8 @@ const BookCard = ({ book, index, onOpen }: { book: DbBook; index: number; onOpen
       <div className="h-full overflow-hidden rounded-xl border border-border bg-card transition-all duration-500 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/5 sm:hover:-translate-y-1">
         <div className="relative aspect-[2/3] overflow-hidden">
           <img
-            src={book.cover_url || "/placeholder.svg"}
-            alt={book.title}
+            src={book.cover}
+            alt={t(book.titleKey)}
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
             loading="lazy"
           />
@@ -51,10 +50,10 @@ const BookCard = ({ book, index, onOpen }: { book: DbBook; index: number; onOpen
         </div>
         <div className="p-4">
           <h3 className="text-[14px] sm:text-[15px] font-semibold leading-snug mb-1 transition-colors group-hover:text-primary line-clamp-2">
-            {book.title}
+            {t(book.titleKey)}
           </h3>
           <p className="text-[12px] sm:text-[13px] text-muted-foreground mb-2">
-            {book.author}
+            {t(book.authorKey)}
           </p>
           <div className="flex items-center justify-between">
             <span className="text-[11px] text-muted-foreground flex items-center gap-1">
@@ -71,7 +70,7 @@ const BookCard = ({ book, index, onOpen }: { book: DbBook; index: number; onOpen
   );
 };
 
-const BookDetailModal = ({ book, onClose }: { book: DbBook; onClose: () => void }) => {
+const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void }) => {
   const { t } = useLanguage();
 
   return (
@@ -93,14 +92,14 @@ const BookDetailModal = ({ book, onClose }: { book: DbBook; onClose: () => void 
         <div className="flex flex-col sm:flex-row gap-5">
           <div className="w-32 sm:w-40 shrink-0 mx-auto sm:mx-0">
             <img
-              src={book.cover_url || "/placeholder.svg"}
-              alt={book.title}
+              src={book.cover}
+              alt={t(book.titleKey)}
               className="w-full rounded-lg shadow-xl"
             />
           </div>
           <div className="flex-1 text-center sm:text-left">
-            <h2 className="text-lg sm:text-xl font-bold mb-1">{book.title}</h2>
-            <p className="text-sm text-muted-foreground mb-3">{book.author}</p>
+            <h2 className="text-lg sm:text-xl font-bold mb-1">{t(book.titleKey)}</h2>
+            <p className="text-sm text-muted-foreground mb-3">{t(book.authorKey)}</p>
             <div className="flex flex-wrap gap-2 justify-center sm:justify-start mb-4">
               <span className="text-xs bg-muted px-2.5 py-1 rounded-full">{t(`library.cat.${book.category}`)}</span>
               <span className="text-xs bg-muted px-2.5 py-1 rounded-full">{book.pages} {t("library.pages")}</span>
@@ -113,11 +112,11 @@ const BookDetailModal = ({ book, onClose }: { book: DbBook; onClose: () => void 
         </div>
 
         <p className="text-sm text-muted-foreground leading-relaxed mt-5 mb-6">
-          {book.description}
+          {t(book.descriptionKey)}
         </p>
 
         <Button variant="gold" size="lg" className="w-full rounded-xl" asChild>
-          <a href={book.pdf_url || "#"} download>
+          <a href={book.pdfUrl} download>
             <Download className="mr-2 h-4 w-4" />
             {t("library.download")}
           </a>
@@ -129,31 +128,22 @@ const BookDetailModal = ({ book, onClose }: { book: DbBook; onClose: () => void 
 
 const Library = () => {
   const { t } = useLanguage();
-  const { books, loading } = useBooks();
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
-  const [selectedBook, setSelectedBook] = useState<DbBook | null>(null);
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
   const filtered = useMemo(() => {
     return books.filter((book) => {
       const matchesSearch =
-        book.title.toLowerCase().includes(search.toLowerCase()) ||
-        book.author.toLowerCase().includes(search.toLowerCase());
+        t(book.titleKey).toLowerCase().includes(search.toLowerCase()) ||
+        t(book.authorKey).toLowerCase().includes(search.toLowerCase());
       const matchesCategory = activeCategory === "all" || book.category === activeCategory;
       return matchesSearch && matchesCategory;
     });
-  }, [search, activeCategory, books]);
+  }, [search, activeCategory, t]);
 
   const popularBooks = books.filter((b) => b.popular);
   const recentBooks = books.filter((b) => b.recent);
-
-  if (loading) {
-    return (
-      <main className="min-h-screen pt-20 flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </main>
-    );
-  }
 
   return (
     <main className="min-h-screen pt-20 sm:pt-24 pb-16">
@@ -206,7 +196,7 @@ const Library = () => {
       </section>
 
       {/* Popular Section */}
-      {activeCategory === "all" && !search && popularBooks.length > 0 && (
+      {activeCategory === "all" && !search && (
         <section className="container mx-auto px-5 sm:px-6 mb-10">
           <div className="flex items-center gap-2 mb-5">
             <TrendingUp className="h-4 w-4 text-accent" />
@@ -221,7 +211,7 @@ const Library = () => {
       )}
 
       {/* Recent Section */}
-      {activeCategory === "all" && !search && recentBooks.length > 0 && (
+      {activeCategory === "all" && !search && (
         <section className="container mx-auto px-5 sm:px-6 mb-10">
           <div className="flex items-center gap-2 mb-5">
             <Clock className="h-4 w-4 text-primary" />
