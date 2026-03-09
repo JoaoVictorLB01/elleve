@@ -720,6 +720,7 @@ const translations: Translations = {
     "nav.start": "Empezar",
     "nav.startNow": "Empezar Ahora",
     "nav.loginAccount": "Iniciar Sesión",
+    "nav.logout": "Cerrar Sesión",
 
     "hero.badge": "Plataforma de Evolución Personal",
     "hero.title1": "Eleva tu",
