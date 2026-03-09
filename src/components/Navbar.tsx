@@ -35,6 +35,7 @@ const Navbar = () => {
   const links = [
     { to: "/", label: t("nav.home") },
     { to: "/cursos", label: t("nav.courses") },
+    { to: "/biblioteca", label: t("nav.library") },
     { to: "/dashboard", label: t("nav.myArea") },
     { to: "/admin", label: t("nav.admin") },
   ];
