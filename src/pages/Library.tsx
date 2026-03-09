@@ -51,10 +51,10 @@ const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: 
         </div>
         <div className="p-4">
           <h3 className="text-[14px] sm:text-[15px] font-semibold leading-snug mb-1 transition-colors group-hover:text-primary line-clamp-2">
-            {t(book.titleKey)}
+            {book.title}
           </h3>
           <p className="text-[12px] sm:text-[13px] text-muted-foreground mb-2">
-            {t(book.authorKey)}
+            {book.author}
           </p>
           <div className="flex items-center justify-between">
             <span className="text-[11px] text-muted-foreground flex items-center gap-1">
