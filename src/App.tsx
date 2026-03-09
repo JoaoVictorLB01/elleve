@@ -5,8 +5,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { BooksProvider } from "@/contexts/BooksContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
 import Index from "./pages/Index";
 import Courses from "./pages/Courses";
 import CourseDetail from "./pages/CourseDetail";
@@ -36,7 +38,7 @@ const Layout = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Register />} />
-        <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/admin" element={<ProtectedAdminRoute><AdminPanel /></ProtectedAdminRoute>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       {!hideFooter && <Footer />}
@@ -48,13 +50,15 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <LanguageProvider>
-        <BooksProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Layout />
-          </BrowserRouter>
-        </BooksProvider>
+        <AuthProvider>
+          <BooksProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Layout />
+            </BrowserRouter>
+          </BooksProvider>
+        </AuthProvider>
       </LanguageProvider>
     </TooltipProvider>
   </QueryClientProvider>
