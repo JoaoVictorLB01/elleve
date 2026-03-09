@@ -8,9 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { courses } from "@/data/mockData";
-import { books as initialBooks, bookCategories, Book } from "@/data/booksData";
+import { bookCategories, Book } from "@/data/booksData";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
+import { useBooks } from "@/contexts/BooksContext";
 
 type Tab = "cursos" | "alunos" | "estatisticas" | "biblioteca";
 
