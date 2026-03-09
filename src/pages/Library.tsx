@@ -129,7 +129,7 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
 
 const Library = () => {
   const { t } = useLanguage();
-  const { libraryBooks: books } = useBooks();
+  const { books, loading } = useBooks();
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
@@ -137,12 +137,12 @@ const Library = () => {
   const filtered = useMemo(() => {
     return books.filter((book) => {
       const matchesSearch =
-        t(book.titleKey).toLowerCase().includes(search.toLowerCase()) ||
-        t(book.authorKey).toLowerCase().includes(search.toLowerCase());
+        book.title.toLowerCase().includes(search.toLowerCase()) ||
+        book.author.toLowerCase().includes(search.toLowerCase());
       const matchesCategory = activeCategory === "all" || book.category === activeCategory;
       return matchesSearch && matchesCategory;
     });
-  }, [search, activeCategory, t, books]);
+  }, [search, activeCategory, books]);
 
   const popularBooks = books.filter((b) => b.popular);
   const recentBooks = books.filter((b) => b.recent);
