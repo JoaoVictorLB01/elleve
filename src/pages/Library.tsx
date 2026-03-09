@@ -22,8 +22,8 @@ const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: 
       <div className="h-full overflow-hidden rounded-xl border border-border bg-card transition-all duration-500 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/5 sm:hover:-translate-y-1">
         <div className="relative aspect-[2/3] overflow-hidden">
           <img
-            src={book.cover}
-            alt={t(book.titleKey)}
+            src={book.cover_url || "/placeholder.svg"}
+            alt={book.title}
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
             loading="lazy"
           />
