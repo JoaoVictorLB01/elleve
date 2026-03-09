@@ -14,6 +14,7 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AdminPanel from "./pages/AdminPanel";
+import Library from "./pages/Library";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const Layout = () => {
         <Route path="/cursos" element={<Courses />} />
         <Route path="/curso/:id" element={<CourseDetail />} />
         <Route path="/curso/:courseId/aula/:lessonId" element={<LessonPlayer />} />
+        <Route path="/biblioteca" element={<Library />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Register />} />
