@@ -113,11 +113,11 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
         </div>
 
         <p className="text-sm text-muted-foreground leading-relaxed mt-5 mb-6">
-          {t(book.descriptionKey)}
+          {book.description}
         </p>
 
         <Button variant="gold" size="lg" className="w-full rounded-xl" asChild>
-          <a href={book.pdfUrl} download>
+          <a href={book.pdf_url || "#"} download>
             <Download className="mr-2 h-4 w-4" />
             {t("library.download")}
           </a>
