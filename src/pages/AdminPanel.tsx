@@ -8,9 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { courses } from "@/data/mockData";
-import { books as initialBooks, bookCategories, Book } from "@/data/booksData";
+import { bookCategories, Book } from "@/data/booksData";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
+import { useBooks } from "@/contexts/BooksContext";
 
 type Tab = "cursos" | "alunos" | "estatisticas" | "biblioteca";
 
@@ -39,8 +40,8 @@ const AdminPanel = () => {
   const { t } = useLanguage();
   const { toast } = useToast();
 
-  // Library state
-  const [libraryBooks, setLibraryBooks] = useState<Book[]>(initialBooks);
+  // Library state (shared context)
+  const { libraryBooks, setLibraryBooks } = useBooks();
   const [bookSearch, setBookSearch] = useState("");
   const [showBookForm, setShowBookForm] = useState(false);
   const [editingBook, setEditingBook] = useState<Book | null>(null);
