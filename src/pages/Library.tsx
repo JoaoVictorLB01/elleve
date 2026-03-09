@@ -4,8 +4,8 @@ import { Search, Download, BookOpen, TrendingUp, Clock, FileText, X } from "luci
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { bookCategories, Book } from "@/data/booksData";
-import { useBooks } from "@/contexts/BooksContext";
+import { bookCategories } from "@/data/booksData";
+import { useBooks, Book } from "@/contexts/BooksContext";
 
 const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: (b: Book) => void }) => {
   const { t } = useLanguage();
@@ -22,8 +22,8 @@ const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: 
       <div className="h-full overflow-hidden rounded-xl border border-border bg-card transition-all duration-500 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/5 sm:hover:-translate-y-1">
         <div className="relative aspect-[2/3] overflow-hidden">
           <img
-            src={book.cover}
-            alt={t(book.titleKey)}
+            src={book.cover_url || "/placeholder.svg"}
+            alt={book.title}
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
             loading="lazy"
           />
@@ -51,10 +51,10 @@ const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: 
         </div>
         <div className="p-4">
           <h3 className="text-[14px] sm:text-[15px] font-semibold leading-snug mb-1 transition-colors group-hover:text-primary line-clamp-2">
-            {t(book.titleKey)}
+            {book.title}
           </h3>
           <p className="text-[12px] sm:text-[13px] text-muted-foreground mb-2">
-            {t(book.authorKey)}
+            {book.author}
           </p>
           <div className="flex items-center justify-between">
             <span className="text-[11px] text-muted-foreground flex items-center gap-1">
@@ -93,14 +93,14 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
         <div className="flex flex-col sm:flex-row gap-5">
           <div className="w-32 sm:w-40 shrink-0 mx-auto sm:mx-0">
             <img
-              src={book.cover}
-              alt={t(book.titleKey)}
+              src={book.cover_url || "/placeholder.svg"}
+              alt={book.title}
               className="w-full rounded-lg shadow-xl"
             />
           </div>
           <div className="flex-1 text-center sm:text-left">
-            <h2 className="text-lg sm:text-xl font-bold mb-1">{t(book.titleKey)}</h2>
-            <p className="text-sm text-muted-foreground mb-3">{t(book.authorKey)}</p>
+            <h2 className="text-lg sm:text-xl font-bold mb-1">{book.title}</h2>
+            <p className="text-sm text-muted-foreground mb-3">{book.author}</p>
             <div className="flex flex-wrap gap-2 justify-center sm:justify-start mb-4">
               <span className="text-xs bg-muted px-2.5 py-1 rounded-full">{t(`library.cat.${book.category}`)}</span>
               <span className="text-xs bg-muted px-2.5 py-1 rounded-full">{book.pages} {t("library.pages")}</span>
@@ -113,11 +113,11 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
         </div>
 
         <p className="text-sm text-muted-foreground leading-relaxed mt-5 mb-6">
-          {t(book.descriptionKey)}
+          {book.description}
         </p>
 
         <Button variant="gold" size="lg" className="w-full rounded-xl" asChild>
-          <a href={book.pdfUrl} download>
+          <a href={book.pdf_url || "#"} download>
             <Download className="mr-2 h-4 w-4" />
             {t("library.download")}
           </a>
@@ -129,7 +129,7 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
 
 const Library = () => {
   const { t } = useLanguage();
-  const { libraryBooks: books } = useBooks();
+  const { books, loading } = useBooks();
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
@@ -137,12 +137,12 @@ const Library = () => {
   const filtered = useMemo(() => {
     return books.filter((book) => {
       const matchesSearch =
-        t(book.titleKey).toLowerCase().includes(search.toLowerCase()) ||
-        t(book.authorKey).toLowerCase().includes(search.toLowerCase());
+        book.title.toLowerCase().includes(search.toLowerCase()) ||
+        book.author.toLowerCase().includes(search.toLowerCase());
       const matchesCategory = activeCategory === "all" || book.category === activeCategory;
       return matchesSearch && matchesCategory;
     });
-  }, [search, activeCategory, t, books]);
+  }, [search, activeCategory, books]);
 
   const popularBooks = books.filter((b) => b.popular);
   const recentBooks = books.filter((b) => b.recent);
