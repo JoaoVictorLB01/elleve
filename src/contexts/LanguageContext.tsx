@@ -30,6 +30,7 @@ const translations: Translations = {
     "nav.start": "Começar",
     "nav.startNow": "Começar Agora",
     "nav.loginAccount": "Entrar na Conta",
+    "nav.logout": "Sair",
 
     // Hero
     "hero.badge": "Plataforma de Evolução Pessoal",
@@ -271,6 +272,7 @@ const translations: Translations = {
     "nav.start": "Get Started",
     "nav.startNow": "Get Started Now",
     "nav.loginAccount": "Sign In",
+    "nav.logout": "Sign Out",
 
     "hero.badge": "Personal Evolution Platform",
     "hero.title1": "Elevate your",
@@ -494,6 +496,7 @@ const translations: Translations = {
     "nav.start": "Commencer",
     "nav.startNow": "Commencer Maintenant",
     "nav.loginAccount": "Se Connecter",
+    "nav.logout": "Déconnexion",
 
     "hero.badge": "Plateforme d'Évolution Personnelle",
     "hero.title1": "Élevez votre",
@@ -717,6 +720,7 @@ const translations: Translations = {
     "nav.start": "Empezar",
     "nav.startNow": "Empezar Ahora",
     "nav.loginAccount": "Iniciar Sesión",
+    "nav.logout": "Cerrar Sesión",
 
     "hero.badge": "Plataforma de Evolución Personal",
     "hero.title1": "Eleva tu",
