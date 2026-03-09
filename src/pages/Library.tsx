@@ -4,8 +4,8 @@ import { Search, Download, BookOpen, TrendingUp, Clock, FileText, X } from "luci
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { bookCategories, Book } from "@/data/booksData";
-import { useBooks } from "@/contexts/BooksContext";
+import { bookCategories } from "@/data/booksData";
+import { useBooks, Book } from "@/contexts/BooksContext";
 
 const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: (b: Book) => void }) => {
   const { t } = useLanguage();
