@@ -93,14 +93,14 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
         <div className="flex flex-col sm:flex-row gap-5">
           <div className="w-32 sm:w-40 shrink-0 mx-auto sm:mx-0">
             <img
-              src={book.cover}
-              alt={t(book.titleKey)}
+              src={book.cover_url || "/placeholder.svg"}
+              alt={book.title}
               className="w-full rounded-lg shadow-xl"
             />
           </div>
           <div className="flex-1 text-center sm:text-left">
-            <h2 className="text-lg sm:text-xl font-bold mb-1">{t(book.titleKey)}</h2>
-            <p className="text-sm text-muted-foreground mb-3">{t(book.authorKey)}</p>
+            <h2 className="text-lg sm:text-xl font-bold mb-1">{book.title}</h2>
+            <p className="text-sm text-muted-foreground mb-3">{book.author}</p>
             <div className="flex flex-wrap gap-2 justify-center sm:justify-start mb-4">
               <span className="text-xs bg-muted px-2.5 py-1 rounded-full">{t(`library.cat.${book.category}`)}</span>
               <span className="text-xs bg-muted px-2.5 py-1 rounded-full">{book.pages} {t("library.pages")}</span>
