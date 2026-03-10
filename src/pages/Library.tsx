@@ -73,6 +73,28 @@ const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: 
 
 const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void }) => {
   const { t } = useLanguage();
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    if (!book.pdf_url || book.pdf_url === "#") return;
+    setDownloading(true);
+    try {
+      const response = await fetch(book.pdf_url);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${book.title}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } catch (e) {
+      console.error("Download failed", e);
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -116,11 +138,9 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
           {book.description}
         </p>
 
-        <Button variant="gold" size="lg" className="w-full rounded-xl" asChild>
-          <a href={book.pdf_url || "#"} download>
-            <Download className="mr-2 h-4 w-4" />
-            {t("library.download")}
-          </a>
+        <Button variant="gold" size="lg" className="w-full rounded-xl" onClick={handleDownload} disabled={downloading}>
+          <Download className="mr-2 h-4 w-4" />
+          {downloading ? "Baixando..." : t("library.download")}
         </Button>
       </motion.div>
     </div>
