@@ -152,10 +152,6 @@ function playFlipSound() {
     // Silently fail
   }
 }
-  } catch {
-    // Silently fail if audio not supported
-  }
-}
 
 const OracleCard = () => {
   const { language, t } = useLanguage();
