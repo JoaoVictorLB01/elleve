@@ -193,23 +193,23 @@ const ProductsServices = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pt-[72px] sm:pt-24">
+    <div className="min-h-screen bg-background pt-[80px] sm:pt-24">
       {/* Header */}
-      <section className="container mx-auto px-4 sm:px-6 pb-6 sm:pb-8">
+      <section className="container mx-auto px-6 sm:px-6 pb-8 sm:pb-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="text-center max-w-2xl mx-auto"
         >
-          <Badge variant="outline" className="mb-3 sm:mb-4 border-primary/30 text-primary bg-primary/5 px-3 py-1 text-[11px] sm:text-xs">
-            <ShoppingBag className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" />
+          <Badge variant="outline" className="mb-4 sm:mb-4 border-primary/30 text-primary bg-primary/5 px-3.5 py-1.5 text-xs sm:text-xs">
+            <ShoppingBag className="h-3.5 w-3.5 sm:h-3.5 sm:w-3.5 mr-1.5" />
             {t("ps.badge")}
           </Badge>
-          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-2 sm:mb-3" style={{ lineHeight: 1.15 }}>
+          <h1 className="text-[1.625rem] sm:text-4xl lg:text-5xl font-bold text-foreground mb-3 sm:mb-3" style={{ lineHeight: 1.15 }}>
             {t("ps.title")}
           </h1>
-          <p className="text-muted-foreground text-[13px] sm:text-base leading-relaxed px-2 sm:px-0">
+          <p className="text-muted-foreground text-sm sm:text-base leading-relaxed px-2 sm:px-0">
             {t("ps.desc")}
           </p>
         </motion.div>
@@ -219,12 +219,12 @@ const ProductsServices = () => {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="flex justify-center mt-6 sm:mt-8"
+          className="flex justify-center mt-8 sm:mt-8"
         >
           <div className="inline-flex bg-muted rounded-xl p-1 gap-1 w-full max-w-xs sm:w-auto">
             <button
               onClick={() => setActiveTab("products")}
-              className={`flex-1 sm:flex-none px-4 sm:px-8 py-2.5 rounded-lg text-[13px] sm:text-sm font-medium transition-all duration-300 active:scale-[0.97] ${
+              className={`flex-1 sm:flex-none px-4 sm:px-8 py-3 sm:py-2.5 rounded-lg text-sm sm:text-sm font-medium transition-all duration-300 active:scale-[0.97] ${
                 activeTab === "products"
                   ? "bg-primary text-primary-foreground shadow-md"
                   : "text-muted-foreground hover:text-foreground"
@@ -235,7 +235,7 @@ const ProductsServices = () => {
             </button>
             <button
               onClick={() => setActiveTab("services")}
-              className={`flex-1 sm:flex-none px-4 sm:px-8 py-2.5 rounded-lg text-[13px] sm:text-sm font-medium transition-all duration-300 active:scale-[0.97] ${
+              className={`flex-1 sm:flex-none px-4 sm:px-8 py-3 sm:py-2.5 rounded-lg text-sm sm:text-sm font-medium transition-all duration-300 active:scale-[0.97] ${
                 activeTab === "services"
                   ? "bg-primary text-primary-foreground shadow-md"
                   : "text-muted-foreground hover:text-foreground"
@@ -252,7 +252,7 @@ const ProductsServices = () => {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.25 }}
-          className="mt-5 sm:mt-6 max-w-xl mx-auto"
+          className="mt-6 sm:mt-6 max-w-xl mx-auto"
         >
           <div className="relative">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -260,17 +260,17 @@ const ProductsServices = () => {
               placeholder={t("ps.search")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 bg-card border-border/60 h-11 sm:h-11 rounded-xl text-[16px] sm:text-sm"
+              className="pl-10 bg-card border-border/60 h-12 sm:h-11 rounded-xl text-base sm:text-sm"
             />
           </div>
 
-          {/* Category Pills — horizontal scroll on mobile */}
-          <div className="flex gap-2 mt-3 sm:mt-4 overflow-x-auto pb-1 sm:pb-0 sm:flex-wrap sm:justify-center scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory">
+          {/* Category Pills */}
+          <div className="flex gap-2.5 mt-4 sm:mt-4 overflow-x-auto pb-1 sm:pb-0 sm:flex-wrap sm:justify-center scrollbar-none -mx-6 px-6 sm:mx-0 sm:px-0 snap-x snap-mandatory">
             {(activeTab === "products" ? productCategories : serviceCategories).map((cat) => (
               <button
                 key={cat}
                 onClick={() => activeTab === "products" ? setProductCat(cat) : setServiceCat(cat)}
-                className={`shrink-0 snap-start px-3.5 py-2 sm:py-1.5 rounded-full text-[12px] sm:text-xs font-medium transition-all duration-200 active:scale-[0.95] ${
+                className={`shrink-0 snap-start px-4 py-2.5 sm:py-1.5 rounded-full text-xs sm:text-xs font-medium transition-all duration-200 active:scale-[0.95] ${
                   (activeTab === "products" ? productCat : serviceCat) === cat
                     ? "bg-primary/15 text-primary border border-primary/30"
                     : "bg-muted text-muted-foreground border border-transparent hover:text-foreground hover:bg-muted/80"
