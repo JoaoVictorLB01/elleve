@@ -261,9 +261,21 @@ const translations: Translations = {
     "book.6.title": "Geometria Sagrada",
     "book.6.author": "Helena Luz",
     "book.6.desc": "Descubra os padrões matemáticos sagrados que permeiam o universo. Da Flor da Vida ao Cubo de Metatron, explore a geometria que conecta tudo.",
+
+    // Products & Services
+    "nav.products": "Produtos",
+    "ps.badge": "Produtos & Serviços",
+    "ps.title": "Produtos & Serviços",
+    "ps.desc": "Descubra nossos produtos artesanais e serviços de bem-estar para elevar sua energia e equilibrar corpo, mente e espírito.",
+    "ps.products": "Produtos",
+    "ps.services": "Serviços",
+    "ps.search": "Buscar produtos ou serviços...",
+    "ps.popular": "Popular",
+    "ps.buyNow": "Comprar",
+    "ps.schedule": "Agendar",
+    "ps.noResults": "Nenhum resultado encontrado.",
   },
 
-  en: {
     "nav.home": "Home",
     "nav.courses": "Courses",
     "nav.myArea": "My Area",
