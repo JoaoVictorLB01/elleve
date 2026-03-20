@@ -68,36 +68,90 @@ const allMessages: Record<string, string[]> = { pt: messagesPt, en: messagesEn, 
 function playFlipSound() {
   try {
     const ctx = new AudioContext();
+    const t = ctx.currentTime;
 
-    // Soft bell/chime tone
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(880, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(1320, ctx.currentTime + 0.08);
-    osc.frequency.exponentialRampToValueAtTime(660, ctx.currentTime + 0.4);
-    gain.gain.setValueAtTime(0.12, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8);
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + 0.8);
+    // Reverb via convolver (simple impulse)
+    const convolver = ctx.createConvolver();
+    const sampleRate = ctx.sampleRate;
+    const reverbLength = sampleRate * 1.5;
+    const impulse = ctx.createBuffer(2, reverbLength, sampleRate);
+    for (let ch = 0; ch < 2; ch++) {
+      const data = impulse.getChannelData(ch);
+      for (let i = 0; i < reverbLength; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / reverbLength, 2.5);
+      }
+    }
+    convolver.buffer = impulse;
 
-    // Second harmonic for richness
-    const osc2 = ctx.createOscillator();
-    const gain2 = ctx.createGain();
-    osc2.type = "sine";
-    osc2.frequency.setValueAtTime(1320, ctx.currentTime + 0.05);
-    osc2.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.5);
-    gain2.gain.setValueAtTime(0.06, ctx.currentTime + 0.05);
-    gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.9);
-    osc2.connect(gain2);
-    gain2.connect(ctx.destination);
-    osc2.start(ctx.currentTime + 0.05);
-    osc2.stop(ctx.currentTime + 0.9);
+    const masterGain = ctx.createGain();
+    masterGain.gain.setValueAtTime(0.18, t);
+    masterGain.connect(ctx.destination);
 
-    // Cleanup
-    setTimeout(() => ctx.close(), 1500);
+    const reverbGain = ctx.createGain();
+    reverbGain.gain.setValueAtTime(0.08, t);
+    convolver.connect(reverbGain);
+    reverbGain.connect(ctx.destination);
+
+    // Layer 1: Crystal bowl — warm fundamental
+    const bowl = ctx.createOscillator();
+    const bowlGain = ctx.createGain();
+    bowl.type = "sine";
+    bowl.frequency.setValueAtTime(528, t); // "healing" frequency
+    bowl.frequency.exponentialRampToValueAtTime(396, t + 1.8);
+    bowlGain.gain.setValueAtTime(0.14, t);
+    bowlGain.gain.setValueAtTime(0.14, t + 0.3);
+    bowlGain.gain.exponentialRampToValueAtTime(0.001, t + 2.0);
+    bowl.connect(bowlGain);
+    bowlGain.connect(masterGain);
+    bowlGain.connect(convolver);
+    bowl.start(t);
+    bowl.stop(t + 2.0);
+
+    // Layer 2: High shimmer — delicate bell overtone
+    const shimmer = ctx.createOscillator();
+    const shimmerGain = ctx.createGain();
+    shimmer.type = "sine";
+    shimmer.frequency.setValueAtTime(1584, t + 0.02); // 3rd harmonic
+    shimmer.frequency.exponentialRampToValueAtTime(1056, t + 1.5);
+    shimmerGain.gain.setValueAtTime(0.05, t + 0.02);
+    shimmerGain.gain.exponentialRampToValueAtTime(0.001, t + 1.5);
+    shimmer.connect(shimmerGain);
+    shimmerGain.connect(masterGain);
+    shimmerGain.connect(convolver);
+    shimmer.start(t + 0.02);
+    shimmer.stop(t + 1.5);
+
+    // Layer 3: Sparkle attack — short bright ping
+    const ping = ctx.createOscillator();
+    const pingGain = ctx.createGain();
+    ping.type = "triangle";
+    ping.frequency.setValueAtTime(2112, t);
+    ping.frequency.exponentialRampToValueAtTime(1056, t + 0.15);
+    pingGain.gain.setValueAtTime(0.08, t);
+    pingGain.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
+    ping.connect(pingGain);
+    pingGain.connect(masterGain);
+    ping.start(t);
+    ping.stop(t + 0.3);
+
+    // Layer 4: Sub warmth — gentle low hum
+    const sub = ctx.createOscillator();
+    const subGain = ctx.createGain();
+    sub.type = "sine";
+    sub.frequency.setValueAtTime(132, t + 0.05);
+    subGain.gain.setValueAtTime(0.06, t + 0.05);
+    subGain.gain.setValueAtTime(0.06, t + 0.4);
+    subGain.gain.exponentialRampToValueAtTime(0.001, t + 1.8);
+    sub.connect(subGain);
+    subGain.connect(masterGain);
+    sub.start(t + 0.05);
+    sub.stop(t + 1.8);
+
+    setTimeout(() => ctx.close(), 3000);
+  } catch {
+    // Silently fail
+  }
+}
   } catch {
     // Silently fail if audio not supported
   }
