@@ -276,6 +276,7 @@ const translations: Translations = {
     "ps.noResults": "Nenhum resultado encontrado.",
   },
 
+  en: {
     "nav.home": "Home",
     "nav.courses": "Courses",
     "nav.myArea": "My Area",
