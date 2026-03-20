@@ -181,7 +181,7 @@ const Navbar = () => {
               </div>
             </div>
 
-            <div className="px-5 pb-8 pt-4 border-t border-border/40 space-y-2.5 safe-area-bottom">
+            <div className="px-6 pb-10 pt-5 border-t border-border/40 space-y-3 safe-area-bottom">
               {user ? (
                 <>
                   {isAdmin && (
@@ -190,20 +190,20 @@ const Navbar = () => {
                       Admin
                     </div>
                   )}
-                  <Button variant="outline" size="lg" className="w-full h-[52px] text-[15px] border-border/50 rounded-xl" onClick={() => { handleLogout(); setIsOpen(false); }}>
+                  <Button variant="outline" size="lg" className="w-full h-[52px] text-base border-border/50 rounded-xl active:scale-[0.97]" onClick={() => { handleLogout(); setIsOpen(false); }}>
                     <LogOut className="mr-2 h-4 w-4" />
                     {t("nav.logout") || "Sair"}
                   </Button>
                 </>
               ) : (
                 <>
-                  <Button variant="cosmic" size="lg" className="w-full h-[52px] text-[15px] rounded-xl" asChild>
+                  <Button variant="cosmic" size="lg" className="w-full h-[52px] text-base rounded-xl active:scale-[0.97]" asChild>
                     <Link to="/cadastro" onClick={() => setIsOpen(false)}>
                       <Sparkles className="mr-2 h-4 w-4" />
                       {t("nav.startNow")}
                     </Link>
                   </Button>
-                  <Button variant="outline" size="lg" className="w-full h-[52px] text-[15px] border-border/50 rounded-xl" asChild>
+                  <Button variant="outline" size="lg" className="w-full h-[52px] text-base border-border/50 rounded-xl active:scale-[0.97]" asChild>
                     <Link to="/login" onClick={() => setIsOpen(false)}>
                       {t("nav.loginAccount")}
                     </Link>

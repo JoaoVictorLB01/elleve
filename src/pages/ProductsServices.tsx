@@ -284,20 +284,20 @@ const ProductsServices = () => {
       </section>
 
       {/* Content */}
-      <section className="container mx-auto px-4 sm:px-6 pb-20 sm:pb-24">
+      <section className="container mx-auto px-6 sm:px-6 pb-24 sm:pb-24">
         {activeTab === "products" ? (
           <motion.div
             key="products"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 lg:gap-6"
+            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6"
           >
             {filteredProducts.map((product) => (
               <motion.div
                 key={product.id}
                 variants={itemVariants}
-                className="group bg-card border border-border/50 rounded-xl sm:rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 active:scale-[0.98]"
+                className="group bg-card border border-border/50 rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 active:scale-[0.98]"
               >
                 <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden bg-muted">
                   <img
@@ -307,26 +307,26 @@ const ProductsServices = () => {
                     loading="lazy"
                   />
                   {product.popular && (
-                    <Badge className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-accent text-accent-foreground text-[9px] sm:text-[10px] font-semibold px-1.5 sm:px-2 py-0.5">
-                      <Flame className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-0.5 sm:mr-1" />
+                    <Badge className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 bg-accent text-accent-foreground text-[10px] sm:text-[10px] font-semibold px-2 sm:px-2 py-0.5">
+                      <Flame className="h-3 w-3 sm:h-3 sm:w-3 mr-0.5 sm:mr-1" />
                       {t("ps.popular")}
                     </Badge>
                   )}
                 </div>
-                <div className="p-3 sm:p-5">
-                  <div className="flex items-start justify-between gap-1 sm:gap-2 mb-1">
-                    <h3 className="font-semibold text-foreground text-[12px] sm:text-base leading-snug line-clamp-2">{product.name}</h3>
+                <div className="p-4 sm:p-5">
+                  <div className="flex items-start justify-between gap-1 sm:gap-2 mb-1.5">
+                    <h3 className="font-semibold text-foreground text-sm sm:text-base leading-snug line-clamp-2">{product.name}</h3>
                     <div className="flex items-center gap-0.5 text-accent shrink-0">
-                      <Star className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-current" />
-                      <span className="text-[10px] sm:text-xs font-medium tabular-nums">{product.rating}</span>
+                      <Star className="h-3.5 w-3.5 sm:h-3.5 sm:w-3.5 fill-current" />
+                      <span className="text-xs sm:text-xs font-medium tabular-nums">{product.rating}</span>
                     </div>
                   </div>
-                  <p className="text-muted-foreground text-[11px] sm:text-sm leading-relaxed mb-3 sm:mb-4 line-clamp-2 hidden xs:block sm:block">
+                  <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed mb-4 sm:mb-4 line-clamp-2 hidden xs:block sm:block">
                     {product.description}
                   </p>
                   <div className="flex items-center justify-between gap-1">
-                    <span className="text-[13px] sm:text-lg font-bold text-foreground tabular-nums">{product.price}</span>
-                    <Button size="sm" className="rounded-lg sm:rounded-xl text-[11px] sm:text-xs h-8 sm:h-9 px-2.5 sm:px-4 active:scale-[0.95]">
+                    <span className="text-sm sm:text-lg font-bold text-foreground tabular-nums">{product.price}</span>
+                    <Button size="sm" className="rounded-xl text-xs sm:text-xs h-9 sm:h-9 px-3 sm:px-4 active:scale-[0.95]">
                       {t("ps.buyNow")}
                     </Button>
                   </div>
@@ -340,30 +340,30 @@ const ProductsServices = () => {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 lg:gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6"
           >
             {filteredServices.map((service) => (
               <motion.div
                 key={service.id}
                 variants={itemVariants}
-                className="group bg-card border border-border/50 rounded-xl sm:rounded-2xl p-4 sm:p-6 hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 active:scale-[0.98]"
+                className="group bg-card border border-border/50 rounded-2xl p-5 sm:p-6 hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 active:scale-[0.98]"
               >
-                <div className="flex items-start gap-3 sm:block">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0 sm:mb-4 group-hover:bg-primary/15 transition-colors">
+                <div className="flex items-start gap-4 sm:block">
+                  <div className="w-12 h-12 sm:w-12 sm:h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0 sm:mb-4 group-hover:bg-primary/15 transition-colors">
                     {service.icon}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-foreground text-[14px] sm:text-lg mb-1">{service.name}</h3>
-                    <p className="text-muted-foreground text-[12px] sm:text-sm leading-relaxed mb-3 sm:mb-4 line-clamp-2">
+                    <h3 className="font-semibold text-foreground text-base sm:text-lg mb-1.5">{service.name}</h3>
+                    <p className="text-muted-foreground text-sm sm:text-sm leading-relaxed mb-4 sm:mb-4 line-clamp-2">
                       {service.description}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-xs text-muted-foreground mb-3 sm:mb-5 mt-3 sm:mt-0">
-                  <span className="bg-muted px-2 sm:px-2.5 py-1 rounded-lg font-medium">{service.price}</span>
-                  <span className="bg-muted px-2 sm:px-2.5 py-1 rounded-lg font-medium">{service.duration}</span>
+                <div className="flex items-center gap-2.5 sm:gap-3 text-xs sm:text-xs text-muted-foreground mb-4 sm:mb-5 mt-4 sm:mt-0">
+                  <span className="bg-muted px-3 sm:px-2.5 py-1.5 sm:py-1 rounded-lg font-medium">{service.price}</span>
+                  <span className="bg-muted px-3 sm:px-2.5 py-1.5 sm:py-1 rounded-lg font-medium">{service.duration}</span>
                 </div>
-                <Button variant="outline" className="w-full rounded-lg sm:rounded-xl h-10 text-[13px] sm:text-sm active:scale-[0.97]">
+                <Button variant="outline" className="w-full rounded-xl h-11 sm:h-10 text-sm sm:text-sm active:scale-[0.97]">
                   <Calendar className="h-4 w-4 mr-1.5" />
                   {t("ps.schedule")}
                 </Button>
@@ -377,10 +377,10 @@ const ProductsServices = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-12 sm:py-16"
+            className="text-center py-16 sm:py-16"
           >
-            <Search className="h-8 w-8 sm:h-10 sm:w-10 text-muted-foreground/40 mx-auto mb-3" />
-            <p className="text-muted-foreground text-[13px] sm:text-sm">{t("ps.noResults")}</p>
+            <Search className="h-10 w-10 sm:h-10 sm:w-10 text-muted-foreground/40 mx-auto mb-4" />
+            <p className="text-muted-foreground text-sm sm:text-sm">{t("ps.noResults")}</p>
           </motion.div>
         )}
       </section>
