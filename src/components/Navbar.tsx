@@ -152,7 +152,7 @@ const Navbar = () => {
         />
 
         <div
-          className={`absolute top-[56px] left-0 right-0 bottom-0 bg-background border-t border-border/40 transition-all duration-300 ease-out ${
+          className={`absolute top-[60px] left-0 right-0 bottom-0 bg-background border-t border-border/40 transition-all duration-300 ease-out ${
             isOpen ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"
           }`}
         >
