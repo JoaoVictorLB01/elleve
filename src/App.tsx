@@ -18,6 +18,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AdminPanel from "./pages/AdminPanel";
 import Library from "./pages/Library";
+import ProductsServices from "./pages/ProductsServices";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
