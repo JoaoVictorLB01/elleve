@@ -279,6 +279,7 @@ const translations: Translations = {
     "oracle.button": "Oráculo do Dia",
     "oracle.title": "Oráculo do Dia",
     "oracle.hint": "Toque na carta para nova mensagem",
+    "oracle.for": "para",
   },
 
   en: {
