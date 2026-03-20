@@ -87,7 +87,7 @@ const Index = () => {
               </span>
             </motion.div>
 
-            <h1 className="text-[2rem] leading-[1.12] sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-5 sm:mb-6 tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h1 className="text-[2.75rem] leading-[1.08] sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-5 sm:mb-6 tracking-tight" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
               {t("hero.title1")}
               <br />
               <span className="text-gradient-cosmic">{t("hero.title2")}</span>
