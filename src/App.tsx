@@ -45,6 +45,7 @@ const Layout = () => {
         <Route path="*" element={<NotFound />} />
       </Routes>
       {!hideFooter && <Footer />}
+      <OracleCard />
     </>
   );
 };
