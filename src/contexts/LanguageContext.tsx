@@ -279,6 +279,7 @@ const translations: Translations = {
     "oracle.button": "Oráculo do Dia",
     "oracle.title": "Oráculo do Dia",
     "oracle.hint": "Toque na carta para nova mensagem",
+    "oracle.for": "para",
   },
 
   en: {
@@ -521,6 +522,7 @@ const translations: Translations = {
     "oracle.button": "Oracle of the Day",
     "oracle.title": "Oracle of the Day",
     "oracle.hint": "Tap the card for a new message",
+    "oracle.for": "for",
   },
 
   fr: {
@@ -763,6 +765,7 @@ const translations: Translations = {
     "oracle.button": "Oracle du Jour",
     "oracle.title": "Oracle du Jour",
     "oracle.hint": "Touchez la carte pour un nouveau message",
+    "oracle.for": "pour",
   },
 
   es: {
@@ -1005,6 +1008,7 @@ const translations: Translations = {
     "oracle.button": "Oráculo del Día",
     "oracle.title": "Oráculo del Día",
     "oracle.hint": "Toca la carta para un nuevo mensaje",
+    "oracle.for": "para",
   },
 };
 

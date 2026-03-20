@@ -1,7 +1,8 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, X } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
 import tarotBack from "@/assets/tarot-card-back.png";
 import tarotFront from "@/assets/tarot-card-front.png";
 
@@ -63,8 +64,48 @@ const messagesEs = [
 
 const allMessages: Record<string, string[]> = { pt: messagesPt, en: messagesEn, fr: messagesFr, es: messagesEs };
 
+// Generate a soft chime sound using Web Audio API
+function playFlipSound() {
+  try {
+    const ctx = new AudioContext();
+
+    // Soft bell/chime tone
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(880, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(1320, ctx.currentTime + 0.08);
+    osc.frequency.exponentialRampToValueAtTime(660, ctx.currentTime + 0.4);
+    gain.gain.setValueAtTime(0.12, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.8);
+
+    // Second harmonic for richness
+    const osc2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+    osc2.type = "sine";
+    osc2.frequency.setValueAtTime(1320, ctx.currentTime + 0.05);
+    osc2.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.5);
+    gain2.gain.setValueAtTime(0.06, ctx.currentTime + 0.05);
+    gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.9);
+    osc2.connect(gain2);
+    gain2.connect(ctx.destination);
+    osc2.start(ctx.currentTime + 0.05);
+    osc2.stop(ctx.currentTime + 0.9);
+
+    // Cleanup
+    setTimeout(() => ctx.close(), 1500);
+  } catch {
+    // Silently fail if audio not supported
+  }
+}
+
 const OracleCard = () => {
   const { language, t } = useLanguage();
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -73,6 +114,11 @@ const OracleCard = () => {
   const [sparkles, setSparkles] = useState<{ id: number; x: number; y: number; delay: number }[]>([]);
 
   const messages = allMessages[language] || allMessages.pt;
+
+  // Get user's first name
+  const userName = user?.user_metadata?.full_name
+    ? (user.user_metadata.full_name as string).split(" ")[0]
+    : null;
 
   const getRandomMessage = useCallback(() => {
     let idx: number;
@@ -94,12 +140,12 @@ const OracleCard = () => {
   const handleOpen = () => {
     setIsOpen(true);
     setIsAnimating(true);
-    // Start face-down, then flip after entrance
     setIsFlipped(false);
     setTimeout(() => {
       setIsFlipped(true);
       setMessage(getRandomMessage());
       generateSparkles();
+      playFlipSound();
       setTimeout(() => setIsAnimating(false), 600);
     }, 700);
   };
@@ -108,6 +154,7 @@ const OracleCard = () => {
     if (isAnimating) return;
     setIsAnimating(true);
     setIsFlipped(false);
+    playFlipSound();
     setTimeout(() => {
       setMessage(getRandomMessage());
       setIsFlipped(true);
@@ -168,7 +215,7 @@ const OracleCard = () => {
               <X className="h-5 w-5" />
             </button>
 
-            {/* 3D Card with flip */}
+            {/* 3D Card */}
             <motion.div
               className="relative cursor-pointer"
               style={{ perspective: 1200 }}
@@ -191,7 +238,7 @@ const OracleCard = () => {
                 </motion.div>
               ))}
 
-              {/* The flipping card */}
+              {/* Flipping card */}
               <motion.div
                 className="relative w-[260px] sm:w-[300px]"
                 style={{ transformStyle: "preserve-3d" }}
@@ -209,7 +256,6 @@ const OracleCard = () => {
                   className="relative rounded-2xl overflow-hidden shadow-2xl shadow-primary/20"
                   style={{ backfaceVisibility: "hidden" }}
                 >
-                  {/* Tarot front image as background */}
                   <img
                     src={tarotFront}
                     alt=""
@@ -217,32 +263,30 @@ const OracleCard = () => {
                     draggable={false}
                   />
 
-                  {/* Message overlay — positioned over the lower area of the card */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-end pb-[12%] px-6">
-                    {/* Title at top */}
-                    <div className="absolute top-[10%] left-0 right-0 text-center">
-                      <p className="text-[10px] sm:text-[11px] font-semibold tracking-[0.3em] uppercase"
-                         style={{ color: "hsl(var(--accent))", textShadow: "0 1px 8px rgba(0,0,0,0.7)" }}>
-                        {t("oracle.title")}
-                      </p>
-                    </div>
+                  {/* Dark overlay for better text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/60" />
 
-                    {/* Message in the center */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%]">
+                  {/* Content overlay */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-between py-[10%] px-6">
+                    {/* Title */}
+                    <p
+                      className="text-[11px] sm:text-xs font-bold tracking-[0.3em] uppercase text-accent drop-shadow-lg"
+                    >
+                      {t("oracle.title")}
+                    </p>
+
+                    {/* Message */}
+                    <div className="flex-1 flex items-center justify-center w-full px-2">
                       <AnimatePresence mode="wait">
                         {message && (
                           <motion.p
                             key={message}
-                            initial={{ opacity: 0, y: 6 }}
+                            initial={{ opacity: 0, y: 8 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.4, delay: 0.2 }}
-                            className="text-center text-sm sm:text-base font-medium leading-relaxed"
-                            style={{
-                              fontFamily: "'Playfair Display', serif",
-                              color: "hsl(var(--foreground))",
-                              textShadow: "0 2px 12px rgba(0,0,0,0.8)",
-                            }}
+                            className="text-center text-base sm:text-lg font-semibold leading-relaxed text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.9)]"
+                            style={{ fontFamily: "'Playfair Display', serif" }}
                           >
                             "{message}"
                           </motion.p>
@@ -250,19 +294,43 @@ const OracleCard = () => {
                       </AnimatePresence>
                     </div>
 
-                    {/* Hint at bottom */}
-                    <motion.p
-                      animate={{ opacity: [0.3, 0.6, 0.3] }}
-                      transition={{ duration: 3, repeat: Infinity }}
-                      className="text-[9px] sm:text-[10px] tracking-wider uppercase text-center"
-                      style={{ color: "hsl(var(--muted-foreground))", textShadow: "0 1px 6px rgba(0,0,0,0.8)" }}
-                    >
-                      {t("oracle.hint")}
-                    </motion.p>
+                    {/* Bottom area: user name + hint */}
+                    <div className="flex flex-col items-center gap-3">
+                      {userName && (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.6 }}
+                          className="flex flex-col items-center gap-1"
+                        >
+                          <div className="flex items-center gap-2">
+                            <div className="h-px w-6 bg-accent/50" />
+                            <span className="text-[10px] sm:text-[11px] tracking-[0.15em] uppercase text-accent/70 font-medium">
+                              {t("oracle.for")}
+                            </span>
+                            <div className="h-px w-6 bg-accent/50" />
+                          </div>
+                          <p
+                            className="text-sm sm:text-base font-semibold text-white/90 drop-shadow-lg"
+                            style={{ fontFamily: "'Playfair Display', serif" }}
+                          >
+                            {userName}
+                          </p>
+                        </motion.div>
+                      )}
+
+                      <motion.p
+                        animate={{ opacity: [0.3, 0.6, 0.3] }}
+                        transition={{ duration: 3, repeat: Infinity }}
+                        className="text-[9px] sm:text-[10px] tracking-wider uppercase text-white/40"
+                      >
+                        {t("oracle.hint")}
+                      </motion.p>
+                    </div>
                   </div>
                 </div>
 
-                {/* Back face (tarot back) */}
+                {/* Back face */}
                 <div
                   className="absolute inset-0 rounded-2xl overflow-hidden shadow-2xl shadow-primary/20"
                   style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
