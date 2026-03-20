@@ -9,6 +9,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
+import OracleCard from "@/components/OracleCard";
 import Index from "./pages/Index";
 import Courses from "./pages/Courses";
 import CourseDetail from "./pages/CourseDetail";
