@@ -15,20 +15,20 @@ const Dashboard = () => {
   }));
 
   return (
-    <div className="min-h-screen pt-[76px] sm:pt-24 pb-12 sm:pb-16">
-      <div className="container mx-auto px-5 sm:px-6">
+    <div className="min-h-screen pt-[80px] sm:pt-24 pb-16 sm:pb-16">
+      <div className="container mx-auto px-6 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-6 sm:mb-10"
+          className="mb-8 sm:mb-10"
         >
-          <h1 className="text-[1.35rem] sm:text-3xl md:text-4xl font-bold mb-1.5">
+          <h1 className="text-[1.5rem] sm:text-3xl md:text-4xl font-bold mb-2">
             {t("dashboard.hello")} <span className="text-gradient-gold">{t("dashboard.student")}</span> ✨
           </h1>
-          <p className="text-[13px] sm:text-base text-muted-foreground leading-relaxed">{t("dashboard.subtitle")}</p>
+          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{t("dashboard.subtitle")}</p>
         </motion.div>
 
-        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-4 mb-6 sm:mb-12">
+        <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-4 sm:gap-4 mb-10 sm:mb-12">
           {[
             { icon: BookOpen, label: t("dashboard.activeCourses"), value: "2", color: "text-primary" },
             { icon: Clock, label: t("dashboard.hoursStudied"), value: "8h", color: "text-primary" },
@@ -40,50 +40,50 @@ const Dashboard = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.08 }}
-              className="border border-border rounded-xl sm:rounded-2xl bg-card p-3 sm:p-5"
+              className="border border-border rounded-2xl bg-card p-4 sm:p-5"
             >
-              <stat.icon className={`h-4 sm:h-5 w-4 sm:w-5 ${stat.color} mb-1.5 sm:mb-3`} />
-              <div className="text-lg sm:text-2xl font-bold">{stat.value}</div>
-              <div className="text-[10px] sm:text-xs text-muted-foreground mt-0.5">{stat.label}</div>
+              <stat.icon className={`h-5 sm:h-5 w-5 sm:w-5 ${stat.color} mb-2.5 sm:mb-3`} />
+              <div className="text-xl sm:text-2xl font-bold">{stat.value}</div>
+              <div className="text-xs sm:text-xs text-muted-foreground mt-0.5">{stat.label}</div>
             </motion.div>
           ))}
         </div>
 
-        <div className="flex items-center justify-between mb-3 sm:mb-6">
-          <h2 className="text-base sm:text-xl font-bold">{t("dashboard.continueWatching")}</h2>
+        <div className="flex items-center justify-between mb-5 sm:mb-6">
+          <h2 className="text-lg sm:text-xl font-bold">{t("dashboard.continueWatching")}</h2>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6 mb-8 sm:mb-14">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-10 sm:mb-14">
           {enrolledCourses.map((course, i) => (
             <motion.div
               key={course.id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="border border-border rounded-xl sm:rounded-2xl bg-card overflow-hidden hover:border-primary/30 transition-colors active:scale-[0.99] sm:active:scale-100"
+              className="border border-border rounded-2xl bg-card overflow-hidden hover:border-primary/30 transition-colors active:scale-[0.99] sm:active:scale-100"
             >
               <div className="sm:hidden">
-                <div className="flex gap-3 p-3">
-                  <div className="w-20 h-20 rounded-lg overflow-hidden shrink-0">
+                <div className="flex gap-4 p-4">
+                  <div className="w-24 h-24 rounded-xl overflow-hidden shrink-0">
                     <img src={course.image} alt={course.title} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-[13px] mb-0.5 truncate">{course.title}</h3>
-                    <p className="text-[11px] text-muted-foreground mb-2 truncate">
+                    <h3 className="font-semibold text-sm mb-1 truncate">{course.title}</h3>
+                    <p className="text-xs text-muted-foreground mb-3 truncate">
                       {t("dashboard.next")} {course.lastLesson.title}
                     </p>
                     <div>
-                      <div className="flex justify-between text-[10px] text-muted-foreground mb-1">
+                      <div className="flex justify-between text-xs text-muted-foreground mb-1.5">
                         <span>{t("dashboard.progress")}</span>
                         <span className="font-medium">{course.progress}%</span>
                       </div>
-                      <Progress value={course.progress} className="h-1" />
+                      <Progress value={course.progress} className="h-1.5" />
                     </div>
                   </div>
                 </div>
-                <div className="px-3 pb-3">
-                  <Button variant="cosmic" size="sm" className="w-full h-9 text-xs" asChild>
+                <div className="px-4 pb-4">
+                  <Button variant="cosmic" size="sm" className="w-full h-11 text-sm rounded-xl active:scale-[0.97]" asChild>
                     <Link to={`/curso/${course.id}/aula/${course.lastLesson.id}`}>
-                      <Play className="mr-1.5 h-3 w-3" />
+                      <Play className="mr-1.5 h-3.5 w-3.5" />
                       {t("dashboard.continueBtn")}
                     </Link>
                   </Button>
@@ -120,10 +120,10 @@ const Dashboard = () => {
           ))}
         </div>
 
-        <div className="flex items-center justify-between mb-3 sm:mb-6">
-          <h2 className="text-base sm:text-xl font-bold">{t("dashboard.recommended")}</h2>
-          <Link to="/cursos" className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1">
-            {t("dashboard.viewAll")} <ArrowRight className="h-3 sm:h-3.5 w-3 sm:w-3.5" />
+        <div className="flex items-center justify-between mb-5 sm:mb-6">
+          <h2 className="text-lg sm:text-xl font-bold">{t("dashboard.recommended")}</h2>
+          <Link to="/cursos" className="text-sm sm:text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1">
+            {t("dashboard.viewAll")} <ArrowRight className="h-4 sm:h-3.5 w-4 sm:w-3.5" />
           </Link>
         </div>
         
@@ -145,19 +145,19 @@ const Dashboard = () => {
           ))}
         </div>
 
-        <div className="flex gap-2.5 overflow-x-auto pb-4 sm:hidden -mx-4 px-4 snap-x snap-mandatory scrollbar-hide">
+        <div className="flex gap-3.5 overflow-x-auto pb-4 sm:hidden -mx-6 px-6 snap-x snap-mandatory scrollbar-hide">
           {courses.map((course) => (
             <Link
               key={course.id}
               to={`/curso/${course.id}`}
-              className="border border-border rounded-xl bg-card overflow-hidden shrink-0 w-[65vw] max-w-[260px] snap-start active:scale-[0.98]"
+              className="border border-border rounded-2xl bg-card overflow-hidden shrink-0 w-[70vw] max-w-[280px] snap-start active:scale-[0.98]"
             >
               <div className="aspect-video overflow-hidden">
                 <img src={course.image} alt={course.title} className="w-full h-full object-cover" loading="lazy" />
               </div>
-              <div className="p-3">
-                <h3 className="font-semibold text-[13px] mb-0.5 truncate">{course.title}</h3>
-                <p className="text-[11px] text-muted-foreground truncate">{course.instructor} • {course.duration}</p>
+              <div className="p-4">
+                <h3 className="font-semibold text-sm mb-1 truncate">{course.title}</h3>
+                <p className="text-xs text-muted-foreground truncate">{course.instructor} • {course.duration}</p>
               </div>
             </Link>
           ))}

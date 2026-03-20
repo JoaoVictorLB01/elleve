@@ -58,7 +58,7 @@ const Navbar = () => {
             : "bg-transparent"
         }`}
       >
-        <div className="container mx-auto flex h-[56px] sm:h-16 items-center justify-between px-5 sm:px-6">
+        <div className="container mx-auto flex h-[60px] sm:h-16 items-center justify-between px-6 sm:px-6">
           <Link to="/" className="flex items-center gap-2 group">
             <img src={logo} alt="Elleve" className="h-6 w-6 sm:h-7 sm:w-7 transition-transform group-hover:scale-110" />
             <span className="text-base sm:text-lg font-bold text-gradient-gold tracking-wide">
@@ -152,18 +152,18 @@ const Navbar = () => {
         />
 
         <div
-          className={`absolute top-[56px] left-0 right-0 bottom-0 bg-background border-t border-border/40 transition-all duration-300 ease-out ${
+          className={`absolute top-[60px] left-0 right-0 bottom-0 bg-background border-t border-border/40 transition-all duration-300 ease-out ${
             isOpen ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"
           }`}
         >
           <div className="flex flex-col h-full">
-            <div className="flex-1 flex flex-col px-5 pt-5 gap-0.5 overflow-y-auto">
+            <div className="flex-1 flex flex-col px-6 pt-6 gap-1 overflow-y-auto">
               {links.map((link, i) => (
                 <Link
                   key={link.to}
                   to={link.to}
                   onClick={() => setIsOpen(false)}
-                  className={`flex items-center justify-between px-4 py-3.5 text-[15px] font-medium rounded-xl transition-all duration-200 ${
+                  className={`flex items-center justify-between px-4 py-4 text-base font-medium rounded-xl transition-all duration-200 ${
                     location.pathname === link.to
                       ? "bg-primary/10 text-foreground"
                       : "text-muted-foreground hover:text-foreground active:bg-muted/40"
@@ -181,7 +181,7 @@ const Navbar = () => {
               </div>
             </div>
 
-            <div className="px-5 pb-8 pt-4 border-t border-border/40 space-y-2.5 safe-area-bottom">
+            <div className="px-6 pb-10 pt-5 border-t border-border/40 space-y-3 safe-area-bottom">
               {user ? (
                 <>
                   {isAdmin && (
@@ -190,20 +190,20 @@ const Navbar = () => {
                       Admin
                     </div>
                   )}
-                  <Button variant="outline" size="lg" className="w-full h-[52px] text-[15px] border-border/50 rounded-xl" onClick={() => { handleLogout(); setIsOpen(false); }}>
+                  <Button variant="outline" size="lg" className="w-full h-[52px] text-base border-border/50 rounded-xl active:scale-[0.97]" onClick={() => { handleLogout(); setIsOpen(false); }}>
                     <LogOut className="mr-2 h-4 w-4" />
                     {t("nav.logout") || "Sair"}
                   </Button>
                 </>
               ) : (
                 <>
-                  <Button variant="cosmic" size="lg" className="w-full h-[52px] text-[15px] rounded-xl" asChild>
+                  <Button variant="cosmic" size="lg" className="w-full h-[52px] text-base rounded-xl active:scale-[0.97]" asChild>
                     <Link to="/cadastro" onClick={() => setIsOpen(false)}>
                       <Sparkles className="mr-2 h-4 w-4" />
                       {t("nav.startNow")}
                     </Link>
                   </Button>
-                  <Button variant="outline" size="lg" className="w-full h-[52px] text-[15px] border-border/50 rounded-xl" asChild>
+                  <Button variant="outline" size="lg" className="w-full h-[52px] text-base border-border/50 rounded-xl active:scale-[0.97]" asChild>
                     <Link to="/login" onClick={() => setIsOpen(false)}>
                       {t("nav.loginAccount")}
                     </Link>

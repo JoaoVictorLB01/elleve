@@ -19,7 +19,7 @@ const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: 
       className="group cursor-pointer"
       onClick={() => onOpen(book)}
     >
-      <div className="h-full overflow-hidden rounded-xl border border-border bg-card transition-all duration-500 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/5 sm:hover:-translate-y-1">
+      <div className="h-full overflow-hidden rounded-2xl border border-border bg-card transition-all duration-500 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/5 sm:hover:-translate-y-1 active:scale-[0.97]">
         <div className="relative aspect-[2/3] overflow-hidden">
           <img
             src={book.cover_url || "/placeholder.svg"}
@@ -30,7 +30,7 @@ const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: 
           <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-60" />
           {book.popular && (
             <div className="absolute top-3 left-3">
-              <span className="inline-flex items-center gap-1 rounded-full bg-accent/90 backdrop-blur-sm px-2.5 py-0.5 text-[10px] sm:text-xs font-semibold text-accent-foreground">
+              <span className="inline-flex items-center gap-1 rounded-full bg-accent/90 backdrop-blur-sm px-2.5 py-1 text-xs sm:text-xs font-semibold text-accent-foreground">
                 <TrendingUp className="h-3 w-3" />
                 {t("library.popular")}
               </span>
@@ -38,7 +38,7 @@ const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: 
           )}
           {book.recent && (
             <div className={`absolute top-3 ${book.popular ? "left-[6.5rem]" : "left-3"}`}>
-              <span className="inline-flex items-center gap-1 rounded-full bg-primary/90 backdrop-blur-sm px-2.5 py-0.5 text-[10px] sm:text-xs font-medium text-primary-foreground">
+              <span className="inline-flex items-center gap-1 rounded-full bg-primary/90 backdrop-blur-sm px-2.5 py-1 text-xs sm:text-xs font-medium text-primary-foreground">
                 <Clock className="h-3 w-3" />
                 {t("library.new")}
               </span>
@@ -46,22 +46,22 @@ const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: 
           )}
           <div className="absolute bottom-3 right-3 flex items-center gap-1 rounded-full bg-background/80 backdrop-blur-sm px-2 py-0.5">
             <Download className="h-3 w-3 text-muted-foreground" />
-            <span className="text-[10px] sm:text-xs text-muted-foreground font-medium">{book.downloads.toLocaleString()}</span>
+            <span className="text-xs sm:text-xs text-muted-foreground font-medium">{book.downloads.toLocaleString()}</span>
           </div>
         </div>
-        <div className="p-4">
-          <h3 className="text-[14px] sm:text-[15px] font-semibold leading-snug mb-1 transition-colors group-hover:text-primary line-clamp-2">
+        <div className="p-4 sm:p-4">
+          <h3 className="text-sm sm:text-[15px] font-semibold leading-snug mb-1.5 transition-colors group-hover:text-primary line-clamp-2">
             {book.title}
           </h3>
-          <p className="text-[12px] sm:text-[13px] text-muted-foreground mb-2">
+          <p className="text-xs sm:text-[13px] text-muted-foreground mb-2">
             {book.author}
           </p>
           <div className="flex items-center justify-between">
-            <span className="text-[11px] text-muted-foreground flex items-center gap-1">
+            <span className="text-xs text-muted-foreground flex items-center gap-1">
               <FileText className="h-3 w-3" />
               {book.pages} {t("library.pages")}
             </span>
-            <span className="text-[11px] text-primary font-medium">
+            <span className="text-xs text-primary font-medium">
               {t(`library.cat.${book.category}`)}
             </span>
           </div>
@@ -97,7 +97,7 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-5">
       <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={onClose} />
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
@@ -107,13 +107,13 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-lg hover:bg-muted transition-colors"
+          className="absolute top-4 right-4 p-2.5 rounded-xl hover:bg-muted transition-colors"
         >
           <X className="h-5 w-5 text-muted-foreground" />
         </button>
 
         <div className="flex flex-col sm:flex-row gap-5">
-          <div className="w-32 sm:w-40 shrink-0 mx-auto sm:mx-0">
+          <div className="w-36 sm:w-40 shrink-0 mx-auto sm:mx-0">
             <img
               src={book.cover_url || "/placeholder.svg"}
               alt={book.title}
@@ -124,9 +124,9 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
             <h2 className="text-lg sm:text-xl font-bold mb-1">{book.title}</h2>
             <p className="text-sm text-muted-foreground mb-3">{book.author}</p>
             <div className="flex flex-wrap gap-2 justify-center sm:justify-start mb-4">
-              <span className="text-xs bg-muted px-2.5 py-1 rounded-full">{t(`library.cat.${book.category}`)}</span>
-              <span className="text-xs bg-muted px-2.5 py-1 rounded-full">{book.pages} {t("library.pages")}</span>
-              <span className="text-xs bg-muted px-2.5 py-1 rounded-full flex items-center gap-1">
+              <span className="text-xs bg-muted px-3 py-1.5 rounded-full">{t(`library.cat.${book.category}`)}</span>
+              <span className="text-xs bg-muted px-3 py-1.5 rounded-full">{book.pages} {t("library.pages")}</span>
+              <span className="text-xs bg-muted px-3 py-1.5 rounded-full flex items-center gap-1">
                 <Download className="h-3 w-3" />
                 {book.downloads.toLocaleString()}
               </span>
@@ -138,7 +138,7 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
           {book.description}
         </p>
 
-        <Button variant="gold" size="lg" className="w-full rounded-xl" onClick={handleDownload} disabled={downloading}>
+        <Button variant="gold" size="lg" className="w-full rounded-xl h-[52px] text-base sm:text-sm active:scale-[0.97]" onClick={handleDownload} disabled={downloading}>
           <Download className="mr-2 h-4 w-4" />
           {downloading ? "Baixando..." : t("library.download")}
         </Button>
@@ -168,19 +168,19 @@ const Library = () => {
   const recentBooks = books.filter((b) => b.recent);
 
   return (
-    <main className="min-h-screen pt-20 sm:pt-24 pb-16">
+    <main className="min-h-screen pt-[80px] sm:pt-24 pb-20">
       {/* Header */}
-      <section className="container mx-auto px-5 sm:px-6 mb-10 sm:mb-14">
+      <section className="container mx-auto px-6 sm:px-6 mb-10 sm:mb-14">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center max-w-2xl mx-auto"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-4">
-            <BookOpen className="h-3.5 w-3.5 text-primary" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-5">
+            <BookOpen className="h-4 w-4 text-primary" />
             <span className="text-xs font-medium text-primary">{t("library.badge")}</span>
           </div>
-          <h1 className="text-2xl sm:text-4xl font-bold mb-3">{t("library.title")}</h1>
+          <h1 className="text-[1.625rem] sm:text-4xl font-bold mb-4">{t("library.title")}</h1>
           <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
             {t("library.desc")}
           </p>
@@ -188,23 +188,23 @@ const Library = () => {
       </section>
 
       {/* Search & Filters */}
-      <section className="container mx-auto px-5 sm:px-6 mb-8 sm:mb-10">
+      <section className="container mx-auto px-6 sm:px-6 mb-10 sm:mb-10">
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder={t("library.search")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 h-11 rounded-xl bg-card border-border"
+              className="pl-10 h-12 sm:h-11 rounded-xl bg-card border-border text-base sm:text-sm"
             />
           </div>
-          <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
+          <div className="flex gap-2.5 overflow-x-auto scrollbar-hide pb-1 -mx-6 px-6 sm:mx-0 sm:px-0 snap-x">
             {bookCategories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`whitespace-nowrap px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
+                className={`whitespace-nowrap px-4 py-2.5 rounded-full text-sm sm:text-sm font-medium transition-all shrink-0 snap-start active:scale-[0.95] ${
                   activeCategory === cat
                     ? "bg-primary text-primary-foreground shadow-sm"
                     : "bg-card border border-border text-muted-foreground hover:text-foreground hover:border-primary/30"
@@ -219,10 +219,10 @@ const Library = () => {
 
       {/* Popular Section */}
       {activeCategory === "all" && !search && (
-        <section className="container mx-auto px-5 sm:px-6 mb-10">
-          <div className="flex items-center gap-2 mb-5">
-            <TrendingUp className="h-4 w-4 text-accent" />
-            <h2 className="text-base sm:text-lg font-semibold">{t("library.popularSection")}</h2>
+        <section className="container mx-auto px-6 sm:px-6 mb-12">
+          <div className="flex items-center gap-2 mb-6">
+            <TrendingUp className="h-5 w-5 text-accent" />
+            <h2 className="text-lg sm:text-lg font-semibold">{t("library.popularSection")}</h2>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
             {popularBooks.map((book, i) => (
@@ -234,10 +234,10 @@ const Library = () => {
 
       {/* Recent Section */}
       {activeCategory === "all" && !search && (
-        <section className="container mx-auto px-5 sm:px-6 mb-10">
-          <div className="flex items-center gap-2 mb-5">
-            <Clock className="h-4 w-4 text-primary" />
-            <h2 className="text-base sm:text-lg font-semibold">{t("library.recentSection")}</h2>
+        <section className="container mx-auto px-6 sm:px-6 mb-12">
+          <div className="flex items-center gap-2 mb-6">
+            <Clock className="h-5 w-5 text-primary" />
+            <h2 className="text-lg sm:text-lg font-semibold">{t("library.recentSection")}</h2>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
             {recentBooks.map((book, i) => (
@@ -249,10 +249,10 @@ const Library = () => {
 
       {/* All / Filtered */}
       {(activeCategory !== "all" || search) && (
-        <section className="container mx-auto px-5 sm:px-6">
-          <div className="flex items-center gap-2 mb-5">
-            <BookOpen className="h-4 w-4 text-muted-foreground" />
-            <h2 className="text-base sm:text-lg font-semibold">
+        <section className="container mx-auto px-6 sm:px-6">
+          <div className="flex items-center gap-2 mb-6">
+            <BookOpen className="h-5 w-5 text-muted-foreground" />
+            <h2 className="text-lg sm:text-lg font-semibold">
               {filtered.length} {t("library.results")}
             </h2>
           </div>
@@ -263,9 +263,9 @@ const Library = () => {
               ))}
             </div>
           ) : (
-            <div className="text-center py-16">
+            <div className="text-center py-20">
               <BookOpen className="h-12 w-12 text-muted-foreground/30 mx-auto mb-4" />
-              <p className="text-muted-foreground">{t("library.noResults")}</p>
+              <p className="text-muted-foreground text-base">{t("library.noResults")}</p>
             </div>
           )}
         </section>
