@@ -1008,6 +1008,7 @@ const translations: Translations = {
     "oracle.button": "Oráculo del Día",
     "oracle.title": "Oráculo del Día",
     "oracle.hint": "Toca la carta para un nuevo mensaje",
+    "oracle.for": "para",
   },
 };
 
