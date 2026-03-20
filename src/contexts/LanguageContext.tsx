@@ -274,6 +274,11 @@ const translations: Translations = {
     "ps.buyNow": "Comprar",
     "ps.schedule": "Agendar",
     "ps.noResults": "Nenhum resultado encontrado.",
+
+    // Oracle
+    "oracle.button": "Oráculo do Dia",
+    "oracle.title": "Oráculo do Dia",
+    "oracle.hint": "Toque na carta para nova mensagem",
   },
 
   en: {
@@ -511,6 +516,11 @@ const translations: Translations = {
     "ps.buyNow": "Buy Now",
     "ps.schedule": "Schedule",
     "ps.noResults": "No results found.",
+
+    // Oracle
+    "oracle.button": "Oracle of the Day",
+    "oracle.title": "Oracle of the Day",
+    "oracle.hint": "Tap the card for a new message",
   },
 
   fr: {
@@ -748,6 +758,11 @@ const translations: Translations = {
     "ps.buyNow": "Acheter",
     "ps.schedule": "Réserver",
     "ps.noResults": "Aucun résultat trouvé.",
+
+    // Oracle
+    "oracle.button": "Oracle du Jour",
+    "oracle.title": "Oracle du Jour",
+    "oracle.hint": "Touchez la carte pour un nouveau message",
   },
 
   es: {
@@ -985,6 +1000,11 @@ const translations: Translations = {
     "ps.buyNow": "Comprar",
     "ps.schedule": "Agendar",
     "ps.noResults": "No se encontraron resultados.",
+
+    // Oracle
+    "oracle.button": "Oráculo del Día",
+    "oracle.title": "Oráculo del Día",
+    "oracle.hint": "Toca la carta para un nuevo mensaje",
   },
 };
 
