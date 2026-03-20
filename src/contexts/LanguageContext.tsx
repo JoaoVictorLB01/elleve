@@ -734,6 +734,19 @@ const translations: Translations = {
     "book.6.title": "Géométrie Sacrée",
     "book.6.author": "Helena Luz",
     "book.6.desc": "Découvrez les motifs mathématiques sacrés qui imprègnent l'univers. De la Fleur de Vie au Cube de Métatron.",
+
+    // Products & Services
+    "nav.products": "Produits",
+    "ps.badge": "Produits & Services",
+    "ps.title": "Produits & Services",
+    "ps.desc": "Découvrez nos produits artisanaux et services de bien-être pour élever votre énergie et équilibrer corps, esprit et âme.",
+    "ps.products": "Produits",
+    "ps.services": "Services",
+    "ps.search": "Rechercher des produits ou services...",
+    "ps.popular": "Populaire",
+    "ps.buyNow": "Acheter",
+    "ps.schedule": "Réserver",
+    "ps.noResults": "Aucun résultat trouvé.",
   },
 
   es: {
