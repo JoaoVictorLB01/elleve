@@ -137,8 +137,8 @@ const Index = () => {
       </section>
 
       {/* Featured Courses */}
-      <section className="py-12 sm:py-20 relative">
-        <div className="container mx-auto px-5 sm:px-6">
+      <section className="py-14 sm:py-20 relative">
+        <div className="container mx-auto px-6 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -146,10 +146,10 @@ const Index = () => {
             className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-12 gap-3"
           >
             <div>
-              <span className="text-[10px] sm:text-xs font-semibold text-primary uppercase tracking-widest mb-2 sm:mb-3 block">
+              <span className="text-xs sm:text-xs font-semibold text-primary uppercase tracking-widest mb-3 sm:mb-3 block">
                 {t("featured.label")}
               </span>
-              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold">
+              <h2 className="font-display text-[1.5rem] sm:text-3xl md:text-4xl font-bold">
                 {t("featured.title")}
               </h2>
             </div>
@@ -162,7 +162,7 @@ const Index = () => {
             </Link>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {featuredCourses.map((course, i) => (
               <motion.div
                 key={course.id}
