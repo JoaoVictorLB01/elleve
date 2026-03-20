@@ -179,7 +179,7 @@ const Index = () => {
       </section>
 
       {/* Features */}
-      <section className="py-12 sm:py-20 bg-gradient-cosmic-subtle relative overflow-hidden">
+      <section className="py-16 sm:py-20 bg-gradient-cosmic-subtle relative overflow-hidden">
         <motion.div
           className="absolute -top-20 -left-20 w-72 h-72 rounded-full opacity-[0.07]"
           style={{
@@ -195,22 +195,22 @@ const Index = () => {
           }}
         />
 
-        <div className="container mx-auto px-5 sm:px-6 relative z-10">
+        <div className="container mx-auto px-6 sm:px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-10 sm:mb-16"
           >
-            <span className="text-[10px] sm:text-xs font-semibold text-primary uppercase tracking-widest mb-2 sm:mb-3 block">
+            <span className="text-xs sm:text-xs font-semibold text-primary uppercase tracking-widest mb-3 sm:mb-3 block">
               {t("features.label")}
             </span>
-            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold px-2">
+            <h2 className="font-display text-[1.5rem] sm:text-3xl md:text-4xl font-bold px-2">
               {t("features.title")} <span className="text-gradient-gold">{t("features.titleHighlight")}</span>
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-8">
             {features.map((feature, i) => (
               <motion.div
                 key={feature.title}
@@ -218,13 +218,13 @@ const Index = () => {
                 whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
                 transition={{ delay: i * 0.15, duration: 0.6 }}
                 viewport={{ once: true, margin: "-30px" }}
-                className="p-6 sm:p-8 rounded-2xl border border-border bg-card/50 text-center"
+                className="p-7 sm:p-8 rounded-2xl border border-border bg-card/50 text-center"
               >
-                <div className="inline-flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-primary/10 mb-4 sm:mb-5">
+                <div className="inline-flex items-center justify-center w-12 h-12 sm:w-12 sm:h-12 rounded-xl bg-primary/10 mb-5 sm:mb-5">
                   <feature.icon className="h-5 sm:h-5 w-5 sm:w-5 text-primary" />
                 </div>
-                <h3 className="font-display text-[15px] sm:text-lg font-semibold mb-2 sm:mb-3">{feature.title}</h3>
-                <p className="text-[13px] sm:text-sm text-muted-foreground leading-[1.7]">{feature.desc}</p>
+                <h3 className="font-display text-base sm:text-lg font-semibold mb-3 sm:mb-3">{feature.title}</h3>
+                <p className="text-sm sm:text-sm text-muted-foreground leading-[1.7]">{feature.desc}</p>
               </motion.div>
             ))}
           </div>
