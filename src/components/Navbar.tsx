@@ -157,13 +157,13 @@ const Navbar = () => {
           }`}
         >
           <div className="flex flex-col h-full">
-            <div className="flex-1 flex flex-col px-5 pt-5 gap-0.5 overflow-y-auto">
+            <div className="flex-1 flex flex-col px-6 pt-6 gap-1 overflow-y-auto">
               {links.map((link, i) => (
                 <Link
                   key={link.to}
                   to={link.to}
                   onClick={() => setIsOpen(false)}
-                  className={`flex items-center justify-between px-4 py-3.5 text-[15px] font-medium rounded-xl transition-all duration-200 ${
+                  className={`flex items-center justify-between px-4 py-4 text-base font-medium rounded-xl transition-all duration-200 ${
                     location.pathname === link.to
                       ? "bg-primary/10 text-foreground"
                       : "text-muted-foreground hover:text-foreground active:bg-muted/40"
