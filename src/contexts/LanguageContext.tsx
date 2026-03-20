@@ -497,6 +497,19 @@ const translations: Translations = {
     "book.6.title": "Sacred Geometry",
     "book.6.author": "Helena Luz",
     "book.6.desc": "Discover the sacred mathematical patterns that permeate the universe. From the Flower of Life to Metatron's Cube, explore the geometry that connects everything.",
+
+    // Products & Services
+    "nav.products": "Products",
+    "ps.badge": "Products & Services",
+    "ps.title": "Products & Services",
+    "ps.desc": "Discover our handcrafted products and wellness services to elevate your energy and balance body, mind and spirit.",
+    "ps.products": "Products",
+    "ps.services": "Services",
+    "ps.search": "Search products or services...",
+    "ps.popular": "Popular",
+    "ps.buyNow": "Buy Now",
+    "ps.schedule": "Schedule",
+    "ps.noResults": "No results found.",
   },
 
   fr: {
