@@ -50,7 +50,7 @@ const Index = () => {
   return (
     <div className="min-h-screen" ref={containerRef}>
       {/* Hero */}
-      <section className="relative min-h-[85vh] sm:min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[90vh] sm:min-h-screen flex items-center justify-center overflow-hidden">
         <motion.div
           className="absolute inset-0 bg-cover bg-center scale-110"
           style={{ backgroundImage: `url(${heroBg})`, y: heroBgY }}
@@ -71,7 +71,7 @@ const Index = () => {
         </Suspense>
 
         <motion.div
-          className="relative z-10 container mx-auto px-4 sm:px-6 text-center pt-20 sm:pt-0"
+          className="relative z-10 container mx-auto px-6 sm:px-6 text-center pt-24 sm:pt-0"
           style={{ y: heroContentY, opacity: heroOpacity }}
         >
           <motion.div {...fadeUp}>
@@ -79,39 +79,39 @@ const Index = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              className="inline-flex items-center gap-2 mb-5 sm:mb-8 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-border bg-muted/40 backdrop-blur-sm"
+              className="inline-flex items-center gap-2 mb-6 sm:mb-8 px-4 py-2 sm:px-4 sm:py-2 rounded-full border border-border bg-muted/40 backdrop-blur-sm"
             >
-              <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-accent animate-pulse-slow" />
-              <span className="text-[10px] sm:text-xs font-medium text-muted-foreground tracking-wider uppercase">
+              <Sparkles className="h-3.5 w-3.5 sm:h-3.5 sm:w-3.5 text-accent animate-pulse-slow" />
+              <span className="text-[11px] sm:text-xs font-medium text-muted-foreground tracking-wider uppercase">
                 {t("hero.badge")}
               </span>
             </motion.div>
 
-            <h1 className="text-[2.25rem] leading-[1.08] sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-4 sm:mb-6 tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h1 className="text-[2rem] leading-[1.12] sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-5 sm:mb-6 tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
               {t("hero.title1")}
               <br />
               <span className="text-gradient-cosmic">{t("hero.title2")}</span>
             </h1>
 
-            <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-8 sm:mb-12 leading-[1.7] px-3 sm:px-1">
+            <p className="text-base sm:text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-10 sm:mb-12 leading-[1.7] px-2 sm:px-1">
               {t("hero.desc")}
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full px-4 sm:px-0">
-              <Button variant="cosmic" size="lg" className="w-full sm:w-auto sm:min-w-[200px] h-[52px] sm:h-11 text-[15px] sm:text-sm rounded-xl" asChild>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-full px-2 sm:px-0">
+              <Button variant="cosmic" size="lg" className="w-full sm:w-auto sm:min-w-[200px] h-[52px] sm:h-11 text-base sm:text-sm rounded-xl active:scale-[0.97]" asChild>
                 <Link to="/cursos">
                   {t("hero.explore")}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button variant="outline" size="lg" className="w-full sm:w-auto sm:min-w-[200px] h-[52px] sm:h-11 text-[15px] sm:text-sm border-border/60 rounded-xl" asChild>
+              <Button variant="outline" size="lg" className="w-full sm:w-auto sm:min-w-[200px] h-[52px] sm:h-11 text-base sm:text-sm border-border/60 rounded-xl active:scale-[0.97]" asChild>
                 <Link to="/cadastro">{t("hero.createAccount")}</Link>
               </Button>
             </div>
           </motion.div>
         </motion.div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-20 sm:h-32 bg-gradient-to-t from-background to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-background to-transparent" />
       </section>
 
       {/* Stats */}
