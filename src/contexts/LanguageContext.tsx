@@ -1000,6 +1000,11 @@ const translations: Translations = {
     "ps.buyNow": "Comprar",
     "ps.schedule": "Agendar",
     "ps.noResults": "No se encontraron resultados.",
+
+    // Oracle
+    "oracle.button": "Oráculo del Día",
+    "oracle.title": "Oráculo del Día",
+    "oracle.hint": "Toca la carta para un nuevo mensaje",
   },
 };
 
