@@ -516,6 +516,11 @@ const translations: Translations = {
     "ps.buyNow": "Buy Now",
     "ps.schedule": "Schedule",
     "ps.noResults": "No results found.",
+
+    // Oracle
+    "oracle.button": "Oracle of the Day",
+    "oracle.title": "Oracle of the Day",
+    "oracle.hint": "Tap the card for a new message",
   },
 
   fr: {
