@@ -261,9 +261,21 @@ const translations: Translations = {
     "book.6.title": "Geometria Sagrada",
     "book.6.author": "Helena Luz",
     "book.6.desc": "Descubra os padrões matemáticos sagrados que permeiam o universo. Da Flor da Vida ao Cubo de Metatron, explore a geometria que conecta tudo.",
+
+    // Products & Services
+    "nav.products": "Produtos",
+    "ps.badge": "Produtos & Serviços",
+    "ps.title": "Produtos & Serviços",
+    "ps.desc": "Descubra nossos produtos artesanais e serviços de bem-estar para elevar sua energia e equilibrar corpo, mente e espírito.",
+    "ps.products": "Produtos",
+    "ps.services": "Serviços",
+    "ps.search": "Buscar produtos ou serviços...",
+    "ps.popular": "Popular",
+    "ps.buyNow": "Comprar",
+    "ps.schedule": "Agendar",
+    "ps.noResults": "Nenhum resultado encontrado.",
   },
 
-  en: {
     "nav.home": "Home",
     "nav.courses": "Courses",
     "nav.myArea": "My Area",
@@ -485,6 +497,19 @@ const translations: Translations = {
     "book.6.title": "Sacred Geometry",
     "book.6.author": "Helena Luz",
     "book.6.desc": "Discover the sacred mathematical patterns that permeate the universe. From the Flower of Life to Metatron's Cube, explore the geometry that connects everything.",
+
+    // Products & Services
+    "nav.products": "Products",
+    "ps.badge": "Products & Services",
+    "ps.title": "Products & Services",
+    "ps.desc": "Discover our handcrafted products and wellness services to elevate your energy and balance body, mind and spirit.",
+    "ps.products": "Products",
+    "ps.services": "Services",
+    "ps.search": "Search products or services...",
+    "ps.popular": "Popular",
+    "ps.buyNow": "Buy Now",
+    "ps.schedule": "Schedule",
+    "ps.noResults": "No results found.",
   },
 
   fr: {
@@ -709,6 +734,19 @@ const translations: Translations = {
     "book.6.title": "Géométrie Sacrée",
     "book.6.author": "Helena Luz",
     "book.6.desc": "Découvrez les motifs mathématiques sacrés qui imprègnent l'univers. De la Fleur de Vie au Cube de Métatron.",
+
+    // Products & Services
+    "nav.products": "Produits",
+    "ps.badge": "Produits & Services",
+    "ps.title": "Produits & Services",
+    "ps.desc": "Découvrez nos produits artisanaux et services de bien-être pour élever votre énergie et équilibrer corps, esprit et âme.",
+    "ps.products": "Produits",
+    "ps.services": "Services",
+    "ps.search": "Rechercher des produits ou services...",
+    "ps.popular": "Populaire",
+    "ps.buyNow": "Acheter",
+    "ps.schedule": "Réserver",
+    "ps.noResults": "Aucun résultat trouvé.",
   },
 
   es: {
@@ -933,6 +971,19 @@ const translations: Translations = {
     "book.6.title": "Geometría Sagrada",
     "book.6.author": "Helena Luz",
     "book.6.desc": "Descubre los patrones matemáticos sagrados que permean el universo. De la Flor de la Vida al Cubo de Metatrón.",
+
+    // Products & Services
+    "nav.products": "Productos",
+    "ps.badge": "Productos & Servicios",
+    "ps.title": "Productos & Servicios",
+    "ps.desc": "Descubre nuestros productos artesanales y servicios de bienestar para elevar tu energía y equilibrar cuerpo, mente y espíritu.",
+    "ps.products": "Productos",
+    "ps.services": "Servicios",
+    "ps.search": "Buscar productos o servicios...",
+    "ps.popular": "Popular",
+    "ps.buyNow": "Comprar",
+    "ps.schedule": "Agendar",
+    "ps.noResults": "No se encontraron resultados.",
   },
 };
 
