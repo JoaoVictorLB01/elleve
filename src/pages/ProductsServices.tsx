@@ -193,23 +193,23 @@ const ProductsServices = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pt-20 sm:pt-24">
+    <div className="min-h-screen bg-background pt-[72px] sm:pt-24">
       {/* Header */}
-      <section className="container mx-auto px-4 sm:px-6 pb-8">
+      <section className="container mx-auto px-4 sm:px-6 pb-6 sm:pb-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="text-center max-w-2xl mx-auto"
         >
-          <Badge variant="outline" className="mb-4 border-primary/30 text-primary bg-primary/5 px-3 py-1">
-            <ShoppingBag className="h-3.5 w-3.5 mr-1.5" />
+          <Badge variant="outline" className="mb-3 sm:mb-4 border-primary/30 text-primary bg-primary/5 px-3 py-1 text-[11px] sm:text-xs">
+            <ShoppingBag className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" />
             {t("ps.badge")}
           </Badge>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-3 leading-tight" style={{ lineHeight: 1.1 }}>
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-2 sm:mb-3" style={{ lineHeight: 1.15 }}>
             {t("ps.title")}
           </h1>
-          <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
+          <p className="text-muted-foreground text-[13px] sm:text-base leading-relaxed px-2 sm:px-0">
             {t("ps.desc")}
           </p>
         </motion.div>
@@ -219,12 +219,12 @@ const ProductsServices = () => {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="flex justify-center mt-8"
+          className="flex justify-center mt-6 sm:mt-8"
         >
-          <div className="inline-flex bg-muted rounded-xl p-1 gap-1">
+          <div className="inline-flex bg-muted rounded-xl p-1 gap-1 w-full max-w-xs sm:w-auto">
             <button
               onClick={() => setActiveTab("products")}
-              className={`px-5 sm:px-8 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
+              className={`flex-1 sm:flex-none px-4 sm:px-8 py-2.5 rounded-lg text-[13px] sm:text-sm font-medium transition-all duration-300 active:scale-[0.97] ${
                 activeTab === "products"
                   ? "bg-primary text-primary-foreground shadow-md"
                   : "text-muted-foreground hover:text-foreground"
@@ -235,7 +235,7 @@ const ProductsServices = () => {
             </button>
             <button
               onClick={() => setActiveTab("services")}
-              className={`px-5 sm:px-8 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
+              className={`flex-1 sm:flex-none px-4 sm:px-8 py-2.5 rounded-lg text-[13px] sm:text-sm font-medium transition-all duration-300 active:scale-[0.97] ${
                 activeTab === "services"
                   ? "bg-primary text-primary-foreground shadow-md"
                   : "text-muted-foreground hover:text-foreground"
@@ -252,7 +252,7 @@ const ProductsServices = () => {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.25 }}
-          className="mt-6 max-w-xl mx-auto"
+          className="mt-5 sm:mt-6 max-w-xl mx-auto"
         >
           <div className="relative">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -260,17 +260,17 @@ const ProductsServices = () => {
               placeholder={t("ps.search")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 bg-card border-border/60 h-11 rounded-xl"
+              className="pl-10 bg-card border-border/60 h-11 sm:h-11 rounded-xl text-[16px] sm:text-sm"
             />
           </div>
 
-          {/* Category Pills */}
-          <div className="flex flex-wrap justify-center gap-2 mt-4">
+          {/* Category Pills — horizontal scroll on mobile */}
+          <div className="flex gap-2 mt-3 sm:mt-4 overflow-x-auto pb-1 sm:pb-0 sm:flex-wrap sm:justify-center scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory">
             {(activeTab === "products" ? productCategories : serviceCategories).map((cat) => (
               <button
                 key={cat}
                 onClick={() => activeTab === "products" ? setProductCat(cat) : setServiceCat(cat)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
+                className={`shrink-0 snap-start px-3.5 py-2 sm:py-1.5 rounded-full text-[12px] sm:text-xs font-medium transition-all duration-200 active:scale-[0.95] ${
                   (activeTab === "products" ? productCat : serviceCat) === cat
                     ? "bg-primary/15 text-primary border border-primary/30"
                     : "bg-muted text-muted-foreground border border-transparent hover:text-foreground hover:bg-muted/80"
@@ -284,22 +284,22 @@ const ProductsServices = () => {
       </section>
 
       {/* Content */}
-      <section className="container mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
+      <section className="container mx-auto px-4 sm:px-6 pb-20 sm:pb-24">
         {activeTab === "products" ? (
           <motion.div
             key="products"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6"
+            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 lg:gap-6"
           >
             {filteredProducts.map((product) => (
               <motion.div
                 key={product.id}
                 variants={itemVariants}
-                className="group bg-card border border-border/50 rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5"
+                className="group bg-card border border-border/50 rounded-xl sm:rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 active:scale-[0.98]"
               >
-                <div className="relative aspect-square overflow-hidden bg-muted">
+                <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden bg-muted">
                   <img
                     src={product.image}
                     alt={product.name}
@@ -307,26 +307,26 @@ const ProductsServices = () => {
                     loading="lazy"
                   />
                   {product.popular && (
-                    <Badge className="absolute top-3 left-3 bg-accent text-accent-foreground text-[10px] font-semibold">
-                      <Flame className="h-3 w-3 mr-1" />
+                    <Badge className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-accent text-accent-foreground text-[9px] sm:text-[10px] font-semibold px-1.5 sm:px-2 py-0.5">
+                      <Flame className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-0.5 sm:mr-1" />
                       {t("ps.popular")}
                     </Badge>
                   )}
                 </div>
-                <div className="p-4 sm:p-5">
-                  <div className="flex items-start justify-between gap-2 mb-1.5">
-                    <h3 className="font-semibold text-foreground text-sm sm:text-base leading-snug">{product.name}</h3>
+                <div className="p-3 sm:p-5">
+                  <div className="flex items-start justify-between gap-1 sm:gap-2 mb-1">
+                    <h3 className="font-semibold text-foreground text-[12px] sm:text-base leading-snug line-clamp-2">{product.name}</h3>
                     <div className="flex items-center gap-0.5 text-accent shrink-0">
-                      <Star className="h-3.5 w-3.5 fill-current" />
-                      <span className="text-xs font-medium tabular-nums">{product.rating}</span>
+                      <Star className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-current" />
+                      <span className="text-[10px] sm:text-xs font-medium tabular-nums">{product.rating}</span>
                     </div>
                   </div>
-                  <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed mb-4 line-clamp-2">
+                  <p className="text-muted-foreground text-[11px] sm:text-sm leading-relaxed mb-3 sm:mb-4 line-clamp-2 hidden xs:block sm:block">
                     {product.description}
                   </p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-base sm:text-lg font-bold text-foreground tabular-nums">{product.price}</span>
-                    <Button size="sm" className="rounded-xl text-xs h-9 px-4 active:scale-[0.97]">
+                  <div className="flex items-center justify-between gap-1">
+                    <span className="text-[13px] sm:text-lg font-bold text-foreground tabular-nums">{product.price}</span>
+                    <Button size="sm" className="rounded-lg sm:rounded-xl text-[11px] sm:text-xs h-8 sm:h-9 px-2.5 sm:px-4 active:scale-[0.95]">
                       {t("ps.buyNow")}
                     </Button>
                   </div>
@@ -340,26 +340,30 @@ const ProductsServices = () => {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 lg:gap-6"
           >
             {filteredServices.map((service) => (
               <motion.div
                 key={service.id}
                 variants={itemVariants}
-                className="group bg-card border border-border/50 rounded-2xl p-5 sm:p-6 hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5"
+                className="group bg-card border border-border/50 rounded-xl sm:rounded-2xl p-4 sm:p-6 hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 active:scale-[0.98]"
               >
-                <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
-                  {service.icon}
+                <div className="flex items-start gap-3 sm:block">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0 sm:mb-4 group-hover:bg-primary/15 transition-colors">
+                    {service.icon}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-foreground text-[14px] sm:text-lg mb-1">{service.name}</h3>
+                    <p className="text-muted-foreground text-[12px] sm:text-sm leading-relaxed mb-3 sm:mb-4 line-clamp-2">
+                      {service.description}
+                    </p>
+                  </div>
                 </div>
-                <h3 className="font-semibold text-foreground text-base sm:text-lg mb-1.5">{service.name}</h3>
-                <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed mb-4 line-clamp-2">
-                  {service.description}
-                </p>
-                <div className="flex items-center gap-3 text-xs text-muted-foreground mb-5">
-                  <span className="bg-muted px-2.5 py-1 rounded-lg font-medium">{service.price}</span>
-                  <span className="bg-muted px-2.5 py-1 rounded-lg font-medium">{service.duration}</span>
+                <div className="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-xs text-muted-foreground mb-3 sm:mb-5 mt-3 sm:mt-0">
+                  <span className="bg-muted px-2 sm:px-2.5 py-1 rounded-lg font-medium">{service.price}</span>
+                  <span className="bg-muted px-2 sm:px-2.5 py-1 rounded-lg font-medium">{service.duration}</span>
                 </div>
-                <Button variant="outline" className="w-full rounded-xl h-10 text-sm active:scale-[0.97]">
+                <Button variant="outline" className="w-full rounded-lg sm:rounded-xl h-10 text-[13px] sm:text-sm active:scale-[0.97]">
                   <Calendar className="h-4 w-4 mr-1.5" />
                   {t("ps.schedule")}
                 </Button>
@@ -373,10 +377,10 @@ const ProductsServices = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-16"
+            className="text-center py-12 sm:py-16"
           >
-            <Search className="h-10 w-10 text-muted-foreground/40 mx-auto mb-3" />
-            <p className="text-muted-foreground text-sm">{t("ps.noResults")}</p>
+            <Search className="h-8 w-8 sm:h-10 sm:w-10 text-muted-foreground/40 mx-auto mb-3" />
+            <p className="text-muted-foreground text-[13px] sm:text-sm">{t("ps.noResults")}</p>
           </motion.div>
         )}
       </section>
