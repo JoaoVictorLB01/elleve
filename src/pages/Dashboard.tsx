@@ -8,6 +8,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import RadialProgress from "@/components/RadialProgress";
+import LevelBadge from "@/components/LevelBadge";
 
 const Dashboard = () => {
   const { t } = useLanguage();
