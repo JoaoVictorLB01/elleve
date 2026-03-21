@@ -434,6 +434,31 @@ const OracleCard = () => {
                     className="w-full h-full object-cover"
                     draggable={false}
                   />
+                  {/* Pulsing glow overlay when card is face-down */}
+                  {!isFlipped && (
+                    <motion.div
+                      className="absolute inset-0 rounded-2xl pointer-events-none"
+                      animate={{
+                        boxShadow: [
+                          "inset 0 0 30px rgba(212,175,55,0.0), 0 0 20px rgba(212,175,55,0.1)",
+                          "inset 0 0 40px rgba(212,175,55,0.15), 0 0 40px rgba(212,175,55,0.25)",
+                          "inset 0 0 30px rgba(212,175,55,0.0), 0 0 20px rgba(212,175,55,0.1)",
+                        ],
+                        opacity: [0.6, 1, 0.6],
+                      }}
+                      transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                  )}
+                  {/* "Toque para revelar" hint */}
+                  {!isFlipped && (
+                    <motion.p
+                      className="absolute bottom-5 left-0 right-0 text-center text-[10px] sm:text-[11px] tracking-[0.2em] uppercase text-accent/80 font-medium drop-shadow-lg"
+                      animate={{ opacity: [0.4, 0.9, 0.4] }}
+                      transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                      {t("oracle.hint")}
+                    </motion.p>
+                  )}
                 </div>
               </motion.div>
             </motion.div>
