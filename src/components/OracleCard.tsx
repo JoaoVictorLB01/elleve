@@ -4,7 +4,6 @@ import { Sparkles, X } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthGateModal from "@/components/AuthGateModal";
-import { useAuth } from "@/contexts/AuthContext";
 import tarotBack from "@/assets/tarot-card-back.png";
 import tarotFront from "@/assets/tarot-card-front.png";
 
