@@ -114,12 +114,20 @@
   }
 
   /* Mobile touch feedback */
-  .touch-feedback {
+  * {
     -webkit-tap-highlight-color: transparent;
   }
+
   .touch-feedback:active {
     transform: scale(0.97);
     transition: transform 0.1s ease;
+  }
+
+  /* Bottom nav spacer on mobile */
+  @media (max-width: 767px) {
+    body {
+      padding-bottom: 56px;
+    }
   }
 }
 
