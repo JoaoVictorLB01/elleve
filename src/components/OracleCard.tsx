@@ -341,10 +341,10 @@ const OracleCard = () => {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.4, delay: 0.2 }}
-                            className="text-center text-base sm:text-lg font-semibold leading-relaxed text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.9)]"
-                            style={{ fontFamily: "'Playfair Display', serif" }}
+                            className="text-center text-[15px] sm:text-lg font-medium leading-[1.6] tracking-wide text-white/95 drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]"
+                            style={{ fontFamily: "'Inter', system-ui, sans-serif", letterSpacing: "0.01em" }}
                           >
-                            "{message}"
+                            {message}
                           </motion.p>
                         )}
                       </AnimatePresence>
