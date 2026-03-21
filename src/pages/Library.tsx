@@ -90,7 +90,7 @@ const BookCard = ({ book, index, onOpen, isFavorite, onToggleFavorite }: { book:
   );
 };
 
-const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void }) => {
+const BookDetailModal = ({ book, onClose, isFavorite, onToggleFavorite }: { book: Book; onClose: () => void; isFavorite: boolean; onToggleFavorite: (id: string) => void }) => {
   const { t } = useLanguage();
   const { user } = useAuth();
   const [downloading, setDownloading] = useState(false);
@@ -121,6 +121,14 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
     }
   };
 
+  const handleFavorite = () => {
+    if (!user) {
+      setShowAuthGate(true);
+      return;
+    }
+    onToggleFavorite(book.id);
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-5">
       <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={onClose} />
@@ -130,14 +138,28 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
         exit={{ opacity: 0, scale: 0.95 }}
         className="relative w-full max-w-lg rounded-2xl border border-border bg-card p-6 sm:p-8 shadow-2xl z-10 max-h-[90vh] overflow-y-auto"
       >
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 p-3 rounded-xl hover:bg-muted transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center active:scale-[0.93]"
-        >
-          <X className="h-5 w-5 text-muted-foreground" />
-        </button>
+        {/* Top actions */}
+        <div className="absolute top-3 right-3 flex items-center gap-1 z-10">
+          <button
+            onClick={handleFavorite}
+            className="p-3 rounded-xl hover:bg-muted transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center active:scale-[0.85]"
+          >
+            <motion.div
+              animate={isFavorite ? { scale: [1, 1.4, 1] } : { scale: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Heart className={`h-5 w-5 transition-colors duration-200 ${isFavorite ? "fill-red-500 text-red-500" : "text-muted-foreground"}`} />
+            </motion.div>
+          </button>
+          <button
+            onClick={onClose}
+            className="p-3 rounded-xl hover:bg-muted transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center active:scale-[0.93]"
+          >
+            <X className="h-5 w-5 text-muted-foreground" />
+          </button>
+        </div>
 
-        <div className="flex flex-col sm:flex-row gap-5">
+        <div className="flex flex-col sm:flex-row gap-5 mt-2">
           <div className="w-36 sm:w-40 shrink-0 mx-auto sm:mx-0">
             <img
               src={book.cover_url || "/placeholder.svg"}
