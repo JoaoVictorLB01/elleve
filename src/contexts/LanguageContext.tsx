@@ -324,7 +324,7 @@ const translations: Translations = {
     "hero.badge": "Personal Evolution Platform",
     "hero.title1": "Elevate your",
     "hero.title2": "consciousness",
-    "hero.desc": "Transformative courses on energy, healing and self-knowledge. Awaken the potential that already exists within you.",
+    "hero.desc": "Energy, balance and consciousness — a space to evolve, feel and connect.",
     "hero.explore": "Explore Courses",
     "hero.createAccount": "Create Free Account",
 
