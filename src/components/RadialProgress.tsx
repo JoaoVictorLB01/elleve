@@ -40,7 +40,7 @@ const RadialProgress = ({ value, max, label, icon, suffix = "", size = 80, delay
             cy={size / 2}
             r={radius}
             fill="none"
-            stroke="url(#progressGradient)"
+            stroke={`url(#${gradientId})`}
             strokeWidth={strokeWidth}
             strokeLinecap="round"
             strokeDasharray={circumference}
