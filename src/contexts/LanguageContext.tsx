@@ -36,7 +36,7 @@ const translations: Translations = {
     "hero.badge": "Plataforma de Evolução Pessoal",
     "hero.title1": "Eleve sua",
     "hero.title2": "consciência",
-    "hero.desc": "Cursos transformadores sobre energia, cura e autoconhecimento. Desperte o potencial que já existe dentro de você.",
+    "hero.desc": "Energia, equilíbrio e consciência — um espaço para evoluir, sentir e se conectar.",
     "hero.explore": "Explorar Cursos",
     "hero.createAccount": "Criar Conta Gratuita",
 
@@ -324,7 +324,7 @@ const translations: Translations = {
     "hero.badge": "Personal Evolution Platform",
     "hero.title1": "Elevate your",
     "hero.title2": "consciousness",
-    "hero.desc": "Transformative courses on energy, healing and self-knowledge. Awaken the potential that already exists within you.",
+    "hero.desc": "Energy, balance and consciousness — a space to evolve, feel and connect.",
     "hero.explore": "Explore Courses",
     "hero.createAccount": "Create Free Account",
 
@@ -590,7 +590,7 @@ const translations: Translations = {
     "hero.badge": "Plateforme d'Évolution Personnelle",
     "hero.title1": "Élevez votre",
     "hero.title2": "conscience",
-    "hero.desc": "Des cours transformateurs sur l'énergie, la guérison et la connaissance de soi. Éveillez le potentiel qui existe déjà en vous.",
+    "hero.desc": "Énergie, équilibre et conscience — un espace pour évoluer, ressentir et se connecter.",
     "hero.explore": "Explorer les Cours",
     "hero.createAccount": "Créer un Compte Gratuit",
 
@@ -856,7 +856,7 @@ const translations: Translations = {
     "hero.badge": "Plataforma de Evolución Personal",
     "hero.title1": "Eleva tu",
     "hero.title2": "conciencia",
-    "hero.desc": "Cursos transformadores sobre energía, sanación y autoconocimiento. Despierta el potencial que ya existe dentro de ti.",
+    "hero.desc": "Energía, equilibrio y conciencia — un espacio para evolucionar, sentir y conectar.",
     "hero.explore": "Explorar Cursos",
     "hero.createAccount": "Crear Cuenta Gratis",
 
