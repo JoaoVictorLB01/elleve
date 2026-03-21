@@ -5,9 +5,31 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { courses } from "@/data/mockData";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Dashboard = () => {
   const { t } = useLanguage();
+  const { user } = useAuth();
+  const [firstName, setFirstName] = useState<string>("");
+
+  useEffect(() => {
+    const fetchName = async () => {
+      if (!user) return;
+      // Try profile table first
+      const { data } = await supabase
+        .from("profiles")
+        .select("full_name")
+        .eq("id", user.id)
+        .maybeSingle();
+      const name = data?.full_name || user.user_metadata?.full_name || user.user_metadata?.name || "";
+      const first = name.split(" ")[0];
+      setFirstName(first ? first.charAt(0).toUpperCase() + first.slice(1).toLowerCase() : "");
+    };
+    fetchName();
+  }, [user]);
+
   const enrolledCourses = courses.slice(0, 2).map((c, i) => ({
     ...c,
     progress: i === 0 ? 45 : 20,
@@ -23,7 +45,7 @@ const Dashboard = () => {
           className="mb-8 sm:mb-10"
         >
           <h1 className="text-[1.5rem] sm:text-3xl md:text-4xl font-bold mb-2">
-            {t("dashboard.hello")} <span className="text-gradient-gold">{t("dashboard.student")}</span> ✨
+            {t("dashboard.hello")}{firstName ? ", " : "!"} {firstName && <><span className="text-gradient-gold">{firstName}</span> ✨</>}
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{t("dashboard.subtitle")}</p>
         </motion.div>
