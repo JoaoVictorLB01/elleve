@@ -115,21 +115,21 @@ const Index = () => {
       </section>
 
       {/* Stats */}
-      <section className="py-14 sm:py-20 relative">
-        <div className="container mx-auto px-6 sm:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+      <section className="py-10 sm:py-20 relative">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
             {stats.map((stat, i) => (
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.12, duration: 0.6 }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
                 viewport={{ once: true }}
-                className="text-center p-5 sm:p-6 rounded-2xl border border-border bg-card/50 active:scale-[0.97] transition-transform"
+                className="text-center p-5 sm:p-6 rounded-2xl border border-border/60 bg-card/60 backdrop-blur-sm active:scale-[0.97] transition-transform"
               >
-                <stat.icon className={`h-5 sm:h-5 w-5 sm:w-5 mx-auto mb-3 sm:mb-3 ${stat.color}`} />
-                <div className="text-2xl sm:text-3xl font-bold mb-1 sm:mb-1">{stat.value}</div>
-                <div className="text-xs sm:text-xs text-muted-foreground font-medium">{stat.label}</div>
+                <stat.icon className={`h-5 w-5 mx-auto mb-2.5 ${stat.color}`} />
+                <div className="text-[1.5rem] sm:text-3xl font-bold mb-0.5 tracking-tight">{stat.value}</div>
+                <div className="text-[11px] sm:text-xs text-muted-foreground font-medium">{stat.label}</div>
               </motion.div>
             ))}
           </div>
