@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, X } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
+import AuthGateModal from "@/components/AuthGateModal";
 import tarotBack from "@/assets/tarot-card-back.png";
 import tarotFront from "@/assets/tarot-card-front.png";
 
@@ -156,6 +157,7 @@ function playFlipSound() {
 const OracleCard = () => {
   const { language, t } = useLanguage();
   const { user } = useAuth();
+  const [showAuthGate, setShowAuthGate] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -188,6 +190,10 @@ const OracleCard = () => {
   };
 
   const handleOpen = () => {
+    if (!user) {
+      setShowAuthGate(true);
+      return;
+    }
     setIsOpen(true);
     setIsAnimating(true);
     setIsFlipped(false);
@@ -397,6 +403,7 @@ const OracleCard = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      <AuthGateModal open={showAuthGate} onClose={() => setShowAuthGate(false)} redirectTo="/" />
     </>
   );
 };

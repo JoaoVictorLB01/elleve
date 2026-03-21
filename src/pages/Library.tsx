@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { bookCategories } from "@/data/booksData";
 import { useBooks, Book } from "@/contexts/BooksContext";
+import { useAuth } from "@/contexts/AuthContext";
+import AuthGateModal from "@/components/AuthGateModal";
 
 const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: (b: Book) => void }) => {
   const { t } = useLanguage();
@@ -73,9 +75,15 @@ const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: 
 
 const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void }) => {
   const { t } = useLanguage();
+  const { user } = useAuth();
   const [downloading, setDownloading] = useState(false);
+  const [showAuthGate, setShowAuthGate] = useState(false);
 
   const handleDownload = async () => {
+    if (!user) {
+      setShowAuthGate(true);
+      return;
+    }
     if (!book.pdf_url || book.pdf_url === "#") return;
     setDownloading(true);
     try {
@@ -142,6 +150,7 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
           <Download className="mr-2 h-4 w-4" />
           {downloading ? "Baixando..." : t("library.download")}
         </Button>
+        <AuthGateModal open={showAuthGate} onClose={() => setShowAuthGate(false)} redirectTo="/biblioteca" />
       </motion.div>
     </div>
   );

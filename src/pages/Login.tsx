@@ -27,7 +27,13 @@ const Login = () => {
     if (error) {
       toast({ title: "Erro ao entrar", description: error.message, variant: "destructive" });
     } else {
-      navigate("/");
+      const redirect = sessionStorage.getItem("auth-redirect");
+      if (redirect) {
+        sessionStorage.removeItem("auth-redirect");
+        navigate(redirect);
+      } else {
+        navigate("/");
+      }
     }
   };
 
@@ -75,6 +81,11 @@ const Login = () => {
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             </div>
+          </div>
+          <div className="flex justify-end">
+            <Link to="/esqueci-senha" className="text-xs text-primary hover:underline font-medium">
+              {t("login.forgot")}
+            </Link>
           </div>
 
           <Button variant="cosmic" className="w-full h-[52px] sm:h-11 text-base sm:text-sm active:scale-[0.97]" size="lg" type="submit" disabled={loading}>
