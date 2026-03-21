@@ -403,6 +403,7 @@ const OracleCard = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      <AuthGateModal open={showAuthGate} onClose={() => setShowAuthGate(false)} redirectTo="/" />
     </>
   );
 };

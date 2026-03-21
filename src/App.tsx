@@ -43,6 +43,8 @@ const Layout = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Register />} />
+        <Route path="/esqueci-senha" element={<ForgotPassword />} />
+        <Route path="/redefinir-senha" element={<ResetPassword />} />
         <Route path="/admin" element={<ProtectedAdminRoute><AdminPanel /></ProtectedAdminRoute>} />
         <Route path="*" element={<NotFound />} />
       </Routes>

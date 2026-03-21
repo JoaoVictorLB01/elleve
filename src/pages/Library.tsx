@@ -150,6 +150,7 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
           <Download className="mr-2 h-4 w-4" />
           {downloading ? "Baixando..." : t("library.download")}
         </Button>
+        <AuthGateModal open={showAuthGate} onClose={() => setShowAuthGate(false)} redirectTo="/biblioteca" />
       </motion.div>
     </div>
   );
