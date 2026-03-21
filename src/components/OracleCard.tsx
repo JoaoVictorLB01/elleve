@@ -158,6 +158,7 @@ function playFlipSound() {
 const OracleCard = () => {
   const { language, t } = useLanguage();
   const { user } = useAuth();
+  const [showAuthGate, setShowAuthGate] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
