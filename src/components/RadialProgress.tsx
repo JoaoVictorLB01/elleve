@@ -11,11 +11,12 @@ interface RadialProgressProps {
   delay?: number;
 }
 
-const RadialProgress = ({ value, max, label, icon, suffix = "", size = 100, delay = 0 }: RadialProgressProps) => {
-  const strokeWidth = 6;
+const RadialProgress = ({ value, max, label, icon, suffix = "", size = 80, delay = 0 }: RadialProgressProps) => {
+  const strokeWidth = 5;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const percentage = Math.min((value / max) * 100, 100);
+  const gradientId = `progressGradient-${label.replace(/\s/g, '')}`;
 
   return (
     <motion.div
