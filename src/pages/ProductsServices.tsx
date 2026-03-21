@@ -326,7 +326,7 @@ const ProductsServices = () => {
                   </p>
                   <div className="flex items-center justify-between gap-1">
                     <span className="text-sm sm:text-lg font-bold text-foreground tabular-nums">{product.price}</span>
-                    <Button size="sm" className="rounded-xl text-xs sm:text-xs h-9 sm:h-9 px-3 sm:px-4 active:scale-[0.95]">
+                    <Button size="sm" className="rounded-xl text-xs sm:text-xs h-11 sm:h-9 px-4 sm:px-4 active:scale-[0.93]">
                       {t("ps.buyNow")}
                     </Button>
                   </div>

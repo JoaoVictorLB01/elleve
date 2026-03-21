@@ -115,7 +115,7 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2.5 rounded-xl hover:bg-muted transition-colors"
+          className="absolute top-3 right-3 p-3 rounded-xl hover:bg-muted transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center active:scale-[0.93]"
         >
           <X className="h-5 w-5 text-muted-foreground" />
         </button>
