@@ -17,6 +17,8 @@ import LessonPlayer from "./pages/LessonPlayer";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import AdminPanel from "./pages/AdminPanel";
 import Library from "./pages/Library";
 import ProductsServices from "./pages/ProductsServices";
