@@ -10,7 +10,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import AuthGateModal from "@/components/AuthGateModal";
 import { useBookFavorites } from "@/hooks/useBookFavorites";
 
-const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: (b: Book) => void }) => {
+const BookCard = ({ book, index, onOpen, isFavorite, onToggleFavorite }: { book: Book; index: number; onOpen: (b: Book) => void; isFavorite: boolean; onToggleFavorite: (id: string) => void }) => {
   const { t } = useLanguage();
 
   return (
@@ -31,6 +31,22 @@ const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: 
             loading="lazy"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-60" />
+          
+          {/* Favorite button on card */}
+          <button
+            onClick={(e) => { e.stopPropagation(); onToggleFavorite(book.id); }}
+            className="absolute top-2.5 right-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-background/70 backdrop-blur-sm active:scale-[0.85] transition-transform z-10"
+          >
+            <motion.div
+              animate={isFavorite ? { scale: [1, 1.3, 1] } : { scale: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Heart
+                className={`h-5 w-5 transition-colors duration-200 ${isFavorite ? "fill-red-500 text-red-500" : "text-muted-foreground"}`}
+              />
+            </motion.div>
+          </button>
+
           {book.popular && (
             <div className="absolute top-3 left-3">
               <span className="inline-flex items-center gap-1 rounded-full bg-accent/90 backdrop-blur-sm px-2.5 py-1 text-xs sm:text-xs font-semibold text-accent-foreground">
