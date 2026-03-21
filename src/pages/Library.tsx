@@ -203,7 +203,10 @@ const Library = () => {
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [showAuthGate, setShowAuthGate] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
   const { favoriteIds, toggle: toggleFavorite } = useBookFavorites(user?.id);
+
+  const favoriteBooks = useMemo(() => books.filter(b => favoriteIds.has(b.id)), [books, favoriteIds]);
 
   const handleToggleFavorite = (bookId: string) => {
     if (!user) {
