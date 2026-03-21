@@ -331,7 +331,8 @@ const Library = () => {
       )}
 
       {/* Book Detail Modal */}
-      {selectedBook && <BookDetailModal book={selectedBook} onClose={() => setSelectedBook(null)} />}
+      {selectedBook && <BookDetailModal book={selectedBook} onClose={() => setSelectedBook(null)} isFavorite={favoriteIds.has(selectedBook.id)} onToggleFavorite={handleToggleFavorite} />}
+      <AuthGateModal open={showAuthGate} onClose={() => setShowAuthGate(false)} redirectTo="/biblioteca" />
     </main>
   );
 };
