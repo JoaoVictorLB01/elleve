@@ -45,7 +45,7 @@ const Dashboard = () => {
           className="mb-8 sm:mb-10"
         >
           <h1 className="text-[1.5rem] sm:text-3xl md:text-4xl font-bold mb-2">
-            {t("dashboard.hello")} <span className="text-gradient-gold">{t("dashboard.student")}</span> ✨
+            {t("dashboard.hello")}{firstName ? ", " : "!"} {firstName && <><span className="text-gradient-gold">{firstName}</span> ✨</>}
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{t("dashboard.subtitle")}</p>
         </motion.div>
