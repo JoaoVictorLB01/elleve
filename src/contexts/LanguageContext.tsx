@@ -36,7 +36,7 @@ const translations: Translations = {
     "hero.badge": "Plataforma de Evolução Pessoal",
     "hero.title1": "Eleve sua",
     "hero.title2": "consciência",
-    "hero.desc": "Cursos transformadores sobre energia, cura e autoconhecimento. Desperte o potencial que já existe dentro de você.",
+    "hero.desc": "Energia, equilíbrio e consciência — um espaço para evoluir, sentir e se conectar.",
     "hero.explore": "Explorar Cursos",
     "hero.createAccount": "Criar Conta Gratuita",
 
