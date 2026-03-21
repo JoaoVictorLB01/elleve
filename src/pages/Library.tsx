@@ -75,9 +75,15 @@ const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: 
 
 const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void }) => {
   const { t } = useLanguage();
+  const { user } = useAuth();
   const [downloading, setDownloading] = useState(false);
+  const [showAuthGate, setShowAuthGate] = useState(false);
 
   const handleDownload = async () => {
+    if (!user) {
+      setShowAuthGate(true);
+      return;
+    }
     if (!book.pdf_url || book.pdf_url === "#") return;
     setDownloading(true);
     try {
