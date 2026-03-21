@@ -115,7 +115,7 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2.5 rounded-xl hover:bg-muted transition-colors"
+          className="absolute top-3 right-3 p-3 rounded-xl hover:bg-muted transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center active:scale-[0.93]"
         >
           <X className="h-5 w-5 text-muted-foreground" />
         </button>
@@ -213,7 +213,7 @@ const Library = () => {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`whitespace-nowrap px-4 py-2.5 rounded-full text-sm sm:text-sm font-medium transition-all shrink-0 snap-start active:scale-[0.95] ${
+                className={`whitespace-nowrap px-5 py-3 rounded-full text-sm sm:text-sm font-medium transition-all shrink-0 snap-start active:scale-[0.93] min-h-[44px] ${
                   activeCategory === cat
                     ? "bg-primary text-primary-foreground shadow-sm"
                     : "bg-card border border-border text-muted-foreground hover:text-foreground hover:border-primary/30"

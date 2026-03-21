@@ -270,7 +270,7 @@ const ProductsServices = () => {
               <button
                 key={cat}
                 onClick={() => activeTab === "products" ? setProductCat(cat) : setServiceCat(cat)}
-                className={`shrink-0 snap-start px-4 py-2.5 sm:py-1.5 rounded-full text-xs sm:text-xs font-medium transition-all duration-200 active:scale-[0.95] ${
+                className={`shrink-0 snap-start px-5 py-3 sm:py-2 rounded-full text-sm sm:text-xs font-medium transition-all duration-200 active:scale-[0.93] min-h-[44px] ${
                   (activeTab === "products" ? productCat : serviceCat) === cat
                     ? "bg-primary/15 text-primary border border-primary/30"
                     : "bg-muted text-muted-foreground border border-transparent hover:text-foreground hover:bg-muted/80"
@@ -326,7 +326,7 @@ const ProductsServices = () => {
                   </p>
                   <div className="flex items-center justify-between gap-1">
                     <span className="text-sm sm:text-lg font-bold text-foreground tabular-nums">{product.price}</span>
-                    <Button size="sm" className="rounded-xl text-xs sm:text-xs h-9 sm:h-9 px-3 sm:px-4 active:scale-[0.95]">
+                    <Button size="sm" className="rounded-xl text-xs sm:text-xs h-11 sm:h-9 px-4 sm:px-4 active:scale-[0.93]">
                       {t("ps.buyNow")}
                     </Button>
                   </div>
