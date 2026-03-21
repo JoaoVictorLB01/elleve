@@ -49,7 +49,7 @@ const RadialProgress = ({ value, max, label, icon, suffix = "", size = 80, delay
             transition={{ delay: delay + 0.3, duration: 1.2, ease: "easeOut" }}
           />
           <defs>
-            <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stopColor="hsl(265, 55%, 52%)" />
               <stop offset="100%" stopColor="hsl(280, 60%, 68%)" />
             </linearGradient>
