@@ -197,10 +197,21 @@ const BookDetailModal = ({ book, onClose, isFavorite, onToggleFavorite }: { book
 
 const Library = () => {
   const { t } = useLanguage();
+  const { user } = useAuth();
   const { books, loading } = useBooks();
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+  const [showAuthGate, setShowAuthGate] = useState(false);
+  const { favoriteIds, toggle: toggleFavorite } = useBookFavorites(user?.id);
+
+  const handleToggleFavorite = (bookId: string) => {
+    if (!user) {
+      setShowAuthGate(true);
+      return;
+    }
+    toggleFavorite(bookId);
+  };
 
   const filtered = useMemo(() => {
     return books.filter((book) => {
