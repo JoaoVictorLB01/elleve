@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
-import { motion } from "framer-motion";
-import { Search, Download, BookOpen, TrendingUp, Clock, FileText, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Search, Download, BookOpen, TrendingUp, Clock, FileText, X, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -8,6 +8,7 @@ import { bookCategories } from "@/data/booksData";
 import { useBooks, Book } from "@/contexts/BooksContext";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthGateModal from "@/components/AuthGateModal";
+import { useBookFavorites } from "@/hooks/useBookFavorites";
 
 const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: (b: Book) => void }) => {
   const { t } = useLanguage();
