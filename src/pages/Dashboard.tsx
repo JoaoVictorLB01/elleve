@@ -84,29 +84,6 @@ const Dashboard = () => {
           />
         </div>
 
-        {/* Journey Progress Bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="border border-border rounded-2xl bg-card p-5 mb-5 sm:mb-6"
-        >
-          <div className="flex justify-between items-center mb-2.5">
-            <span className="text-sm font-semibold text-foreground">{t("dashboard.journeyProgress") || "Progresso da jornada"}</span>
-            <span className="text-sm font-bold text-primary">{progress.overallProgress}%</span>
-          </div>
-          <div className="relative h-3 w-full overflow-hidden rounded-full bg-muted">
-            <motion.div
-              className="h-full rounded-full"
-              style={{
-                background: "linear-gradient(90deg, hsl(265, 55%, 52%), hsl(280, 60%, 68%))",
-              }}
-              initial={{ width: "0%" }}
-              animate={{ width: `${progress.overallProgress}%` }}
-              transition={{ delay: 0.6, duration: 1.2, ease: "easeOut" }}
-            />
-          </div>
-        </motion.div>
 
         {/* Level Badge */}
         <div className="mb-10 sm:mb-12">
