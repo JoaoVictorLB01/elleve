@@ -300,7 +300,7 @@ const Library = () => {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
             {recentBooks.map((book, i) => (
-              <BookCard key={book.id} book={book} index={i} onOpen={setSelectedBook} />
+              <BookCard key={book.id} book={book} index={i} onOpen={setSelectedBook} isFavorite={favoriteIds.has(book.id)} onToggleFavorite={handleToggleFavorite} />
             ))}
           </div>
         </section>
