@@ -203,7 +203,10 @@ const Library = () => {
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [showAuthGate, setShowAuthGate] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
   const { favoriteIds, toggle: toggleFavorite } = useBookFavorites(user?.id);
+
+  const favoriteBooks = useMemo(() => books.filter(b => favoriteIds.has(b.id)), [books, favoriteIds]);
 
   const handleToggleFavorite = (bookId: string) => {
     if (!user) {
@@ -245,6 +248,81 @@ const Library = () => {
           </p>
         </motion.div>
       </section>
+
+      {/* Favorites Button */}
+      <section className="container mx-auto px-6 sm:px-6 mb-8">
+        <motion.button
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={() => {
+            if (!user) { setShowAuthGate(true); return; }
+            setShowFavorites(!showFavorites);
+          }}
+          className={`w-full flex items-center justify-between rounded-2xl p-4 sm:p-5 min-h-[56px] transition-all duration-300 active:scale-[0.97] ${
+            showFavorites
+              ? "bg-gradient-to-r from-red-500/20 via-primary/15 to-accent/15 border-2 border-red-500/30 shadow-lg shadow-red-500/10"
+              : "bg-gradient-to-r from-primary/10 via-accent/10 to-primary/5 border border-primary/20 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10"
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <motion.div
+              animate={showFavorites ? { scale: [1, 1.2, 1] } : {}}
+              transition={{ duration: 0.4 }}
+              className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                showFavorites ? "bg-red-500/20" : "bg-primary/15"
+              }`}
+            >
+              <Heart className={`h-5 w-5 ${showFavorites ? "fill-red-500 text-red-500" : "text-primary"}`} />
+            </motion.div>
+            <div className="text-left">
+              <span className="text-sm font-semibold text-foreground block leading-tight">
+                {showFavorites ? "Meus Favoritos" : "Favoritos"}
+              </span>
+              <span className="text-xs text-muted-foreground">
+                {favoriteIds.size > 0 ? `${favoriteIds.size} salvo${favoriteIds.size > 1 ? "s" : ""}` : "Seus livros salvos"}
+              </span>
+            </div>
+          </div>
+          {favoriteIds.size > 0 && (
+            <span className="bg-red-500 text-white text-xs font-bold rounded-full min-w-[24px] h-6 flex items-center justify-center px-2">
+              {favoriteIds.size}
+            </span>
+          )}
+        </motion.button>
+      </section>
+
+      {/* Favorites View */}
+      <AnimatePresence>
+        {showFavorites && (
+          <motion.section
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="container mx-auto px-6 sm:px-6 mb-12 overflow-hidden"
+          >
+            {favoriteBooks.length > 0 ? (
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+                {favoriteBooks.map((book, i) => (
+                  <BookCard key={book.id} book={book} index={i} onOpen={setSelectedBook} isFavorite={true} onToggleFavorite={handleToggleFavorite} />
+                ))}
+              </div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-center py-12 rounded-2xl border border-border bg-card/50"
+              >
+                <Heart className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
+                <p className="text-muted-foreground text-sm">Você ainda não salvou nenhum favorito.</p>
+                <p className="text-muted-foreground/60 text-xs mt-1">Toque no ❤️ nos livros para salvar.</p>
+              </motion.div>
+            )}
+          </motion.section>
+        )}
+      </AnimatePresence>
 
       {/* Search & Filters */}
       <section className="container mx-auto px-6 sm:px-6 mb-10 sm:mb-10">
