@@ -228,28 +228,32 @@ const OracleCard = () => {
       return;
     }
     setIsOpen(true);
-    setIsAnimating(true);
     setIsFlipped(false);
-    setTimeout(() => {
-      setIsFlipped(true);
-      setMessage(getRandomMessage());
-      generateSparkles();
-      playFlipSound();
-      setTimeout(() => setIsAnimating(false), 600);
-    }, 700);
+    setIsAnimating(false);
+    setMessage(getRandomMessage());
   };
 
   const handleFlip = () => {
     if (isAnimating) return;
     setIsAnimating(true);
-    setIsFlipped(false);
-    playFlipSound();
-    setTimeout(() => {
-      setMessage(getRandomMessage());
+
+    if (!isFlipped) {
+      // First flip: reveal the message
       setIsFlipped(true);
       generateSparkles();
+      playFlipSound();
       setTimeout(() => setIsAnimating(false), 600);
-    }, 600);
+    } else {
+      // Subsequent flips: hide → change message → reveal
+      setIsFlipped(false);
+      playFlipSound();
+      setTimeout(() => {
+        setMessage(getRandomMessage());
+        setIsFlipped(true);
+        generateSparkles();
+        setTimeout(() => setIsAnimating(false), 600);
+      }, 600);
+    }
   };
 
   const handleClose = () => {
