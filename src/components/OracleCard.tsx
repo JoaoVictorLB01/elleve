@@ -263,7 +263,7 @@ const OracleCard = () => {
       {/* Floating trigger */}
       <motion.button
         onClick={handleOpen}
-        className="fixed bottom-6 right-6 z-40 group"
+        className="fixed bottom-[76px] md:bottom-6 right-5 z-40 group"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         initial={{ opacity: 0, scale: 0.8 }}

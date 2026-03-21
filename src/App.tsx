@@ -10,6 +10,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
 import OracleCard from "@/components/OracleCard";
+import BottomNav from "@/components/BottomNav";
 import Index from "./pages/Index";
 import Courses from "./pages/Courses";
 import CourseDetail from "./pages/CourseDetail";
@@ -50,6 +51,7 @@ const Layout = () => {
       </Routes>
       {!hideFooter && <Footer />}
       <OracleCard />
+      <BottomNav />
     </>
   );
 };

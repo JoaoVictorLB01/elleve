@@ -115,21 +115,21 @@ const Index = () => {
       </section>
 
       {/* Stats */}
-      <section className="py-14 sm:py-20 relative">
-        <div className="container mx-auto px-6 sm:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+      <section className="py-10 sm:py-20 relative">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
             {stats.map((stat, i) => (
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.12, duration: 0.6 }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
                 viewport={{ once: true }}
-                className="text-center p-5 sm:p-6 rounded-2xl border border-border bg-card/50 active:scale-[0.97] transition-transform"
+                className="text-center p-5 sm:p-6 rounded-2xl border border-border/60 bg-card/60 backdrop-blur-sm active:scale-[0.97] transition-transform"
               >
-                <stat.icon className={`h-5 sm:h-5 w-5 sm:w-5 mx-auto mb-3 sm:mb-3 ${stat.color}`} />
-                <div className="text-2xl sm:text-3xl font-bold mb-1 sm:mb-1">{stat.value}</div>
-                <div className="text-xs sm:text-xs text-muted-foreground font-medium">{stat.label}</div>
+                <stat.icon className={`h-5 w-5 mx-auto mb-2.5 ${stat.color}`} />
+                <div className="text-[1.5rem] sm:text-3xl font-bold mb-0.5 tracking-tight">{stat.value}</div>
+                <div className="text-[11px] sm:text-xs text-muted-foreground font-medium">{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -137,39 +137,41 @@ const Index = () => {
       </section>
 
       {/* Featured Courses */}
-      <section className="py-14 sm:py-20 relative">
-        <div className="container mx-auto px-6 sm:px-6">
+      <section className="py-12 sm:py-20 relative">
+        <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-12 gap-3"
+            className="flex items-end justify-between mb-7 sm:mb-12"
           >
             <div>
-              <span className="text-xs sm:text-xs font-semibold text-primary uppercase tracking-widest mb-3 sm:mb-3 block">
+              <span className="text-[11px] sm:text-xs font-semibold text-primary uppercase tracking-widest mb-2 block">
                 {t("featured.label")}
               </span>
-              <h2 className="font-display text-[1.5rem] sm:text-3xl md:text-4xl font-bold">
+              <h2 className="font-display text-[1.375rem] sm:text-3xl md:text-4xl font-bold">
                 {t("featured.title")}
               </h2>
             </div>
             <Link
               to="/cursos"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1 shrink-0"
             >
               {t("featured.viewAll")}
               <ArrowRight className="h-4 w-4" />
             </Link>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {/* Horizontal scroll on mobile, grid on desktop */}
+          <div className="flex md:grid md:grid-cols-3 gap-4 sm:gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0 pb-2 md:pb-0">
             {featuredCourses.map((course, i) => (
               <motion.div
                 key={course.id}
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.15, duration: 0.6 }}
-                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: i * 0.12, duration: 0.5 }}
+                viewport={{ once: true, margin: "-30px" }}
+                className="min-w-[280px] sm:min-w-[300px] md:min-w-0 snap-start"
               >
                 <CourseCard course={course} index={i} />
               </motion.div>
@@ -179,7 +181,7 @@ const Index = () => {
       </section>
 
       {/* Features */}
-      <section className="py-16 sm:py-20 bg-gradient-cosmic-subtle relative overflow-hidden">
+      <section className="py-14 sm:py-20 bg-gradient-cosmic-subtle relative overflow-hidden">
         <motion.div
           className="absolute -top-20 -left-20 w-72 h-72 rounded-full opacity-[0.07]"
           style={{
@@ -187,44 +189,37 @@ const Index = () => {
             y: featuresFloat,
           }}
         />
-        <motion.div
-          className="absolute -bottom-32 -right-20 w-96 h-96 rounded-full opacity-[0.05]"
-          style={{
-            background: "radial-gradient(circle, hsl(40 80% 58%), transparent 70%)",
-            y: featuresFloat,
-          }}
-        />
 
-        <div className="container mx-auto px-6 sm:px-6 relative z-10">
+        <div className="container mx-auto px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-10 sm:mb-16"
           >
-            <span className="text-xs sm:text-xs font-semibold text-primary uppercase tracking-widest mb-3 sm:mb-3 block">
+            <span className="text-[11px] sm:text-xs font-semibold text-primary uppercase tracking-widest mb-2 block">
               {t("features.label")}
             </span>
-            <h2 className="font-display text-[1.5rem] sm:text-3xl md:text-4xl font-bold px-2">
+            <h2 className="font-display text-[1.375rem] sm:text-3xl md:text-4xl font-bold">
               {t("features.title")} <span className="text-gradient-gold">{t("features.titleHighlight")}</span>
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-8">
+          <div className="flex flex-col sm:grid sm:grid-cols-3 gap-4 sm:gap-8">
             {features.map((feature, i) => (
               <motion.div
                 key={feature.title}
-                initial={{ opacity: 0, y: 30, rotateX: 5 }}
-                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-                transition={{ delay: i * 0.15, duration: 0.6 }}
-                viewport={{ once: true, margin: "-30px" }}
-                className="p-7 sm:p-8 rounded-2xl border border-border bg-card/50 text-center"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+                viewport={{ once: true, margin: "-20px" }}
+                className="p-6 sm:p-8 rounded-2xl border border-border/60 bg-card/60 backdrop-blur-sm text-center active:scale-[0.98] transition-transform"
               >
-                <div className="inline-flex items-center justify-center w-12 h-12 sm:w-12 sm:h-12 rounded-xl bg-primary/10 mb-5 sm:mb-5">
-                  <feature.icon className="h-5 sm:h-5 w-5 sm:w-5 text-primary" />
+                <div className="inline-flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-primary/10 mb-4 sm:mb-5">
+                  <feature.icon className="h-5 w-5 text-primary" />
                 </div>
-                <h3 className="font-display text-base sm:text-lg font-semibold mb-3 sm:mb-3">{feature.title}</h3>
-                <p className="text-sm sm:text-sm text-muted-foreground leading-[1.7]">{feature.desc}</p>
+                <h3 className="font-display text-[15px] sm:text-lg font-semibold mb-2 sm:mb-3">{feature.title}</h3>
+                <p className="text-sm text-muted-foreground leading-[1.65]">{feature.desc}</p>
               </motion.div>
             ))}
           </div>
