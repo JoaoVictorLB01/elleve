@@ -52,25 +52,53 @@ const Dashboard = () => {
           <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{t("dashboard.subtitle")}</p>
         </motion.div>
 
-        <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-4 sm:gap-4 mb-10 sm:mb-12">
-          {[
-            { icon: BookOpen, label: t("dashboard.activeCourses"), value: "2", color: "text-primary" },
-            { icon: Clock, label: t("dashboard.hoursStudied"), value: "8h", color: "text-primary" },
-            { icon: TrendingUp, label: t("dashboard.progress"), value: "32%", color: "text-primary" },
-            { icon: Award, label: t("dashboard.certificates"), value: "0", color: "text-accent" },
-          ].map((stat, i) => (
+        {/* Radial Progress Circles */}
+        <div className="flex items-center justify-around mb-6 sm:mb-8 px-2">
+          <RadialProgress
+            value={2} max={10} label={t("dashboard.activeCourses")}
+            icon={<BookOpen className="h-4 w-4" />} delay={0}
+          />
+          <RadialProgress
+            value={8} max={50} label={t("dashboard.hoursStudied")}
+            icon={<Clock className="h-4 w-4" />} suffix="h" delay={0.1}
+          />
+          <RadialProgress
+            value={32} max={100} label={t("dashboard.progress")}
+            icon={<TrendingUp className="h-4 w-4" />} suffix="%" delay={0.2}
+          />
+          <RadialProgress
+            value={0} max={5} label={t("dashboard.certificates")}
+            icon={<Award className="h-4 w-4" />} delay={0.3}
+          />
+        </div>
+
+        {/* Journey Progress Bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="border border-border rounded-2xl bg-card p-5 mb-5 sm:mb-6"
+        >
+          <div className="flex justify-between items-center mb-2.5">
+            <span className="text-sm font-semibold text-foreground">{t("dashboard.journeyProgress") || "Progresso da jornada"}</span>
+            <span className="text-sm font-bold text-primary">32%</span>
+          </div>
+          <div className="relative h-3 w-full overflow-hidden rounded-full bg-muted">
             <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.08 }}
-              className="border border-border rounded-2xl bg-card p-4 sm:p-5"
-            >
-              <stat.icon className={`h-5 sm:h-5 w-5 sm:w-5 ${stat.color} mb-2.5 sm:mb-3`} />
-              <div className="text-xl sm:text-2xl font-bold">{stat.value}</div>
-              <div className="text-xs sm:text-xs text-muted-foreground mt-0.5">{stat.label}</div>
-            </motion.div>
-          ))}
+              className="h-full rounded-full"
+              style={{
+                background: "linear-gradient(90deg, hsl(265, 55%, 52%), hsl(280, 60%, 68%))",
+              }}
+              initial={{ width: "0%" }}
+              animate={{ width: "32%" }}
+              transition={{ delay: 0.6, duration: 1.2, ease: "easeOut" }}
+            />
+          </div>
+        </motion.div>
+
+        {/* Level Badge */}
+        <div className="mb-10 sm:mb-12">
+          <LevelBadge xp={35} delay={0.35} />
         </div>
 
         <div className="flex items-center justify-between mb-5 sm:mb-6">
