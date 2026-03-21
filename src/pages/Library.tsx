@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
-import { motion } from "framer-motion";
-import { Search, Download, BookOpen, TrendingUp, Clock, FileText, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Search, Download, BookOpen, TrendingUp, Clock, FileText, X, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -8,8 +8,9 @@ import { bookCategories } from "@/data/booksData";
 import { useBooks, Book } from "@/contexts/BooksContext";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthGateModal from "@/components/AuthGateModal";
+import { useBookFavorites } from "@/hooks/useBookFavorites";
 
-const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: (b: Book) => void }) => {
+const BookCard = ({ book, index, onOpen, isFavorite, onToggleFavorite }: { book: Book; index: number; onOpen: (b: Book) => void; isFavorite: boolean; onToggleFavorite: (id: string) => void }) => {
   const { t } = useLanguage();
 
   return (
@@ -30,6 +31,22 @@ const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: 
             loading="lazy"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-60" />
+          
+          {/* Favorite button on card */}
+          <button
+            onClick={(e) => { e.stopPropagation(); onToggleFavorite(book.id); }}
+            className="absolute top-2.5 right-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-background/70 backdrop-blur-sm active:scale-[0.85] transition-transform z-10"
+          >
+            <motion.div
+              animate={isFavorite ? { scale: [1, 1.3, 1] } : { scale: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Heart
+                className={`h-5 w-5 transition-colors duration-200 ${isFavorite ? "fill-red-500 text-red-500" : "text-muted-foreground"}`}
+              />
+            </motion.div>
+          </button>
+
           {book.popular && (
             <div className="absolute top-3 left-3">
               <span className="inline-flex items-center gap-1 rounded-full bg-accent/90 backdrop-blur-sm px-2.5 py-1 text-xs sm:text-xs font-semibold text-accent-foreground">
@@ -73,7 +90,7 @@ const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: 
   );
 };
 
-const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void }) => {
+const BookDetailModal = ({ book, onClose, isFavorite, onToggleFavorite }: { book: Book; onClose: () => void; isFavorite: boolean; onToggleFavorite: (id: string) => void }) => {
   const { t } = useLanguage();
   const { user } = useAuth();
   const [downloading, setDownloading] = useState(false);
@@ -104,6 +121,14 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
     }
   };
 
+  const handleFavorite = () => {
+    if (!user) {
+      setShowAuthGate(true);
+      return;
+    }
+    onToggleFavorite(book.id);
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-5">
       <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={onClose} />
@@ -113,14 +138,28 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
         exit={{ opacity: 0, scale: 0.95 }}
         className="relative w-full max-w-lg rounded-2xl border border-border bg-card p-6 sm:p-8 shadow-2xl z-10 max-h-[90vh] overflow-y-auto"
       >
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 p-3 rounded-xl hover:bg-muted transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center active:scale-[0.93]"
-        >
-          <X className="h-5 w-5 text-muted-foreground" />
-        </button>
+        {/* Top actions */}
+        <div className="absolute top-3 right-3 flex items-center gap-1 z-10">
+          <button
+            onClick={handleFavorite}
+            className="p-3 rounded-xl hover:bg-muted transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center active:scale-[0.85]"
+          >
+            <motion.div
+              animate={isFavorite ? { scale: [1, 1.4, 1] } : { scale: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Heart className={`h-5 w-5 transition-colors duration-200 ${isFavorite ? "fill-red-500 text-red-500" : "text-muted-foreground"}`} />
+            </motion.div>
+          </button>
+          <button
+            onClick={onClose}
+            className="p-3 rounded-xl hover:bg-muted transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center active:scale-[0.93]"
+          >
+            <X className="h-5 w-5 text-muted-foreground" />
+          </button>
+        </div>
 
-        <div className="flex flex-col sm:flex-row gap-5">
+        <div className="flex flex-col sm:flex-row gap-5 mt-2">
           <div className="w-36 sm:w-40 shrink-0 mx-auto sm:mx-0">
             <img
               src={book.cover_url || "/placeholder.svg"}
@@ -158,10 +197,21 @@ const BookDetailModal = ({ book, onClose }: { book: Book; onClose: () => void })
 
 const Library = () => {
   const { t } = useLanguage();
+  const { user } = useAuth();
   const { books, loading } = useBooks();
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+  const [showAuthGate, setShowAuthGate] = useState(false);
+  const { favoriteIds, toggle: toggleFavorite } = useBookFavorites(user?.id);
+
+  const handleToggleFavorite = (bookId: string) => {
+    if (!user) {
+      setShowAuthGate(true);
+      return;
+    }
+    toggleFavorite(bookId);
+  };
 
   const filtered = useMemo(() => {
     return books.filter((book) => {
@@ -235,7 +285,7 @@ const Library = () => {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
             {popularBooks.map((book, i) => (
-              <BookCard key={book.id} book={book} index={i} onOpen={setSelectedBook} />
+              <BookCard key={book.id} book={book} index={i} onOpen={setSelectedBook} isFavorite={favoriteIds.has(book.id)} onToggleFavorite={handleToggleFavorite} />
             ))}
           </div>
         </section>
@@ -250,7 +300,7 @@ const Library = () => {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
             {recentBooks.map((book, i) => (
-              <BookCard key={book.id} book={book} index={i} onOpen={setSelectedBook} />
+              <BookCard key={book.id} book={book} index={i} onOpen={setSelectedBook} isFavorite={favoriteIds.has(book.id)} onToggleFavorite={handleToggleFavorite} />
             ))}
           </div>
         </section>
@@ -268,7 +318,7 @@ const Library = () => {
           {filtered.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
               {filtered.map((book, i) => (
-                <BookCard key={book.id} book={book} index={i} onOpen={setSelectedBook} />
+                <BookCard key={book.id} book={book} index={i} onOpen={setSelectedBook} isFavorite={favoriteIds.has(book.id)} onToggleFavorite={handleToggleFavorite} />
               ))}
             </div>
           ) : (
@@ -281,7 +331,8 @@ const Library = () => {
       )}
 
       {/* Book Detail Modal */}
-      {selectedBook && <BookDetailModal book={selectedBook} onClose={() => setSelectedBook(null)} />}
+      {selectedBook && <BookDetailModal book={selectedBook} onClose={() => setSelectedBook(null)} isFavorite={favoriteIds.has(selectedBook.id)} onToggleFavorite={handleToggleFavorite} />}
+      <AuthGateModal open={showAuthGate} onClose={() => setShowAuthGate(false)} redirectTo="/biblioteca" />
     </main>
   );
 };
