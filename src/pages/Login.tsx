@@ -27,7 +27,13 @@ const Login = () => {
     if (error) {
       toast({ title: "Erro ao entrar", description: error.message, variant: "destructive" });
     } else {
-      navigate("/");
+      const redirect = sessionStorage.getItem("auth-redirect");
+      if (redirect) {
+        sessionStorage.removeItem("auth-redirect");
+        navigate(redirect);
+      } else {
+        navigate("/");
+      }
     }
   };
 
