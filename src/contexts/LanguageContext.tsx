@@ -280,6 +280,34 @@ const translations: Translations = {
     "oracle.title": "Oráculo do Dia",
     "oracle.hint": "Toque na carta para nova mensagem",
     "oracle.for": "para",
+
+    // Auth Gate
+    "authGate.title": "Acesso restrito",
+    "authGate.desc": "Crie sua conta ou faça login para acessar esta funcionalidade.",
+    "authGate.register": "Criar Conta",
+    "authGate.login": "Fazer Login",
+
+    // Register extra
+    "register.phone": "Celular (opcional)",
+    "register.phonePlaceholder": "(00) 00000-0000",
+    "register.passwordWeak": "Mínimo 6 caracteres",
+
+    // Forgot / Reset password
+    "forgot.title": "Recuperar senha",
+    "forgot.subtitle": "Enviaremos um link para redefinir sua senha",
+    "forgot.button": "Enviar link",
+    "forgot.sending": "Enviando...",
+    "forgot.sent": "Enviamos um e-mail com as instruções para redefinir sua senha. Verifique sua caixa de entrada.",
+    "forgot.backToLogin": "Voltar ao login",
+    "forgot.error": "Erro ao enviar",
+    "reset.title": "Nova senha",
+    "reset.subtitle": "Defina sua nova senha",
+    "reset.newPassword": "Nova senha",
+    "reset.button": "Salvar nova senha",
+    "reset.saving": "Salvando...",
+    "reset.success": "Senha atualizada com sucesso!",
+    "reset.error": "Erro ao atualizar senha",
+    "reset.tooShort": "A senha deve ter pelo menos 6 caracteres",
   },
 
   en: {
