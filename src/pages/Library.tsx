@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { bookCategories } from "@/data/booksData";
 import { useBooks, Book } from "@/contexts/BooksContext";
+import { useAuth } from "@/contexts/AuthContext";
+import AuthGateModal from "@/components/AuthGateModal";
 
 const BookCard = ({ book, index, onOpen }: { book: Book; index: number; onOpen: (b: Book) => void }) => {
   const { t } = useLanguage();
