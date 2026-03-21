@@ -191,6 +191,10 @@ const OracleCard = () => {
   };
 
   const handleOpen = () => {
+    if (!user) {
+      setShowAuthGate(true);
+      return;
+    }
     setIsOpen(true);
     setIsAnimating(true);
     setIsFlipped(false);
