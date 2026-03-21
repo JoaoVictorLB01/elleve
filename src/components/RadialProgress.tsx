@@ -11,11 +11,12 @@ interface RadialProgressProps {
   delay?: number;
 }
 
-const RadialProgress = ({ value, max, label, icon, suffix = "", size = 100, delay = 0 }: RadialProgressProps) => {
-  const strokeWidth = 6;
+const RadialProgress = ({ value, max, label, icon, suffix = "", size = 80, delay = 0 }: RadialProgressProps) => {
+  const strokeWidth = 5;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const percentage = Math.min((value / max) * 100, 100);
+  const gradientId = `progressGradient-${label.replace(/\s/g, '')}`;
 
   return (
     <motion.div
@@ -39,7 +40,7 @@ const RadialProgress = ({ value, max, label, icon, suffix = "", size = 100, dela
             cy={size / 2}
             r={radius}
             fill="none"
-            stroke="url(#progressGradient)"
+            stroke={`url(#${gradientId})`}
             strokeWidth={strokeWidth}
             strokeLinecap="round"
             strokeDasharray={circumference}
@@ -48,7 +49,7 @@ const RadialProgress = ({ value, max, label, icon, suffix = "", size = 100, dela
             transition={{ delay: delay + 0.3, duration: 1.2, ease: "easeOut" }}
           />
           <defs>
-            <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stopColor="hsl(265, 55%, 52%)" />
               <stop offset="100%" stopColor="hsl(280, 60%, 68%)" />
             </linearGradient>

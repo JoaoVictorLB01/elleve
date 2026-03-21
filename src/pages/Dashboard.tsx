@@ -64,24 +64,32 @@ const Dashboard = () => {
           <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{t("dashboard.subtitle")}</p>
         </motion.div>
 
-        {/* Radial Progress Circles */}
-        <div className="flex items-center justify-around mb-6 sm:mb-8 px-2">
-          <RadialProgress
-            value={progress.activeCourses} max={Math.max(progress.activeCourses, 10)} label={t("dashboard.activeCourses")}
-            icon={<BookOpen className="h-4 w-4" />} delay={0}
-          />
-          <RadialProgress
-            value={progress.hoursStudied} max={Math.max(progress.hoursStudied, 50)} label={t("dashboard.hoursStudied")}
-            icon={<Clock className="h-4 w-4" />} suffix="h" delay={0.1}
-          />
-          <RadialProgress
-            value={progress.overallProgress} max={100} label={t("dashboard.progress")}
-            icon={<TrendingUp className="h-4 w-4" />} suffix="%" delay={0.2}
-          />
-          <RadialProgress
-            value={progress.certificates} max={Math.max(progress.certificates, 5)} label={t("dashboard.certificates")}
-            icon={<Award className="h-4 w-4" />} delay={0.3}
-          />
+        {/* Stats Grid */}
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 mb-6 sm:mb-8">
+          <div className="border border-border rounded-2xl bg-card p-4 flex flex-col items-center justify-center">
+            <RadialProgress
+              value={progress.activeCourses} max={Math.max(progress.activeCourses, 10)} label={t("dashboard.activeCourses")}
+              icon={<BookOpen className="h-4 w-4" />} size={80} delay={0}
+            />
+          </div>
+          <div className="border border-border rounded-2xl bg-card p-4 flex flex-col items-center justify-center">
+            <RadialProgress
+              value={progress.hoursStudied} max={Math.max(progress.hoursStudied, 50)} label={t("dashboard.hoursStudied")}
+              icon={<Clock className="h-4 w-4" />} suffix="h" size={80} delay={0.1}
+            />
+          </div>
+          <div className="border border-border rounded-2xl bg-card p-4 flex flex-col items-center justify-center">
+            <RadialProgress
+              value={progress.overallProgress} max={100} label={t("dashboard.progress")}
+              icon={<TrendingUp className="h-4 w-4" />} suffix="%" size={80} delay={0.2}
+            />
+          </div>
+          <div className="border border-border rounded-2xl bg-card p-4 flex flex-col items-center justify-center">
+            <RadialProgress
+              value={progress.certificates} max={Math.max(progress.certificates, 5)} label={t("dashboard.certificates")}
+              icon={<Award className="h-4 w-4" />} size={80} delay={0.3}
+            />
+          </div>
         </div>
 
 
