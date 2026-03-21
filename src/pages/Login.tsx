@@ -82,6 +82,11 @@ const Login = () => {
               </button>
             </div>
           </div>
+          <div className="flex justify-end">
+            <Link to="/esqueci-senha" className="text-xs text-primary hover:underline font-medium">
+              {t("login.forgot")}
+            </Link>
+          </div>
 
           <Button variant="cosmic" className="w-full h-[52px] sm:h-11 text-base sm:text-sm active:scale-[0.97]" size="lg" type="submit" disabled={loading}>
             {loading ? "Entrando..." : t("login.button")}
