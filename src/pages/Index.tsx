@@ -137,39 +137,41 @@ const Index = () => {
       </section>
 
       {/* Featured Courses */}
-      <section className="py-14 sm:py-20 relative">
-        <div className="container mx-auto px-6 sm:px-6">
+      <section className="py-12 sm:py-20 relative">
+        <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-12 gap-3"
+            className="flex items-end justify-between mb-7 sm:mb-12"
           >
             <div>
-              <span className="text-xs sm:text-xs font-semibold text-primary uppercase tracking-widest mb-3 sm:mb-3 block">
+              <span className="text-[11px] sm:text-xs font-semibold text-primary uppercase tracking-widest mb-2 block">
                 {t("featured.label")}
               </span>
-              <h2 className="font-display text-[1.5rem] sm:text-3xl md:text-4xl font-bold">
+              <h2 className="font-display text-[1.375rem] sm:text-3xl md:text-4xl font-bold">
                 {t("featured.title")}
               </h2>
             </div>
             <Link
               to="/cursos"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1 shrink-0"
             >
               {t("featured.viewAll")}
               <ArrowRight className="h-4 w-4" />
             </Link>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {/* Horizontal scroll on mobile, grid on desktop */}
+          <div className="flex md:grid md:grid-cols-3 gap-4 sm:gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0 pb-2 md:pb-0">
             {featuredCourses.map((course, i) => (
               <motion.div
                 key={course.id}
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.15, duration: 0.6 }}
-                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: i * 0.12, duration: 0.5 }}
+                viewport={{ once: true, margin: "-30px" }}
+                className="min-w-[280px] sm:min-w-[300px] md:min-w-0 snap-start"
               >
                 <CourseCard course={course} index={i} />
               </motion.div>
