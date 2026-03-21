@@ -51,6 +51,7 @@ const Layout = () => {
       </Routes>
       {!hideFooter && <Footer />}
       <OracleCard />
+      <BottomNav />
     </>
   );
 };
