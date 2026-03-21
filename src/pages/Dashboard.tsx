@@ -5,9 +5,31 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { courses } from "@/data/mockData";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Dashboard = () => {
   const { t } = useLanguage();
+  const { user } = useAuth();
+  const [firstName, setFirstName] = useState<string>("");
+
+  useEffect(() => {
+    const fetchName = async () => {
+      if (!user) return;
+      // Try profile table first
+      const { data } = await supabase
+        .from("profiles")
+        .select("full_name")
+        .eq("id", user.id)
+        .maybeSingle();
+      const name = data?.full_name || user.user_metadata?.full_name || user.user_metadata?.name || "";
+      const first = name.split(" ")[0];
+      setFirstName(first ? first.charAt(0).toUpperCase() + first.slice(1).toLowerCase() : "");
+    };
+    fetchName();
+  }, [user]);
+
   const enrolledCourses = courses.slice(0, 2).map((c, i) => ({
     ...c,
     progress: i === 0 ? 45 : 20,
