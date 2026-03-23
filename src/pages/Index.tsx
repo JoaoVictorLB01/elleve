@@ -242,7 +242,7 @@ const Index = () => {
               <Sparkles className="h-6 sm:h-6 w-6 sm:w-6 text-accent" />
             </div>
             <h2 className="font-display text-[1.5rem] sm:text-3xl md:text-4xl font-bold mb-7 sm:mb-8">
-              {t("philosophy.title")} <span className="text-gradient-gold">Elleve</span>
+              {t("philosophy.title")} <span className="text-gradient-gold">Elevve</span>
             </h2>
             <p className="text-base sm:text-base text-muted-foreground leading-[1.8] mb-5 sm:mb-6">
               {t("philosophy.p1")}

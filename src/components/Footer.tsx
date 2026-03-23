@@ -12,7 +12,7 @@ const Footer = () => {
           <div className="sm:col-span-1">
             <div className="flex items-center gap-2 mb-4">
               <Sparkles className="h-4 w-4 text-accent" />
-              <span className="text-lg font-bold text-gradient-gold">Elleve</span>
+              <span className="text-lg font-bold text-gradient-gold">Elevve</span>
             </div>
             <p className="text-sm sm:text-sm text-muted-foreground leading-relaxed max-w-[240px]">
               {t("footer.tagline")}

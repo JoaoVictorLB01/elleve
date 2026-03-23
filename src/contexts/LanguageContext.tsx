@@ -52,7 +52,7 @@ const translations: Translations = {
     "featured.viewAll": "Ver todos",
 
     // Features
-    "features.label": "Por que Elleve?",
+    "features.label": "Por que Elevve?",
     "features.title": "Uma plataforma feita para sua",
     "features.titleHighlight": "evolução",
     "features.1.title": "Conteúdo Transformador",
@@ -64,7 +64,7 @@ const translations: Translations = {
 
     // Philosophy
     "philosophy.title": "A Filosofia",
-    "philosophy.p1": "Acreditamos que cada ser humano carrega dentro de si uma luz única, uma energia pronta para ser despertada. A Elleve é mais do que uma plataforma de cursos — é um portal de transformação, onde conhecimento ancestral encontra ferramentas modernas de evolução pessoal.",
+    "philosophy.p1": "Acreditamos que cada ser humano carrega dentro de si uma luz única, uma energia pronta para ser despertada. A Elevve é mais do que uma plataforma de cursos — é um portal de transformação, onde conhecimento ancestral encontra ferramentas modernas de evolução pessoal.",
     "philosophy.p2": "Nossos instrutores são guias experientes que dedicaram suas vidas ao estudo da energia, consciência e cura. Cada curso é uma jornada cuidadosamente desenhada para elevar sua frequência e expandir sua percepção.",
 
     // CTA
@@ -99,7 +99,7 @@ const translations: Translations = {
 
     // Login
     "login.title": "Bem-vindo de volta",
-    "login.subtitle": "Entre na sua conta Elleve",
+    "login.subtitle": "Entre na sua conta Elevve",
     "login.email": "E-mail",
     "login.password": "Senha",
     "login.forgot": "Esqueceu a senha?",
@@ -109,7 +109,7 @@ const translations: Translations = {
 
     // Register
     "register.title": "Comece sua jornada",
-    "register.subtitle": "Crie sua conta na Elleve",
+    "register.subtitle": "Crie sua conta na Elevve",
     "register.name": "Nome completo",
     "register.namePlaceholder": "Seu nome",
     "register.email": "E-mail",
@@ -127,7 +127,7 @@ const translations: Translations = {
     "footer.account": "Conta",
     "footer.login": "Login",
     "footer.register": "Cadastro",
-    "footer.rights": "© 2026 Elleve. Todos os direitos reservados.",
+    "footer.rights": "© 2026 Elevve. Todos os direitos reservados.",
     "footer.terms": "Termos",
     "footer.privacy": "Privacidade",
 
@@ -337,7 +337,7 @@ const translations: Translations = {
     "featured.title": "Featured Courses",
     "featured.viewAll": "View all",
 
-    "features.label": "Why Elleve?",
+    "features.label": "Why Elevve?",
     "features.title": "A platform designed for your",
     "features.titleHighlight": "evolution",
     "features.1.title": "Transformative Content",
@@ -348,7 +348,7 @@ const translations: Translations = {
     "features.3.desc": "Receive certificates upon completing each course and share your achievements on your evolution journey.",
 
     "philosophy.title": "The Philosophy",
-    "philosophy.p1": "We believe that every human being carries within a unique light, an energy ready to be awakened. Elleve is more than a course platform — it's a transformation portal, where ancient knowledge meets modern tools of personal evolution.",
+    "philosophy.p1": "We believe that every human being carries within a unique light, an energy ready to be awakened. Elevve is more than a course platform — it's a transformation portal, where ancient knowledge meets modern tools of personal evolution.",
     "philosophy.p2": "Our instructors are experienced guides who have dedicated their lives to the study of energy, consciousness and healing. Each course is a journey carefully designed to elevate your frequency and expand your perception.",
 
     "cta.title1": "Ready for your",
@@ -378,7 +378,7 @@ const translations: Translations = {
     "dashboard.viewAll": "View all",
 
     "login.title": "Welcome back",
-    "login.subtitle": "Sign in to your Elleve account",
+    "login.subtitle": "Sign in to your Elevve account",
     "login.email": "Email",
     "login.password": "Password",
     "login.forgot": "Forgot password?",
@@ -387,7 +387,7 @@ const translations: Translations = {
     "login.register": "Sign Up",
 
     "register.title": "Start your journey",
-    "register.subtitle": "Create your Elleve account",
+    "register.subtitle": "Create your Elevve account",
     "register.name": "Full name",
     "register.namePlaceholder": "Your name",
     "register.email": "Email",
@@ -404,7 +404,7 @@ const translations: Translations = {
     "footer.account": "Account",
     "footer.login": "Login",
     "footer.register": "Sign Up",
-    "footer.rights": "© 2026 Elleve. All rights reserved.",
+    "footer.rights": "© 2026 Elevve. All rights reserved.",
     "footer.terms": "Terms",
     "footer.privacy": "Privacy",
 
@@ -603,7 +603,7 @@ const translations: Translations = {
     "featured.title": "Cours en Vedette",
     "featured.viewAll": "Voir tout",
 
-    "features.label": "Pourquoi Elleve ?",
+    "features.label": "Pourquoi Elevve ?",
     "features.title": "Une plateforme conçue pour votre",
     "features.titleHighlight": "évolution",
     "features.1.title": "Contenu Transformateur",
@@ -614,7 +614,7 @@ const translations: Translations = {
     "features.3.desc": "Recevez des certificats à la fin de chaque cours et partagez vos réalisations.",
 
     "philosophy.title": "La Philosophie",
-    "philosophy.p1": "Nous croyons que chaque être humain porte en lui une lumière unique, une énergie prête à être éveillée. Elleve est plus qu'une plateforme de cours — c'est un portail de transformation, où la connaissance ancestrale rencontre les outils modernes d'évolution personnelle.",
+    "philosophy.p1": "Nous croyons que chaque être humain porte en lui une lumière unique, une énergie prête à être éveillée. Elevve est plus qu'une plateforme de cours — c'est un portail de transformation, où la connaissance ancestrale rencontre les outils modernes d'évolution personnelle.",
     "philosophy.p2": "Nos instructeurs sont des guides expérimentés qui ont consacré leur vie à l'étude de l'énergie, de la conscience et de la guérison. Chaque cours est un voyage soigneusement conçu pour élever votre fréquence.",
 
     "cta.title1": "Prêt pour votre",
@@ -644,7 +644,7 @@ const translations: Translations = {
     "dashboard.viewAll": "Voir tout",
 
     "login.title": "Bienvenue",
-    "login.subtitle": "Connectez-vous à votre compte Elleve",
+    "login.subtitle": "Connectez-vous à votre compte Elevve",
     "login.email": "E-mail",
     "login.password": "Mot de passe",
     "login.forgot": "Mot de passe oublié ?",
@@ -653,7 +653,7 @@ const translations: Translations = {
     "login.register": "S'inscrire",
 
     "register.title": "Commencez votre parcours",
-    "register.subtitle": "Créez votre compte Elleve",
+    "register.subtitle": "Créez votre compte Elevve",
     "register.name": "Nom complet",
     "register.namePlaceholder": "Votre nom",
     "register.email": "E-mail",
@@ -670,7 +670,7 @@ const translations: Translations = {
     "footer.account": "Compte",
     "footer.login": "Connexion",
     "footer.register": "Inscription",
-    "footer.rights": "© 2026 Elleve. Tous droits réservés.",
+    "footer.rights": "© 2026 Elevve. Tous droits réservés.",
     "footer.terms": "Conditions",
     "footer.privacy": "Confidentialité",
 
@@ -869,7 +869,7 @@ const translations: Translations = {
     "featured.title": "Cursos Destacados",
     "featured.viewAll": "Ver todos",
 
-    "features.label": "¿Por qué Elleve?",
+    "features.label": "¿Por qué Elevve?",
     "features.title": "Una plataforma hecha para tu",
     "features.titleHighlight": "evolución",
     "features.1.title": "Contenido Transformador",
@@ -880,7 +880,7 @@ const translations: Translations = {
     "features.3.desc": "Recibe certificados al completar cada curso y comparte tus logros en tu camino de evolución.",
 
     "philosophy.title": "La Filosofía",
-    "philosophy.p1": "Creemos que cada ser humano lleva dentro de sí una luz única, una energía lista para ser despertada. Elleve es más que una plataforma de cursos — es un portal de transformación, donde el conocimiento ancestral se encuentra con herramientas modernas de evolución personal.",
+    "philosophy.p1": "Creemos que cada ser humano lleva dentro de sí una luz única, una energía lista para ser despertada. Elevve es más que una plataforma de cursos — es un portal de transformación, donde el conocimiento ancestral se encuentra con herramientas modernas de evolución personal.",
     "philosophy.p2": "Nuestros instructores son guías experimentados que han dedicado sus vidas al estudio de la energía, la conciencia y la sanación. Cada curso es un viaje cuidadosamente diseñado para elevar tu frecuencia.",
 
     "cta.title1": "¿Listo para tu",
@@ -910,7 +910,7 @@ const translations: Translations = {
     "dashboard.viewAll": "Ver todos",
 
     "login.title": "Bienvenido de nuevo",
-    "login.subtitle": "Inicia sesión en tu cuenta Elleve",
+    "login.subtitle": "Inicia sesión en tu cuenta Elevve",
     "login.email": "Correo electrónico",
     "login.password": "Contraseña",
     "login.forgot": "¿Olvidaste la contraseña?",
@@ -919,7 +919,7 @@ const translations: Translations = {
     "login.register": "Regístrate",
 
     "register.title": "Comienza tu camino",
-    "register.subtitle": "Crea tu cuenta en Elleve",
+    "register.subtitle": "Crea tu cuenta en Elevve",
     "register.name": "Nombre completo",
     "register.namePlaceholder": "Tu nombre",
     "register.email": "Correo electrónico",
@@ -936,7 +936,7 @@ const translations: Translations = {
     "footer.account": "Cuenta",
     "footer.login": "Login",
     "footer.register": "Registro",
-    "footer.rights": "© 2026 Elleve. Todos los derechos reservados.",
+    "footer.rights": "© 2026 Elevve. Todos los derechos reservados.",
     "footer.terms": "Términos",
     "footer.privacy": "Privacidad",
 

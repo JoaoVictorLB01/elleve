@@ -60,9 +60,9 @@ const Navbar = () => {
       >
         <div className="container mx-auto flex h-[60px] sm:h-16 items-center justify-between px-6 sm:px-6">
           <Link to="/" className="flex items-center gap-2 group">
-            <img src={logo} alt="Elleve" className="h-6 w-6 sm:h-7 sm:w-7 transition-transform group-hover:scale-110" />
+            <img src={logo} alt="Elevve" className="h-6 w-6 sm:h-7 sm:w-7 transition-transform group-hover:scale-110" />
             <span className="text-base sm:text-lg font-bold text-gradient-gold tracking-wide">
-              Elleve
+              Elevve
             </span>
           </Link>
 
