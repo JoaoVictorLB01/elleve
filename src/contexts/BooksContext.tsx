@@ -52,9 +52,9 @@ export const BooksProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const addBook = async (book: Omit<Book, "id" | "downloads">, coverFile?: File, pdfFile?: File) => {
+    const id = crypto.randomUUID();
     let cover_url = book.cover_url || "";
     let pdf_url = book.pdf_url || "#";
-    const id = crypto.randomUUID();
 
     if (coverFile) {
       cover_url = await uploadFile("book-covers", coverFile, `${id}/${coverFile.name}`);
@@ -64,13 +64,22 @@ export const BooksProvider = ({ children }: { children: ReactNode }) => {
     }
 
     const { error } = await supabase.from("books").insert({
-      ...book,
       id,
+      title: book.title,
+      author: book.author,
+      description: book.description || "",
       cover_url,
+      category: book.category,
+      popular: book.popular,
+      recent: book.recent,
       pdf_url,
+      pages: book.pages,
       downloads: 0,
     });
-    if (error) throw error;
+    if (error) {
+      console.error("Error saving book:", error);
+      throw error;
+    }
     await fetchBooks();
   };
 
@@ -83,7 +92,10 @@ export const BooksProvider = ({ children }: { children: ReactNode }) => {
     }
 
     const { error } = await supabase.from("books").update(data).eq("id", id);
-    if (error) throw error;
+    if (error) {
+      console.error("Error updating book:", error);
+      throw error;
+    }
     await fetchBooks();
   };
 
