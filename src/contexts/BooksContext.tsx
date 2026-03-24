@@ -92,7 +92,10 @@ export const BooksProvider = ({ children }: { children: ReactNode }) => {
     }
 
     const { error } = await supabase.from("books").update(data).eq("id", id);
-    if (error) throw error;
+    if (error) {
+      console.error("Error updating book:", error);
+      throw error;
+    }
     await fetchBooks();
   };
 
