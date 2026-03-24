@@ -143,8 +143,10 @@ const AdminPanel = () => {
       setShowBookForm(false);
       setEditingBook(null);
       toast({ title: t("admin.bookSaved") });
-    } catch (err) {
-      toast({ title: "Erro ao salvar livro", variant: "destructive" });
+    } catch (err: any) {
+      console.error("Book save error:", err);
+      const msg = err?.message || "Erro ao salvar livro";
+      toast({ title: msg, variant: "destructive" });
     } finally {
       setSaving(false);
     }
