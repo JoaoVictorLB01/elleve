@@ -45,9 +45,14 @@ export const BooksProvider = ({ children }: { children: ReactNode }) => {
   }, [fetchBooks]);
 
   const uploadFile = async (bucket: string, file: File, path: string) => {
+    console.log(`Uploading to bucket "${bucket}", path "${path}", file size: ${file.size}`);
     const { data, error } = await supabase.storage.from(bucket).upload(path, file, { upsert: true });
-    if (error) throw error;
+    if (error) {
+      console.error(`Storage upload error for bucket "${bucket}":`, JSON.stringify(error));
+      throw error;
+    }
     const { data: urlData } = supabase.storage.from(bucket).getPublicUrl(data.path);
+    console.log(`Upload success, public URL: ${urlData.publicUrl}`);
     return urlData.publicUrl;
   };
 
@@ -63,22 +68,24 @@ export const BooksProvider = ({ children }: { children: ReactNode }) => {
       pdf_url = await uploadFile("book-pdfs", pdfFile, `${id}/${pdfFile.name}`);
     }
 
-    const { error } = await supabase.from("books").insert({
+    const insertPayload = {
       id,
       title: book.title,
       author: book.author,
       description: book.description || "",
       cover_url,
       category: book.category,
-      popular: book.popular,
-      recent: book.recent,
+      popular: book.popular ?? false,
+      recent: book.recent ?? true,
       pdf_url,
-      pages: book.pages,
+      pages: book.pages || 0,
       downloads: 0,
-    });
+    };
+    console.log("Inserting book payload:", JSON.stringify(insertPayload));
+    const { error } = await supabase.from("books").insert(insertPayload);
     if (error) {
-      console.error("Error saving book:", error);
-      throw error;
+      console.error("Error saving book:", JSON.stringify(error));
+      throw new Error(error.message || error.code || "Erro desconhecido ao salvar livro");
     }
     await fetchBooks();
   };
