@@ -45,9 +45,14 @@ export const BooksProvider = ({ children }: { children: ReactNode }) => {
   }, [fetchBooks]);
 
   const uploadFile = async (bucket: string, file: File, path: string) => {
+    console.log(`Uploading to bucket "${bucket}", path "${path}", file size: ${file.size}`);
     const { data, error } = await supabase.storage.from(bucket).upload(path, file, { upsert: true });
-    if (error) throw error;
+    if (error) {
+      console.error(`Storage upload error for bucket "${bucket}":`, JSON.stringify(error));
+      throw error;
+    }
     const { data: urlData } = supabase.storage.from(bucket).getPublicUrl(data.path);
+    console.log(`Upload success, public URL: ${urlData.publicUrl}`);
     return urlData.publicUrl;
   };
 
