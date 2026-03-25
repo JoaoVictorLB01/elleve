@@ -44,9 +44,20 @@ export const BooksProvider = ({ children }: { children: ReactNode }) => {
     fetchBooks();
   }, [fetchBooks]);
 
+  const normalizeFileName = (fileName: string): string => {
+    let normalized = fileName.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    normalized = normalized.replace(/\s+/g, "-").toLowerCase();
+    normalized = normalized.replace(/[^a-z0-9.\-]/g, "");
+    normalized = normalized.replace(/-+/g, "-").replace(/^-|-$/g, "");
+    return normalized;
+  };
+
   const uploadFile = async (bucket: string, file: File, path: string) => {
-    console.log(`Uploading to bucket "${bucket}", path "${path}", file size: ${file.size}`);
-    const { data, error } = await supabase.storage.from(bucket).upload(path, file, { upsert: true });
+    const dir = path.substring(0, path.lastIndexOf("/") + 1);
+    const normalizedName = normalizeFileName(file.name);
+    const normalizedPath = `${dir}${normalizedName}`;
+    console.log(`Uploading to bucket "${bucket}", path "${normalizedPath}", file size: ${file.size}`);
+    const { data, error } = await supabase.storage.from(bucket).upload(normalizedPath, file, { upsert: true });
     if (error) {
       console.error(`Storage upload error for bucket "${bucket}":`, JSON.stringify(error));
       throw error;
