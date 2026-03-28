@@ -133,29 +133,29 @@
 
 @layer utilities {
   .text-gradient-cosmic {
-    background: linear-gradient(135deg, hsl(265 55% 62%), hsl(228 50% 58%));
+    background: linear-gradient(135deg, hsl(265 55% 68%), hsl(228 50% 62%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .text-gradient-gold {
-    background: linear-gradient(135deg, hsl(40 85% 68%), hsl(35 80% 52%));
+    background: linear-gradient(135deg, hsl(40 85% 72%), hsl(35 80% 56%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .bg-gradient-cosmic {
-    background: linear-gradient(135deg, hsl(265 55% 50%), hsl(228 50% 32%));
+    background: linear-gradient(135deg, hsl(265 55% 54%), hsl(228 50% 36%));
   }
 
   .bg-gradient-cosmic-subtle {
-    background: linear-gradient(135deg, hsl(265 40% 12%), hsl(228 30% 8%));
+    background: linear-gradient(135deg, hsl(265 38% 16%), hsl(228 28% 11%));
   }
 
   .bg-gradient-gold {
-    background: linear-gradient(135deg, hsl(40 80% 58%), hsl(35 75% 48%));
+    background: linear-gradient(135deg, hsl(40 82% 62%), hsl(35 75% 52%));
   }
 
   .bg-surface-elevated {
@@ -163,11 +163,11 @@
   }
 
   .glow-purple {
-    box-shadow: 0 0 40px -8px hsl(265 55% 52% / 0.35);
+    box-shadow: 0 0 45px -6px hsl(265 55% 55% / 0.4);
   }
 
   .glow-gold {
-    box-shadow: 0 0 30px -8px hsl(40 80% 58% / 0.25);
+    box-shadow: 0 0 35px -6px hsl(40 82% 62% / 0.3);
   }
 
   .border-gradient {
