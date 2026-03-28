@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Heart, Users, Sparkles, Wallet, ChevronRight } from "lucide-react";
+import { Heart, Users, Sparkles, Wallet, Baby, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import ElevveParticles from "@/components/ElevveParticles";
 
@@ -34,6 +34,36 @@ const topics = [
   },
 ];
 
+const kidsTopics = [
+  {
+    id: "autoestima",
+    icon: "🌟",
+    title: "Autoestima e confiança",
+    description: "Ajude seu filho a acreditar no próprio potencial.",
+    accentHsl: "45 90% 58%",
+  },
+  {
+    id: "emocoes",
+    icon: "🧠",
+    title: "Inteligência emocional",
+    description: "Ensine a identificar e lidar com as emoções.",
+    accentHsl: "200 70% 55%",
+  },
+  {
+    id: "criatividade",
+    icon: "🎨",
+    title: "Criatividade e imaginação",
+    description: "Estimule o pensamento criativo e a expressão artística.",
+    accentHsl: "330 65% 60%",
+  },
+  {
+    id: "valores",
+    icon: "💛",
+    title: "Valores e empatia",
+    description: "Construa uma base sólida de respeito e compaixão.",
+    accentHsl: "280 50% 58%",
+  },
+];
 const containerVariants = {
   hidden: {},
   show: {
@@ -145,6 +175,82 @@ const ElevveSe = () => {
               </div>
             </motion.button>
           ))}
+        </motion.div>
+
+        {/* Elevve Kids Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-12"
+        >
+          <div className="flex items-center gap-2.5 mb-5">
+            <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-[hsl(45_90%_58%_/_0.15)] to-[hsl(330_65%_60%_/_0.08)] border border-border/30">
+              <Baby className="h-4.5 w-4.5 text-[hsl(45_90%_58%)]" />
+            </div>
+            <div>
+              <h2 className="text-lg font-bold tracking-tight">
+                <span className="text-gradient-gold">Elevve Kids</span>
+              </h2>
+              <p className="text-[11px] text-muted-foreground/60 leading-tight">
+                Desenvolvimento infantil consciente
+              </p>
+            </div>
+          </div>
+
+          <motion.div
+            className="flex flex-col gap-3"
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+          >
+            {kidsTopics.map((topic) => (
+              <motion.button
+                key={topic.id}
+                variants={cardVariants}
+                whileHover={{ scale: 1.015 }}
+                whileTap={{ scale: 0.975 }}
+                aria-label={topic.title}
+                className="group relative w-full text-left rounded-2xl border border-border/30 bg-card/60 backdrop-blur-sm p-4 cursor-pointer transition-shadow duration-300 hover:shadow-lg"
+                style={{ boxShadow: "0 0 0 0 transparent" }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.boxShadow = `0 4px 24px -6px hsl(${topic.accentHsl} / 0.18)`;
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.boxShadow = "0 0 0 0 transparent";
+                }}
+              >
+                <div
+                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{
+                    background: `linear-gradient(135deg, hsl(${topic.accentHsl} / 0.05), transparent 60%)`,
+                  }}
+                />
+
+                <div className="relative flex items-center gap-3.5">
+                  <div
+                    className="flex items-center justify-center w-10 h-10 rounded-xl border border-border/20 shrink-0 text-lg"
+                    style={{
+                      background: `linear-gradient(145deg, hsl(${topic.accentHsl} / 0.1), hsl(${topic.accentHsl} / 0.03))`,
+                    }}
+                  >
+                    {topic.icon}
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-sm font-semibold text-foreground mb-0.5 truncate">
+                      {topic.title}
+                    </h3>
+                    <p className="text-[11px] text-muted-foreground/65 leading-relaxed line-clamp-2">
+                      {topic.description}
+                    </p>
+                  </div>
+
+                  <ChevronRight className="h-3.5 w-3.5 text-muted-foreground/25 group-hover:text-muted-foreground/50 transition-colors duration-300 shrink-0" />
+                </div>
+              </motion.button>
+            ))}
+          </motion.div>
         </motion.div>
       </div>
     </main>
