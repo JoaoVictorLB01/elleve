@@ -268,19 +268,22 @@ const OracleCard = () => {
       {/* Floating trigger */}
       <motion.button
         onClick={handleOpen}
-        className="fixed bottom-[76px] md:bottom-6 right-5 z-40 group"
+        className="fixed bottom-[76px] md:bottom-6 right-5 z-40 group cursor-pointer"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 1, duration: 0.5 }}
+        aria-label="Oráculo do Dia"
       >
         <div className="relative">
-          <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-primary via-accent to-primary opacity-50 blur-md group-hover:opacity-80 transition-opacity animate-pulse" />
-          <div className="relative flex items-center gap-2 px-5 py-3 rounded-2xl bg-card border border-primary/30 shadow-xl shadow-primary/10">
-            <Sparkles className="h-4 w-4 text-accent" />
-            <span className="text-sm font-semibold text-foreground">{t("oracle.button")}</span>
-          </div>
+          <div className="absolute -inset-1.5 rounded-xl bg-gradient-to-r from-primary via-accent to-primary opacity-40 blur-lg group-hover:opacity-70 transition-opacity animate-pulse-slow" />
+          <img
+            src={oracleCardImg}
+            alt="Oráculo do Dia - Carta de Tarô"
+            className="relative h-[100px] md:h-[110px] w-auto rounded-xl shadow-2xl shadow-primary/30 border border-primary/20"
+            draggable={false}
+          />
         </div>
       </motion.button>
 
