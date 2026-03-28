@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, GraduationCap, BookOpen, User, LogIn } from "lucide-react";
+import { Home, GraduationCap, BookOpen, Flame, User, LogIn } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 
