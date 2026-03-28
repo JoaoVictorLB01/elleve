@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
-import logo from "@/assets/elleve-logo.png";
+import logo from "@/assets/elevve-logo-tree.jpeg";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
