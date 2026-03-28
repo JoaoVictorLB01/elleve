@@ -34,6 +34,36 @@ const topics = [
   },
 ];
 
+const kidsTopics = [
+  {
+    id: "autoestima",
+    icon: "🌟",
+    title: "Autoestima e confiança",
+    description: "Ajude seu filho a acreditar no próprio potencial.",
+    accentHsl: "45 90% 58%",
+  },
+  {
+    id: "emocoes",
+    icon: "🧠",
+    title: "Inteligência emocional",
+    description: "Ensine a identificar e lidar com as emoções.",
+    accentHsl: "200 70% 55%",
+  },
+  {
+    id: "criatividade",
+    icon: "🎨",
+    title: "Criatividade e imaginação",
+    description: "Estimule o pensamento criativo e a expressão artística.",
+    accentHsl: "330 65% 60%",
+  },
+  {
+    id: "valores",
+    icon: "💛",
+    title: "Valores e empatia",
+    description: "Construa uma base sólida de respeito e compaixão.",
+    accentHsl: "280 50% 58%",
+  },
+];
 const containerVariants = {
   hidden: {},
   show: {
