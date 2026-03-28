@@ -6,6 +6,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import AuthGateModal from "@/components/AuthGateModal";
 import tarotBack from "@/assets/tarot-card-back.png";
 import tarotFront from "@/assets/tarot-card-front.png";
+import oracleCardImg from "@/assets/oracle-card-front.png";
 
 const messagesPt = [
   "A verdadeira transformação começa no silêncio entre os pensamentos.",
