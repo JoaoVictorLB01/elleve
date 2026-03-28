@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
-import logo from "@/assets/elleve-logo.png";
+import logo from "@/assets/elevve-logo-tree.jpeg";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -59,11 +59,13 @@ const Navbar = () => {
         }`}
       >
         <div className="container mx-auto flex h-[60px] sm:h-16 items-center justify-between px-6 sm:px-6">
-          <Link to="/" className="flex items-center gap-2 group">
-            <img src={logo} alt="Elevve" className="h-6 w-6 sm:h-7 sm:w-7 transition-transform group-hover:scale-110" />
-            <span className="text-base sm:text-lg font-bold text-gradient-gold tracking-wide">
-              Elevve
-            </span>
+          <Link to="/" className="flex items-center group">
+            <img
+              src={logo}
+              alt="Logo Elevve"
+              className="h-8 sm:h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-105 drop-shadow-[0_0_6px_hsl(var(--gold)/0.4)]"
+              loading="lazy"
+            />
           </Link>
 
           {/* Desktop Nav */}
