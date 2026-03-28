@@ -24,6 +24,7 @@ import AdminPanel from "./pages/AdminPanel";
 import Library from "./pages/Library";
 import ProductsServices from "./pages/ProductsServices";
 import NotFound from "./pages/NotFound";
+import ElevveSe from "./pages/ElevveSe";
 
 const queryClient = new QueryClient();
 
