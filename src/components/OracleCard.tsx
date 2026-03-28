@@ -281,7 +281,7 @@ const OracleCard = () => {
           <img
             src={oracleCardImg}
             alt="Oráculo do Dia - Carta de Tarô"
-            className="relative h-[100px] md:h-[110px] w-auto rounded-xl shadow-2xl shadow-primary/30 border border-primary/20"
+            className="relative h-[72px] md:h-[88px] w-auto rounded-lg shadow-xl shadow-primary/25 border border-primary/20"
             draggable={false}
           />
         </div>
