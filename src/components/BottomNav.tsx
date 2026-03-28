@@ -12,6 +12,7 @@ const BottomNav = () => {
     { to: "/", icon: Home, label: t("nav.home") },
     { to: "/cursos", icon: GraduationCap, label: t("nav.courses") },
     { to: "/biblioteca", icon: BookOpen, label: "Biblioteca" },
+    { to: "/elevve-se", icon: Flame, label: "Elevve-se" },
     ...(user
       ? [{ to: "/dashboard", icon: User, label: t("nav.myArea") }]
       : [{ to: "/login", icon: LogIn, label: t("nav.login") }]
