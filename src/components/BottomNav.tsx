@@ -10,7 +10,7 @@ const BottomNav = () => {
 
   const items = [
     { to: "/", icon: Home, label: t("nav.home") },
-    { to: "/produtos", icon: ShoppingBag, label: t("nav.products") },
+    { to: "/cursos", icon: GraduationCap, label: t("nav.courses") },
     { to: "/biblioteca", icon: BookOpen, label: "Biblioteca" },
     ...(user
       ? [{ to: "/dashboard", icon: User, label: t("nav.myArea") }]
