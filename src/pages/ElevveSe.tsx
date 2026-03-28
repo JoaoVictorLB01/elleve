@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Heart, Users, Sparkles, Wallet, ChevronRight } from "lucide-react";
+import { Heart, Users, Sparkles, Wallet, Baby, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import ElevveParticles from "@/components/ElevveParticles";
 
