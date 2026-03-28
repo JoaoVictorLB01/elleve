@@ -52,6 +52,7 @@ const ElevveSe = () => {
   return (
     <main className="min-h-screen pt-20 pb-28 md:pb-16 px-5 sm:px-6 relative overflow-hidden">
       {/* Ambient background glow */}
+      {/* Ambient background glow */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
           className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full opacity-[0.07]"
@@ -62,6 +63,9 @@ const ElevveSe = () => {
           style={{ background: "radial-gradient(circle, hsl(40 82% 62%), transparent 70%)" }}
         />
       </div>
+
+      {/* Spiritual floating particles */}
+      <ElevveParticles count={16} />
 
       <div className="container mx-auto max-w-lg relative z-10">
         {/* Header */}
