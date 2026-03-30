@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import CourseCard from "@/components/CourseCard";
-import { courses, categories } from "@/data/mockData";
+import { categories } from "@/data/mockData";
+import { useCourses } from "@/hooks/useCourses";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const Courses = () => {
   const [activeCategory, setActiveCategory] = useState("Todos");
   const { t } = useLanguage();
+  const { data: courses = [], isLoading } = useCourses();
 
   const filtered = activeCategory === "Todos"
     ? courses
@@ -48,16 +50,22 @@ const Courses = () => {
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
-        >
-          {filtered.map((course, i) => (
-            <CourseCard key={course.id} course={course} index={i} />
-          ))}
-        </motion.div>
+        {isLoading ? (
+          <div className="flex justify-center py-20">
+            <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full" />
+          </div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+          >
+            {filtered.map((course, i) => (
+              <CourseCard key={course.id} course={course} index={i} />
+            ))}
+          </motion.div>
+        )}
       </div>
     </div>
   );

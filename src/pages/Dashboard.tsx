@@ -16,6 +16,7 @@ const Dashboard = () => {
   const { t } = useLanguage();
   const { user } = useAuth();
   const [firstName, setFirstName] = useState<string>("");
+  const { data: courses = [] } = useCourses();
   const progress = useUserProgress(user?.id);
 
   useEffect(() => {
