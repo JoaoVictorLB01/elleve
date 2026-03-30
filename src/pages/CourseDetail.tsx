@@ -1,14 +1,31 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Clock, Users, Star, BookOpen, ArrowRight, Play } from "lucide-react";
+import { Clock, Users, Star, BookOpen, ArrowRight, Play, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { courses } from "@/data/mockData";
+import { useCourses } from "@/hooks/useCourses";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
+import AuthGateModal from "@/components/AuthGateModal";
 
 const CourseDetail = () => {
   const { id } = useParams();
   const { t } = useLanguage();
-  const course = courses.find((c) => c.id === id);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { data: courses, isLoading } = useCourses();
+  const [showAuthGate, setShowAuthGate] = useState(false);
+  const [pendingLessonUrl, setPendingLessonUrl] = useState("");
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen pt-24 flex items-center justify-center">
+        <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full" />
+      </div>
+    );
+  }
+
+  const course = (courses || []).find((c) => c.id === id);
 
   if (!course) {
     return (
@@ -19,6 +36,17 @@ const CourseDetail = () => {
   }
 
   const totalLessons = course.modules.reduce((acc, m) => acc + m.lessons.length, 0);
+
+  const handleLessonClick = (lessonUrl: string) => {
+    if (!user) {
+      setPendingLessonUrl(lessonUrl);
+      setShowAuthGate(true);
+    } else {
+      navigate(lessonUrl);
+    }
+  };
+
+  const firstLessonUrl = `/curso/${course.id}/aula/${course.modules[0]?.lessons[0]?.id}`;
 
   return (
     <div className="min-h-screen pt-16 pb-16">
@@ -43,6 +71,7 @@ const CourseDetail = () => {
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 mt-6 sm:mt-10">
+        {/* Mobile info card */}
         <div className="lg:hidden mb-6">
           <div className="border border-border rounded-xl bg-card p-4 space-y-4">
             <div className="grid grid-cols-2 gap-3">
@@ -63,11 +92,15 @@ const CourseDetail = () => {
               <span className="text-muted-foreground">{t("courseDetail.instructor")}:</span>
               <span className="font-semibold">{course.instructor}</span>
             </div>
-            <Button variant="cosmic" className="w-full" size="lg" asChild>
-              <Link to={`/curso/${course.id}/aula/${course.modules[0]?.lessons[0]?.id}`}>
-                {t("courseDetail.startCourse")}
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
+            <Button
+              variant="cosmic"
+              className="w-full"
+              size="lg"
+              onClick={() => handleLessonClick(firstLessonUrl)}
+            >
+              {!user && <Lock className="mr-2 h-4 w-4" />}
+              {t("courseDetail.startCourse")}
+              <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
         </div>
@@ -99,28 +132,46 @@ const CourseDetail = () => {
                     </div>
                   </div>
                   <div className="divide-y divide-border">
-                    {mod.lessons.map((lesson) => (
-                      <div
-                        key={lesson.id}
-                        className="px-4 sm:px-5 py-3 sm:py-4 flex items-center justify-between hover:bg-muted/10 transition-colors"
-                      >
-                        <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                          <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-muted flex items-center justify-center shrink-0">
-                            <Play className="h-2.5 sm:h-3 w-2.5 sm:w-3 text-muted-foreground" />
+                    {mod.lessons.map((lesson) => {
+                      const lessonUrl = `/curso/${course.id}/aula/${lesson.id}`;
+                      return (
+                        <button
+                          key={lesson.id}
+                          onClick={() => handleLessonClick(lessonUrl)}
+                          className={`w-full px-4 sm:px-5 py-3 sm:py-4 flex items-center justify-between hover:bg-muted/10 transition-colors text-left ${
+                            !user ? "opacity-75" : ""
+                          }`}
+                        >
+                          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                            <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center shrink-0 ${
+                              !user ? "bg-muted/80" : "bg-muted"
+                            }`}>
+                              {!user ? (
+                                <Lock className="h-2.5 sm:h-3 w-2.5 sm:w-3 text-muted-foreground" />
+                              ) : (
+                                <Play className="h-2.5 sm:h-3 w-2.5 sm:w-3 text-muted-foreground" />
+                              )}
+                            </div>
+                            <div className="min-w-0">
+                              <p className="text-xs sm:text-sm font-medium truncate">{lesson.title}</p>
+                              <p className="text-[10px] sm:text-xs text-muted-foreground">{lesson.duration}</p>
+                            </div>
                           </div>
-                          <div className="min-w-0">
-                            <p className="text-xs sm:text-sm font-medium truncate">{lesson.title}</p>
-                            <p className="text-[10px] sm:text-xs text-muted-foreground">{lesson.duration}</p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                          {!user && (
+                            <span className="text-[9px] sm:text-[10px] text-muted-foreground/60 shrink-0 ml-2">
+                              Conteúdo exclusivo
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
                   </div>
                 </motion.div>
               ))}
             </div>
           </div>
 
+          {/* Desktop sidebar */}
           <div className="hidden lg:block">
             <div className="sticky top-24 border border-border rounded-2xl bg-card overflow-hidden">
               <div className="p-6 space-y-5">
@@ -144,17 +195,27 @@ const CourseDetail = () => {
                   <p className="text-xs text-muted-foreground mb-1">{t("courseDetail.instructor")}</p>
                   <p className="font-semibold text-sm">{course.instructor}</p>
                 </div>
-                <Button variant="cosmic" className="w-full" size="lg" asChild>
-                  <Link to={`/curso/${course.id}/aula/${course.modules[0]?.lessons[0]?.id}`}>
-                    {t("courseDetail.startCourse")}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
+                <Button
+                  variant="cosmic"
+                  className="w-full"
+                  size="lg"
+                  onClick={() => handleLessonClick(firstLessonUrl)}
+                >
+                  {!user && <Lock className="mr-2 h-4 w-4" />}
+                  {t("courseDetail.startCourse")}
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <AuthGateModal
+        open={showAuthGate}
+        onClose={() => setShowAuthGate(false)}
+        redirectTo={pendingLessonUrl}
+      />
     </div>
   );
 };

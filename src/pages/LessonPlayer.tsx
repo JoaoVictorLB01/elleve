@@ -1,5 +1,5 @@
-import { useParams, Link } from "react-router-dom";
-import { useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   CheckCircle2, Circle, ChevronLeft, ChevronRight,
@@ -7,16 +7,51 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { courses } from "@/data/mockData";
+import { useCourses } from "@/hooks/useCourses";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
+import AuthGateModal from "@/components/AuthGateModal";
+import { supabase } from "@/integrations/supabase/client";
 
 const LessonPlayer = () => {
   const { courseId, lessonId } = useParams();
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [completedLessons, setCompletedLessons] = useState<Set<string>>(new Set());
   const { t } = useLanguage();
+  const { user } = useAuth();
+  const { data: courses, isLoading } = useCourses();
+  const [showAuthGate, setShowAuthGate] = useState(false);
 
-  const course = courses.find((c) => c.id === courseId);
+  // Auth gate: if not logged in, show modal
+  useEffect(() => {
+    if (!isLoading && !user) {
+      setShowAuthGate(true);
+    }
+  }, [user, isLoading]);
+
+  // Load completed lessons from DB
+  useEffect(() => {
+    if (!user || !courseId) return;
+    supabase
+      .from("lesson_progress")
+      .select("lesson_id")
+      .eq("user_id", user.id)
+      .eq("course_id", courseId)
+      .then(({ data }) => {
+        if (data) setCompletedLessons(new Set(data.map((d) => d.lesson_id)));
+      });
+  }, [user, courseId]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen pt-24 flex items-center justify-center">
+        <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full" />
+      </div>
+    );
+  }
+
+  const course = (courses || []).find((c) => c.id === courseId);
   if (!course) return <div className="min-h-screen pt-24 flex items-center justify-center text-muted-foreground">{t("lesson.notFound")}</div>;
 
   const allLessons = course.modules.flatMap((m) => m.lessons);
@@ -29,17 +64,36 @@ const LessonPlayer = () => {
   const prevLesson = currentIndex > 0 ? allLessons[currentIndex - 1] : null;
   const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null;
 
-  const toggleComplete = (id: string) => {
-    setCompletedLessons((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
+  const toggleComplete = async (id: string) => {
+    if (!user || !courseId) return;
+    const isDone = completedLessons.has(id);
+    if (isDone) {
+      // Can't un-complete via DB easily, just toggle local
+      setCompletedLessons((prev) => {
+        const next = new Set(prev);
+        next.delete(id);
+        return next;
+      });
+    } else {
+      setCompletedLessons((prev) => new Set(prev).add(id));
+      await supabase.from("lesson_progress").upsert(
+        { user_id: user.id, course_id: courseId, lesson_id: id, time_spent_seconds: 0 },
+        { onConflict: "user_id,course_id,lesson_id" as any }
+      );
+
+      // Auto-navigate to next lesson after marking complete
+      if (nextLesson) {
+        setTimeout(() => navigate(`/curso/${courseId}/aula/${nextLesson.id}`), 800);
+      }
+    }
   };
+
+  // Determine if video is embeddable (YouTube/Vimeo) or direct
+  const isEmbedUrl = currentLesson.videoUrl?.includes("youtube.com") || currentLesson.videoUrl?.includes("vimeo.com");
 
   return (
     <div className="min-h-screen pt-16 flex">
+      {/* Sidebar */}
       <aside
         className={`fixed lg:sticky top-16 left-0 z-40 h-[calc(100vh-4rem)] w-[85vw] max-w-[320px] border-r border-border bg-card/98 backdrop-blur-xl overflow-y-auto transition-transform duration-300 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
@@ -107,23 +161,16 @@ const LessonPlayer = () => {
       </aside>
 
       {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-background/60 backdrop-blur-sm z-30 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
+        <div className="fixed inset-0 bg-background/60 backdrop-blur-sm z-30 lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
       <div className="flex-1 min-w-0">
+        {/* Top bar */}
         <div className="sticky top-16 z-20 flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3 border-b border-border bg-background/90 backdrop-blur-xl">
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-1.5 rounded-lg hover:bg-muted transition-colors"
-            aria-label="Toggle menu"
-          >
+          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1.5 rounded-lg hover:bg-muted transition-colors" aria-label="Toggle menu">
             <Menu className="h-4 w-4" />
           </button>
           <div className="h-4 w-px bg-border hidden sm:block" />
-          
           <div className="flex-1 min-w-0">
             <span className="text-xs sm:text-sm font-medium truncate block">{currentLesson.title}</span>
             <div className="flex items-center gap-2 mt-1 sm:hidden">
@@ -131,7 +178,6 @@ const LessonPlayer = () => {
               <span className="text-[10px] text-muted-foreground shrink-0">{Math.round(progress)}%</span>
             </div>
           </div>
-
           <div className="flex items-center gap-1 sm:hidden">
             {prevLesson && (
               <Link to={`/curso/${course.id}/aula/${prevLesson.id}`} className="p-1.5 rounded-lg hover:bg-muted">
@@ -146,14 +192,38 @@ const LessonPlayer = () => {
           </div>
         </div>
 
+        {/* Video Player */}
         <div className="aspect-video w-full bg-muted/50">
-          <iframe
-            src={currentLesson.videoUrl}
-            className="w-full h-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            title={currentLesson.title}
-          />
+          {user ? (
+            isEmbedUrl ? (
+              <iframe
+                src={currentLesson.videoUrl}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title={currentLesson.title}
+              />
+            ) : currentLesson.videoUrl ? (
+              <video
+                src={currentLesson.videoUrl}
+                className="w-full h-full"
+                controls
+                controlsList="nodownload"
+                title={currentLesson.title}
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                <p className="text-sm">Vídeo não disponível</p>
+              </div>
+            )
+          ) : (
+            <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-muted-foreground">
+              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                <Play className="h-8 w-8 text-primary" />
+              </div>
+              <p className="text-sm font-medium">Faça login para assistir</p>
+            </div>
+          )}
         </div>
 
         <div className="max-w-3xl mx-auto p-4 sm:p-6 md:p-10">
@@ -165,6 +235,7 @@ const LessonPlayer = () => {
               size="sm"
               onClick={() => toggleComplete(currentLesson.id)}
               className="text-xs sm:text-sm"
+              disabled={!user}
             >
               <CheckCircle2 className="mr-1.5 h-3.5 sm:h-4 w-3.5 sm:w-4" />
               {completedLessons.has(currentLesson.id) ? t("lesson.completed") : t("lesson.markComplete")}
@@ -179,54 +250,57 @@ const LessonPlayer = () => {
             <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{currentLesson.description}</p>
           </div>
 
+          {/* Desktop nav */}
           <div className="hidden sm:flex items-center justify-between mt-10 pt-6 border-t border-border">
             {prevLesson ? (
               <Button variant="outline" size="sm" asChild>
                 <Link to={`/curso/${course.id}/aula/${prevLesson.id}`}>
-                  <ChevronLeft className="mr-1 h-4 w-4" />
-                  {t("lesson.previous")}
+                  <ChevronLeft className="mr-1 h-4 w-4" /> {t("lesson.previous")}
                 </Link>
               </Button>
             ) : <div />}
             {nextLesson ? (
               <Button variant="cosmic" size="sm" asChild>
                 <Link to={`/curso/${course.id}/aula/${nextLesson.id}`}>
-                  {t("lesson.next")}
-                  <ChevronRight className="ml-1 h-4 w-4" />
+                  {t("lesson.next")} <ChevronRight className="ml-1 h-4 w-4" />
                 </Link>
               </Button>
             ) : (
-              <Button variant="gold" size="sm">
-                {t("lesson.courseCompleted")}
-              </Button>
+              <Button variant="gold" size="sm">{t("lesson.courseCompleted")}</Button>
             )}
           </div>
 
+          {/* Mobile nav */}
           <div className="sm:hidden fixed bottom-0 left-0 right-0 z-30 p-3 border-t border-border bg-background/95 backdrop-blur-xl flex items-center gap-2">
             {prevLesson ? (
               <Button variant="outline" size="sm" className="flex-1 text-xs" asChild>
                 <Link to={`/curso/${course.id}/aula/${prevLesson.id}`}>
-                  <ChevronLeft className="mr-1 h-3.5 w-3.5" />
-                  {t("lesson.previous")}
+                  <ChevronLeft className="mr-1 h-3.5 w-3.5" /> {t("lesson.previous")}
                 </Link>
               </Button>
             ) : <div className="flex-1" />}
             {nextLesson ? (
               <Button variant="cosmic" size="sm" className="flex-1 text-xs" asChild>
                 <Link to={`/curso/${course.id}/aula/${nextLesson.id}`}>
-                  {t("lesson.nextShort")}
-                  <ChevronRight className="ml-1 h-3.5 w-3.5" />
+                  {t("lesson.nextShort")} <ChevronRight className="ml-1 h-3.5 w-3.5" />
                 </Link>
               </Button>
             ) : (
-              <Button variant="gold" size="sm" className="flex-1 text-xs">
-                {t("lesson.courseCompletedShort")}
-              </Button>
+              <Button variant="gold" size="sm" className="flex-1 text-xs">{t("lesson.courseCompletedShort")}</Button>
             )}
           </div>
           <div className="h-16 sm:hidden" />
         </div>
       </div>
+
+      <AuthGateModal
+        open={showAuthGate}
+        onClose={() => {
+          setShowAuthGate(false);
+          if (!user) navigate(`/curso/${courseId}`);
+        }}
+        redirectTo={`/curso/${courseId}/aula/${lessonId}`}
+      />
     </div>
   );
 };

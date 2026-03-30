@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { BookOpen, Award, Play, Clock, TrendingUp, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { courses } from "@/data/mockData";
+import { useCourses } from "@/hooks/useCourses";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect, useState } from "react";
@@ -16,7 +16,8 @@ const Dashboard = () => {
   const { t } = useLanguage();
   const { user } = useAuth();
   const [firstName, setFirstName] = useState<string>("");
-  const progress = useUserProgress(user?.id);
+  const { data: courses = [] } = useCourses();
+  const progress = useUserProgress(user?.id, courses);
 
   useEffect(() => {
     const fetchName = async () => {
