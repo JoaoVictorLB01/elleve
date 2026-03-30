@@ -17,7 +17,7 @@ const Dashboard = () => {
   const { user } = useAuth();
   const [firstName, setFirstName] = useState<string>("");
   const { data: courses = [] } = useCourses();
-  const progress = useUserProgress(user?.id);
+  const progress = useUserProgress(user?.id, courses);
 
   useEffect(() => {
     const fetchName = async () => {
