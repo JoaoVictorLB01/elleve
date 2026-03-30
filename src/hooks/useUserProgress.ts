@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { courses } from "@/data/mockData";
+import { useQueryClient } from "@tanstack/react-query";
+import { Course } from "@/data/mockData";
 
 interface ProgressStats {
   activeCourses: number;
