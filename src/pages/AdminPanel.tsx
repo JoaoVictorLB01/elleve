@@ -167,6 +167,7 @@ const AdminPanel = () => {
     { id: "biblioteca" as Tab, label: t("admin.library"), icon: Library },
     { id: "alunos" as Tab, label: t("admin.students"), icon: Users },
     { id: "estatisticas" as Tab, label: t("admin.stats"), icon: BarChart3 },
+    { id: "social" as Tab, label: "Redes Sociais", icon: Share2 },
   ];
 
   const categoryOptions = bookCategories.filter((c) => c !== "all");
