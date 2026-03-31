@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Sparkles } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import SocialIcons from "@/components/SocialIcons";
 
 const Footer = () => {
   const { t } = useLanguage();
