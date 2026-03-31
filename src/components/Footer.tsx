@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Sparkles } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import SocialIcons from "@/components/SocialIcons";
 
 const Footer = () => {
   const { t } = useLanguage();
@@ -17,6 +18,7 @@ const Footer = () => {
             <p className="text-sm sm:text-sm text-muted-foreground leading-relaxed max-w-[240px]">
               {t("footer.tagline")}
             </p>
+            <SocialIcons className="mt-4" iconSize="h-5 w-5" />
           </div>
 
           <div className="grid grid-cols-2 gap-8 sm:col-span-2 sm:gap-10">

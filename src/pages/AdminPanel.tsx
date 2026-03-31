@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
   BookOpen, Users, FileVideo, Plus, Edit, Trash2, BarChart3, Search,
-  Library, X, Upload, FileText, Download, Image as ImageIcon, Settings
+  Library, X, Upload, FileText, Download, Image as ImageIcon, Settings, Share2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,8 +14,9 @@ import { useBooks, Book } from "@/contexts/BooksContext";
 import { useCourses, useAllDbData, useCoursesMutations, DbCourse } from "@/hooks/useCourses";
 import CourseFormModal from "@/components/CourseFormModal";
 import CourseManagerModal from "@/components/CourseManagerModal";
+import SocialLinksManager from "@/components/SocialLinksManager";
 
-type Tab = "cursos" | "alunos" | "estatisticas" | "biblioteca";
+type Tab = "cursos" | "alunos" | "estatisticas" | "biblioteca" | "social";
 
 interface BookFormData {
   title: string;
@@ -166,6 +167,7 @@ const AdminPanel = () => {
     { id: "biblioteca" as Tab, label: t("admin.library"), icon: Library },
     { id: "alunos" as Tab, label: t("admin.students"), icon: Users },
     { id: "estatisticas" as Tab, label: t("admin.stats"), icon: BarChart3 },
+    { id: "social" as Tab, label: "Redes Sociais", icon: Share2 },
   ];
 
   const categoryOptions = bookCategories.filter((c) => c !== "all");
@@ -430,6 +432,17 @@ const AdminPanel = () => {
                 </tbody>
               </table>
             </div>
+          </div>
+        )}
+
+        {/* REDES SOCIAIS TAB */}
+        {activeTab === "social" && (
+          <div>
+            <div className="mb-5 sm:mb-6">
+              <h2 className="text-base sm:text-lg font-semibold mb-1">Gerenciar Redes Sociais</h2>
+              <p className="text-xs sm:text-sm text-muted-foreground">Configure os links das redes sociais exibidos na plataforma.</p>
+            </div>
+            <SocialLinksManager />
           </div>
         )}
 
