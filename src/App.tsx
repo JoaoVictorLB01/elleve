@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,22 +10,27 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
-import OracleCard from "@/components/OracleCard";
 import BottomNav from "@/components/BottomNav";
-import Index from "./pages/Index";
-import Courses from "./pages/Courses";
-import CourseDetail from "./pages/CourseDetail";
-import LessonPlayer from "./pages/LessonPlayer";
-import Dashboard from "./pages/Dashboard";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
-import AdminPanel from "./pages/AdminPanel";
-import Library from "./pages/Library";
-import ProductsServices from "./pages/ProductsServices";
-import NotFound from "./pages/NotFound";
-import ElevveSe from "./pages/ElevveSe";
+import PageSkeleton from "@/components/PageSkeleton";
+
+// Lazy-loaded pages
+const Index = lazy(() => import("./pages/Index"));
+const Courses = lazy(() => import("./pages/Courses"));
+const CourseDetail = lazy(() => import("./pages/CourseDetail"));
+const LessonPlayer = lazy(() => import("./pages/LessonPlayer"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Login = lazy(() => import("./pages/Login"));
+const Register = lazy(() => import("./pages/Register"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const AdminPanel = lazy(() => import("./pages/AdminPanel"));
+const Library = lazy(() => import("./pages/Library"));
+const ProductsServices = lazy(() => import("./pages/ProductsServices"));
+const ElevveSe = lazy(() => import("./pages/ElevveSe"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
+// Lazy-loaded heavy component
+const OracleCard = lazy(() => import("@/components/OracleCard"));
 
 const queryClient = new QueryClient();
 
@@ -35,24 +41,28 @@ const Layout = () => {
   return (
     <>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/cursos" element={<Courses />} />
-        <Route path="/curso/:id" element={<CourseDetail />} />
-        <Route path="/curso/:courseId/aula/:lessonId" element={<LessonPlayer />} />
-        <Route path="/biblioteca" element={<Library />} />
-        <Route path="/produtos" element={<ProductsServices />} />
-        <Route path="/elevve-se" element={<ElevveSe />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/cadastro" element={<Register />} />
-        <Route path="/esqueci-senha" element={<ForgotPassword />} />
-        <Route path="/redefinir-senha" element={<ResetPassword />} />
-        <Route path="/admin" element={<ProtectedAdminRoute><AdminPanel /></ProtectedAdminRoute>} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Suspense fallback={<PageSkeleton />}>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/cursos" element={<Courses />} />
+          <Route path="/curso/:id" element={<CourseDetail />} />
+          <Route path="/curso/:courseId/aula/:lessonId" element={<LessonPlayer />} />
+          <Route path="/biblioteca" element={<Library />} />
+          <Route path="/produtos" element={<ProductsServices />} />
+          <Route path="/elevve-se" element={<ElevveSe />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/cadastro" element={<Register />} />
+          <Route path="/esqueci-senha" element={<ForgotPassword />} />
+          <Route path="/redefinir-senha" element={<ResetPassword />} />
+          <Route path="/admin" element={<ProtectedAdminRoute><AdminPanel /></ProtectedAdminRoute>} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
       {!hideFooter && <Footer />}
-      <OracleCard />
+      <Suspense fallback={null}>
+        <OracleCard />
+      </Suspense>
       <BottomNav />
     </>
   );
