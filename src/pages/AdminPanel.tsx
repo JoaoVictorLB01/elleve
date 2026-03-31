@@ -435,6 +435,17 @@ const AdminPanel = () => {
           </div>
         )}
 
+        {/* REDES SOCIAIS TAB */}
+        {activeTab === "social" && (
+          <div>
+            <div className="mb-5 sm:mb-6">
+              <h2 className="text-base sm:text-lg font-semibold mb-1">Gerenciar Redes Sociais</h2>
+              <p className="text-xs sm:text-sm text-muted-foreground">Configure os links das redes sociais exibidos na plataforma.</p>
+            </div>
+            <SocialLinksManager />
+          </div>
+        )}
+
         {/* ESTATÍSTICAS TAB */}
         {activeTab === "estatisticas" && (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
