@@ -14,8 +14,9 @@ import { useBooks, Book } from "@/contexts/BooksContext";
 import { useCourses, useAllDbData, useCoursesMutations, DbCourse } from "@/hooks/useCourses";
 import CourseFormModal from "@/components/CourseFormModal";
 import CourseManagerModal from "@/components/CourseManagerModal";
+import SocialLinksManager from "@/components/SocialLinksManager";
 
-type Tab = "cursos" | "alunos" | "estatisticas" | "biblioteca";
+type Tab = "cursos" | "alunos" | "estatisticas" | "biblioteca" | "social";
 
 interface BookFormData {
   title: string;
