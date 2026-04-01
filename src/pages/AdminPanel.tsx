@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
   BookOpen, Users, FileVideo, Plus, Edit, Trash2, BarChart3, Search,
-  Library, X, Upload, FileText, Download, Image as ImageIcon, Settings, Share2
+  Library, X, Upload, FileText, Download, Image as ImageIcon, Settings, Share2, Sparkles
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,8 +15,9 @@ import { useCourses, useAllDbData, useCoursesMutations, DbCourse } from "@/hooks
 import CourseFormModal from "@/components/CourseFormModal";
 import CourseManagerModal from "@/components/CourseManagerModal";
 import SocialLinksManager from "@/components/SocialLinksManager";
+import ElevveVideoManager from "@/components/ElevveVideoManager";
 
-type Tab = "cursos" | "alunos" | "estatisticas" | "biblioteca" | "social";
+type Tab = "cursos" | "alunos" | "estatisticas" | "biblioteca" | "social" | "elevve";
 
 interface BookFormData {
   title: string;
@@ -64,6 +65,7 @@ const AdminPanel = () => {
   const [editingCourse, setEditingCourse] = useState<DbCourse | null>(null);
   const [managingCourseId, setManagingCourseId] = useState<string | null>(null);
   const [deleteCourseConfirm, setDeleteCourseConfirm] = useState<string | null>(null);
+  const [managingElevveTopic, setManagingElevveTopic] = useState<{ id: string; title: string } | null>(null);
 
   const dbCourses = dbData?.courses || [];
   const displayCourses = useMemo(() => {
@@ -162,8 +164,20 @@ const AdminPanel = () => {
     }
   };
 
+  const elevveTopics = [
+    { id: "familia", title: "Elevve sua família" },
+    { id: "relacionamento", title: "Elevve seu relacionamento" },
+    { id: "vida-amorosa", title: "Elevve sua vida amorosa" },
+    { id: "financeira", title: "Elevve sua vida financeira" },
+    { id: "autoestima", title: "Autoestima e confiança" },
+    { id: "emocoes", title: "Inteligência emocional" },
+    { id: "criatividade", title: "Criatividade e imaginação" },
+    { id: "valores", title: "Valores e empatia" },
+  ];
+
   const tabs = [
     { id: "cursos" as Tab, label: t("admin.courses"), icon: BookOpen },
+    { id: "elevve" as Tab, label: "Elevve-se", icon: Sparkles },
     { id: "biblioteca" as Tab, label: t("admin.library"), icon: Library },
     { id: "alunos" as Tab, label: t("admin.students"), icon: Users },
     { id: "estatisticas" as Tab, label: t("admin.stats"), icon: BarChart3 },
@@ -435,6 +449,37 @@ const AdminPanel = () => {
           </div>
         )}
 
+        {/* ELEVVE-SE TAB */}
+        {activeTab === "elevve" && (
+          <div>
+            <div className="mb-5 sm:mb-6">
+              <h2 className="text-base sm:text-lg font-semibold mb-1">Gerenciar Vídeos Elevve-se</h2>
+              <p className="text-xs sm:text-sm text-muted-foreground">Clique em uma área para gerenciar seus vídeos.</p>
+            </div>
+            <div className="space-y-3">
+              {elevveTopics.map((topic, i) => (
+                <motion.button
+                  key={topic.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.04 }}
+                  onClick={() => setManagingElevveTopic(topic)}
+                  className="w-full text-left border border-border rounded-xl bg-card p-4 hover:border-primary/20 transition-colors flex items-center gap-3"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                    <Sparkles className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate">{topic.title}</p>
+                    <p className="text-[10px] text-muted-foreground">Clique para gerenciar vídeos</p>
+                  </div>
+                  <Settings className="h-4 w-4 text-muted-foreground shrink-0" />
+                </motion.button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* REDES SOCIAIS TAB */}
         {activeTab === "social" && (
           <div>
@@ -466,6 +511,15 @@ const AdminPanel = () => {
           </div>
         )}
       </div>
+
+      {/* Elevve Video Manager */}
+      {managingElevveTopic && (
+        <ElevveVideoManager
+          topicId={managingElevveTopic.id}
+          topicTitle={managingElevveTopic.title}
+          onClose={() => setManagingElevveTopic(null)}
+        />
+      )}
 
       {/* Course Form Modal */}
       {showCourseForm && (

@@ -228,6 +228,42 @@ export type Database = {
           },
         ]
       }
+      elevve_videos: {
+        Row: {
+          created_at: string
+          description: string | null
+          duration: string | null
+          id: string
+          sort_order: number
+          thumbnail_url: string | null
+          title: string
+          topic_id: string
+          video_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          duration?: string | null
+          id?: string
+          sort_order?: number
+          thumbnail_url?: string | null
+          title: string
+          topic_id: string
+          video_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          duration?: string | null
+          id?: string
+          sort_order?: number
+          thumbnail_url?: string | null
+          title?: string
+          topic_id?: string
+          video_url?: string | null
+        }
+        Relationships: []
+      }
       enrollments: {
         Row: {
           course_id: string

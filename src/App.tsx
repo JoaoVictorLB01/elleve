@@ -27,6 +27,7 @@ const AdminPanel = lazy(() => import("./pages/AdminPanel"));
 const Library = lazy(() => import("./pages/Library"));
 const ProductsServices = lazy(() => import("./pages/ProductsServices"));
 const ElevveSe = lazy(() => import("./pages/ElevveSe"));
+const ElevveTopicDetail = lazy(() => import("./pages/ElevveTopicDetail"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Lazy-loaded heavy component
@@ -50,6 +51,7 @@ const Layout = () => {
           <Route path="/biblioteca" element={<Library />} />
           <Route path="/produtos" element={<ProductsServices />} />
           <Route path="/elevve-se" element={<ElevveSe />} />
+          <Route path="/elevve-se/:topicId" element={<ElevveTopicDetail />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Register />} />
