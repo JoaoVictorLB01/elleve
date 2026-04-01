@@ -62,9 +62,9 @@ export const BooksProvider = ({ children }: { children: ReactNode }) => {
       console.error(`Storage upload error for bucket "${bucket}":`, JSON.stringify(error));
       throw error;
     }
-    const { data: urlData } = supabase.storage.from(bucket).getPublicUrl(data.path);
-    console.log(`Upload success, public URL: ${urlData.publicUrl}`);
-    return urlData.publicUrl;
+    // Store the storage path (not public URL) since buckets are private
+    console.log(`Upload success, path: ${data.path}`);
+    return data.path;
   };
 
   const addBook = async (book: Omit<Book, "id" | "downloads">, coverFile?: File, pdfFile?: File) => {
