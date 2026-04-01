@@ -104,7 +104,14 @@ const BookDetailModal = ({ book, onClose, isFavorite, onToggleFavorite }: { book
     if (!book.pdf_url || book.pdf_url === "#") return;
     setDownloading(true);
     try {
-      const response = await fetch(book.pdf_url);
+      const { getSignedFileUrl, extractStoragePath } = await import("@/lib/storage");
+      const storagePath = extractStoragePath(book.pdf_url, "book-pdfs") || book.pdf_url;
+      const signedUrl = await getSignedFileUrl("book-pdfs", storagePath);
+      if (!signedUrl) {
+        console.error("Could not get signed URL for PDF");
+        return;
+      }
+      const response = await fetch(signedUrl);
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
