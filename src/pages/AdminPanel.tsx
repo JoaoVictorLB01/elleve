@@ -15,6 +15,7 @@ import { useCourses, useAllDbData, useCoursesMutations, DbCourse } from "@/hooks
 import CourseFormModal from "@/components/CourseFormModal";
 import CourseManagerModal from "@/components/CourseManagerModal";
 import SocialLinksManager from "@/components/SocialLinksManager";
+import ElevveVideoManager from "@/components/ElevveVideoManager";
 
 type Tab = "cursos" | "alunos" | "estatisticas" | "biblioteca" | "social";
 
