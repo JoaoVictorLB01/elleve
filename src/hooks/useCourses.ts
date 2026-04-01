@@ -236,9 +236,9 @@ export function useCoursesMutations() {
       let thumbnail_url = data.thumbnail_url || "";
       if (data.videoFile) {
         const name = `videos/${Date.now()}-${data.videoFile.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
-        const { error: upErr } = await supabase.storage.from("course-media").upload(name, data.videoFile);
+        const { data: upData, error: upErr } = await supabase.storage.from("course-media").upload(name, data.videoFile);
         if (upErr) throw upErr;
-        video_url = supabase.storage.from("course-media").getPublicUrl(name).data.publicUrl;
+        video_url = upData.path;
       }
       if (data.thumbnailFile) thumbnail_url = await uploadImage(data.thumbnailFile);
       const { error } = await supabase.from("db_lessons").update({
