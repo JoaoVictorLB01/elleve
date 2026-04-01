@@ -92,6 +92,24 @@ const LessonPlayer = () => {
   // Determine if video is embeddable (YouTube/Vimeo) or direct
   const isEmbedUrl = currentLesson.videoUrl?.includes("youtube.com") || currentLesson.videoUrl?.includes("vimeo.com");
 
+  // Resolve signed URL for direct video files from private bucket
+  const [resolvedVideoUrl, setResolvedVideoUrl] = useState<string | null>(null);
+  useEffect(() => {
+    if (!currentLesson.videoUrl || isEmbedUrl) {
+      setResolvedVideoUrl(currentLesson.videoUrl || null);
+      return;
+    }
+    // If it's a storage URL, get a signed version
+    const storagePath = extractStoragePath(currentLesson.videoUrl, "course-media");
+    if (storagePath && user) {
+      getSignedFileUrl("course-media", storagePath).then((url) => {
+        setResolvedVideoUrl(url || currentLesson.videoUrl || null);
+      });
+    } else {
+      setResolvedVideoUrl(currentLesson.videoUrl);
+    }
+  }, [currentLesson.videoUrl, isEmbedUrl, user]);
+
   return (
     <div className="min-h-screen pt-16 flex">
       {/* Sidebar */}
