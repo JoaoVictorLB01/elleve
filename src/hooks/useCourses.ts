@@ -130,9 +130,9 @@ export function useCoursesMutations() {
 
   const uploadImage = async (file: File): Promise<string> => {
     const name = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
-    const { data, error } = await supabase.storage.from("course-media").upload(name, file);
+    const { error } = await supabase.storage.from("course-media").upload(name, file);
     if (error) throw error;
-    return data.path;
+    return supabase.storage.from("course-media").getPublicUrl(name).data.publicUrl;
   };
 
   const addCourse = useMutation({
