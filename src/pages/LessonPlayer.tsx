@@ -12,6 +12,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthGateModal from "@/components/AuthGateModal";
 import { supabase } from "@/integrations/supabase/client";
+import { getSignedFileUrl, extractStoragePath } from "@/lib/storage";
 
 const LessonPlayer = () => {
   const { courseId, lessonId } = useParams();
