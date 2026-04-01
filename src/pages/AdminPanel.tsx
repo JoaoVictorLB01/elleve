@@ -164,8 +164,20 @@ const AdminPanel = () => {
     }
   };
 
+  const elevveTopics = [
+    { id: "familia", title: "Elevve sua família" },
+    { id: "relacionamento", title: "Elevve seu relacionamento" },
+    { id: "vida-amorosa", title: "Elevve sua vida amorosa" },
+    { id: "financeira", title: "Elevve sua vida financeira" },
+    { id: "autoestima", title: "Autoestima e confiança" },
+    { id: "emocoes", title: "Inteligência emocional" },
+    { id: "criatividade", title: "Criatividade e imaginação" },
+    { id: "valores", title: "Valores e empatia" },
+  ];
+
   const tabs = [
     { id: "cursos" as Tab, label: t("admin.courses"), icon: BookOpen },
+    { id: "elevve" as Tab, label: "Elevve-se", icon: Sparkles },
     { id: "biblioteca" as Tab, label: t("admin.library"), icon: Library },
     { id: "alunos" as Tab, label: t("admin.students"), icon: Users },
     { id: "estatisticas" as Tab, label: t("admin.stats"), icon: BarChart3 },
