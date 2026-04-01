@@ -65,6 +65,7 @@ const AdminPanel = () => {
   const [editingCourse, setEditingCourse] = useState<DbCourse | null>(null);
   const [managingCourseId, setManagingCourseId] = useState<string | null>(null);
   const [deleteCourseConfirm, setDeleteCourseConfirm] = useState<string | null>(null);
+  const [managingElevveTopic, setManagingElevveTopic] = useState<{ id: string; title: string } | null>(null);
 
   const dbCourses = dbData?.courses || [];
   const displayCourses = useMemo(() => {
