@@ -215,9 +215,9 @@ const LessonPlayer = () => {
                 allowFullScreen
                 title={currentLesson.title}
               />
-            ) : currentLesson.videoUrl ? (
+            ) : resolvedVideoUrl ? (
               <video
-                src={currentLesson.videoUrl}
+                src={resolvedVideoUrl}
                 className="w-full h-full"
                 controls
                 controlsList="nodownload"
