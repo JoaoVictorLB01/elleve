@@ -17,7 +17,7 @@ import CourseManagerModal from "@/components/CourseManagerModal";
 import SocialLinksManager from "@/components/SocialLinksManager";
 import ElevveVideoManager from "@/components/ElevveVideoManager";
 
-type Tab = "cursos" | "alunos" | "estatisticas" | "biblioteca" | "social";
+type Tab = "cursos" | "alunos" | "estatisticas" | "biblioteca" | "social" | "elevve";
 
 interface BookFormData {
   title: string;
