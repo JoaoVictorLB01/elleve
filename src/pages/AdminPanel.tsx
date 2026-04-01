@@ -512,6 +512,15 @@ const AdminPanel = () => {
         )}
       </div>
 
+      {/* Elevve Video Manager */}
+      {managingElevveTopic && (
+        <ElevveVideoManager
+          topicId={managingElevveTopic.id}
+          topicTitle={managingElevveTopic.title}
+          onClose={() => setManagingElevveTopic(null)}
+        />
+      )}
+
       {/* Course Form Modal */}
       {showCourseForm && (
         <CourseFormModal
