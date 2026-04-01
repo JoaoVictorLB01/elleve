@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Heart, Users, Sparkles, Wallet, Baby, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Link } from "react-router-dom";
 import ElevveParticles from "@/components/ElevveParticles";
 
 const topics = [
