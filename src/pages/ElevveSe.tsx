@@ -120,52 +120,51 @@ const ElevveSe = () => {
           animate="show"
         >
           {topics.map((topic) => (
-            <motion.button
-              key={topic.id}
-              variants={cardVariants}
-              whileTap={{ scale: 0.975 }}
-              aria-label={topic.title}
-              className="group relative w-full text-left rounded-2xl border border-border/40 bg-card/70 backdrop-blur-sm p-4.5 cursor-pointer transition-shadow duration-300 hover:shadow-lg"
-              style={{ boxShadow: "0 0 0 0 transparent" }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = `0 4px 24px -8px hsl(${topic.accentHsl} / 0.18)`;
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 0 0 transparent";
-              }}
-            >
-              <div
-                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-400"
-                style={{
-                  background: `linear-gradient(135deg, hsl(${topic.accentHsl} / 0.05), transparent 60%)`,
+            <motion.div key={topic.id} variants={cardVariants}>
+              <Link
+                to={`/elevve-se/${topic.id}`}
+                className="group relative w-full text-left rounded-2xl border border-border/40 bg-card/70 backdrop-blur-sm p-4.5 cursor-pointer transition-shadow duration-300 hover:shadow-lg block"
+                style={{ boxShadow: "0 0 0 0 transparent" }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.boxShadow = `0 4px 24px -8px hsl(${topic.accentHsl} / 0.18)`;
                 }}
-              />
-
-              <div className="relative flex items-center gap-3.5">
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.boxShadow = "0 0 0 0 transparent";
+                }}
+              >
                 <div
-                  className="flex items-center justify-center w-10 h-10 rounded-xl border border-border/25 shrink-0 transition-all duration-300 group-hover:border-transparent"
+                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-400"
                   style={{
-                    background: `linear-gradient(145deg, hsl(${topic.accentHsl} / 0.1), hsl(${topic.accentHsl} / 0.03))`,
+                    background: `linear-gradient(135deg, hsl(${topic.accentHsl} / 0.05), transparent 60%)`,
                   }}
-                >
-                  <topic.icon
-                    className="h-[18px] w-[18px] transition-all duration-300"
-                    style={{ color: `hsl(${topic.accentHsl})` }}
-                  />
-                </div>
+                />
 
-                <div className="flex-1 min-w-0">
-                  <h2 className="text-sm font-semibold text-foreground mb-0.5 truncate">
-                    {topic.title}
-                  </h2>
-                  <p className="text-xs text-muted-foreground/65 leading-relaxed line-clamp-2">
-                    {topic.description}
-                  </p>
-                </div>
+                <div className="relative flex items-center gap-3.5">
+                  <div
+                    className="flex items-center justify-center w-10 h-10 rounded-xl border border-border/25 shrink-0 transition-all duration-300 group-hover:border-transparent"
+                    style={{
+                      background: `linear-gradient(145deg, hsl(${topic.accentHsl} / 0.1), hsl(${topic.accentHsl} / 0.03))`,
+                    }}
+                  >
+                    <topic.icon
+                      className="h-[18px] w-[18px] transition-all duration-300"
+                      style={{ color: `hsl(${topic.accentHsl})` }}
+                    />
+                  </div>
 
-                <ChevronRight className="h-4 w-4 text-muted-foreground/25 group-hover:text-muted-foreground/50 transition-colors duration-300 shrink-0" />
-              </div>
-            </motion.button>
+                  <div className="flex-1 min-w-0">
+                    <h2 className="text-sm font-semibold text-foreground mb-0.5 truncate">
+                      {topic.title}
+                    </h2>
+                    <p className="text-xs text-muted-foreground/65 leading-relaxed line-clamp-2">
+                      {topic.description}
+                    </p>
+                  </div>
+
+                  <ChevronRight className="h-4 w-4 text-muted-foreground/25 group-hover:text-muted-foreground/50 transition-colors duration-300 shrink-0" />
+                </div>
+              </Link>
+            </motion.div>
           ))}
         </motion.div>
 
