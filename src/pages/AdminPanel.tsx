@@ -449,6 +449,37 @@ const AdminPanel = () => {
           </div>
         )}
 
+        {/* ELEVVE-SE TAB */}
+        {activeTab === "elevve" && (
+          <div>
+            <div className="mb-5 sm:mb-6">
+              <h2 className="text-base sm:text-lg font-semibold mb-1">Gerenciar Vídeos Elevve-se</h2>
+              <p className="text-xs sm:text-sm text-muted-foreground">Clique em uma área para gerenciar seus vídeos.</p>
+            </div>
+            <div className="space-y-3">
+              {elevveTopics.map((topic, i) => (
+                <motion.button
+                  key={topic.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.04 }}
+                  onClick={() => setManagingElevveTopic(topic)}
+                  className="w-full text-left border border-border rounded-xl bg-card p-4 hover:border-primary/20 transition-colors flex items-center gap-3"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                    <Sparkles className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate">{topic.title}</p>
+                    <p className="text-[10px] text-muted-foreground">Clique para gerenciar vídeos</p>
+                  </div>
+                  <Settings className="h-4 w-4 text-muted-foreground shrink-0" />
+                </motion.button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* REDES SOCIAIS TAB */}
         {activeTab === "social" && (
           <div>
