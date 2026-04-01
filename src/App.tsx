@@ -27,6 +27,7 @@ const AdminPanel = lazy(() => import("./pages/AdminPanel"));
 const Library = lazy(() => import("./pages/Library"));
 const ProductsServices = lazy(() => import("./pages/ProductsServices"));
 const ElevveSe = lazy(() => import("./pages/ElevveSe"));
+const ElevveTopicDetail = lazy(() => import("./pages/ElevveTopicDetail"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Lazy-loaded heavy component
