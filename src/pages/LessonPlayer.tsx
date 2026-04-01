@@ -23,6 +23,7 @@ const LessonPlayer = () => {
   const { user } = useAuth();
   const { data: courses, isLoading } = useCourses();
   const [showAuthGate, setShowAuthGate] = useState(false);
+  const [resolvedVideoUrl, setResolvedVideoUrl] = useState<string | null>(null);
 
   // Auth gate: if not logged in, show modal
   useEffect(() => {
@@ -44,6 +45,28 @@ const LessonPlayer = () => {
       });
   }, [user, courseId]);
 
+  const course = (courses || []).find((c) => c.id === courseId);
+  const allLessons = course ? course.modules.flatMap((m) => m.lessons) : [];
+  const currentIndex = allLessons.findIndex((l) => l.id === lessonId);
+  const currentLesson = allLessons[currentIndex];
+  const isEmbedUrl = currentLesson?.videoUrl?.includes("youtube.com") || currentLesson?.videoUrl?.includes("vimeo.com");
+
+  // Resolve signed URL for direct video files from private bucket
+  useEffect(() => {
+    if (!currentLesson?.videoUrl || isEmbedUrl) {
+      setResolvedVideoUrl(currentLesson?.videoUrl || null);
+      return;
+    }
+    const storagePath = extractStoragePath(currentLesson.videoUrl, "course-media");
+    if (storagePath && user) {
+      getSignedFileUrl("course-media", storagePath).then((url) => {
+        setResolvedVideoUrl(url || currentLesson.videoUrl || null);
+      });
+    } else {
+      setResolvedVideoUrl(currentLesson.videoUrl);
+    }
+  }, [currentLesson?.videoUrl, isEmbedUrl, user]);
+
   if (isLoading) {
     return (
       <div className="min-h-screen pt-24 flex items-center justify-center">
@@ -52,13 +75,7 @@ const LessonPlayer = () => {
     );
   }
 
-  const course = (courses || []).find((c) => c.id === courseId);
   if (!course) return <div className="min-h-screen pt-24 flex items-center justify-center text-muted-foreground">{t("lesson.notFound")}</div>;
-
-  const allLessons = course.modules.flatMap((m) => m.lessons);
-  const currentIndex = allLessons.findIndex((l) => l.id === lessonId);
-  const currentLesson = allLessons[currentIndex];
-
   if (!currentLesson) return <div className="min-h-screen pt-24 flex items-center justify-center text-muted-foreground">{t("lesson.lessonNotFound")}</div>;
 
   const progress = allLessons.length > 0 ? (completedLessons.size / allLessons.length) * 100 : 0;
@@ -69,7 +86,6 @@ const LessonPlayer = () => {
     if (!user || !courseId) return;
     const isDone = completedLessons.has(id);
     if (isDone) {
-      // Can't un-complete via DB easily, just toggle local
       setCompletedLessons((prev) => {
         const next = new Set(prev);
         next.delete(id);
@@ -81,34 +97,11 @@ const LessonPlayer = () => {
         { user_id: user.id, course_id: courseId, lesson_id: id, time_spent_seconds: 0 },
         { onConflict: "user_id,course_id,lesson_id" as any }
       );
-
-      // Auto-navigate to next lesson after marking complete
       if (nextLesson) {
         setTimeout(() => navigate(`/curso/${courseId}/aula/${nextLesson.id}`), 800);
       }
     }
   };
-
-  // Determine if video is embeddable (YouTube/Vimeo) or direct
-  const isEmbedUrl = currentLesson.videoUrl?.includes("youtube.com") || currentLesson.videoUrl?.includes("vimeo.com");
-
-  // Resolve signed URL for direct video files from private bucket
-  const [resolvedVideoUrl, setResolvedVideoUrl] = useState<string | null>(null);
-  useEffect(() => {
-    if (!currentLesson.videoUrl || isEmbedUrl) {
-      setResolvedVideoUrl(currentLesson.videoUrl || null);
-      return;
-    }
-    // If it's a storage URL, get a signed version
-    const storagePath = extractStoragePath(currentLesson.videoUrl, "course-media");
-    if (storagePath && user) {
-      getSignedFileUrl("course-media", storagePath).then((url) => {
-        setResolvedVideoUrl(url || currentLesson.videoUrl || null);
-      });
-    } else {
-      setResolvedVideoUrl(currentLesson.videoUrl);
-    }
-  }, [currentLesson.videoUrl, isEmbedUrl, user]);
 
   return (
     <div className="min-h-screen pt-16 flex">
