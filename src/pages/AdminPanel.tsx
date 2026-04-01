@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
   BookOpen, Users, FileVideo, Plus, Edit, Trash2, BarChart3, Search,
-  Library, X, Upload, FileText, Download, Image as ImageIcon, Settings, Share2
+  Library, X, Upload, FileText, Download, Image as ImageIcon, Settings, Share2, Sparkles
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
