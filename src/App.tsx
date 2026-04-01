@@ -51,6 +51,7 @@ const Layout = () => {
           <Route path="/biblioteca" element={<Library />} />
           <Route path="/produtos" element={<ProductsServices />} />
           <Route path="/elevve-se" element={<ElevveSe />} />
+          <Route path="/elevve-se/:topicId" element={<ElevveTopicDetail />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Register />} />
