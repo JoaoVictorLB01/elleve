@@ -1,9 +1,17 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, X } from "lucide-react";
+import { Sparkles, X, CalendarIcon, Loader2 } from "lucide-react";
+import { format } from "date-fns";
+import { pt } from "date-fns/locale";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import AuthGateModal from "@/components/AuthGateModal";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 import tarotBack from "@/assets/tarot-card-back.png";
 import tarotFront from "@/assets/tarot-card-front.png";
 import oracleCardImg from "@/assets/oracle-card-front.png";
