@@ -200,6 +200,11 @@ const OracleCard = () => {
   const { language, t } = useLanguage();
   const { user } = useAuth();
   const [showAuthGate, setShowAuthGate] = useState(false);
+  const [showBirthDateModal, setShowBirthDateModal] = useState(false);
+  const [birthDate, setBirthDate] = useState<Date | undefined>(undefined);
+  const [savedBirthDate, setSavedBirthDate] = useState<string | null>(null);
+  const [birthDateLoading, setBirthDateLoading] = useState(false);
+  const [birthDateChecked, setBirthDateChecked] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -213,6 +218,27 @@ const OracleCard = () => {
   const userName = user?.user_metadata?.full_name
     ? (user.user_metadata.full_name as string).split(" ")[0]
     : null;
+
+  // Fetch saved birth date on mount
+  useEffect(() => {
+    if (!user) {
+      setBirthDateChecked(false);
+      setSavedBirthDate(null);
+      return;
+    }
+    const fetchBirthDate = async () => {
+      const { data } = await supabase
+        .from("profiles")
+        .select("birth_date")
+        .eq("id", user.id)
+        .maybeSingle();
+      if (data?.birth_date) {
+        setSavedBirthDate(data.birth_date);
+      }
+      setBirthDateChecked(true);
+    };
+    fetchBirthDate();
+  }, [user]);
 
   const getRandomMessage = useCallback(() => {
     let idx: number;
@@ -231,15 +257,43 @@ const OracleCard = () => {
     setTimeout(() => setSparkles([]), 1500);
   };
 
+  const openCardDirectly = () => {
+    setIsOpen(true);
+    setIsFlipped(false);
+    setIsAnimating(false);
+    setMessage(getRandomMessage());
+  };
+
   const handleOpen = () => {
     if (!user) {
       setShowAuthGate(true);
       return;
     }
-    setIsOpen(true);
-    setIsFlipped(false);
-    setIsAnimating(false);
-    setMessage(getRandomMessage());
+    // If birth date already saved, go straight to card
+    if (savedBirthDate) {
+      openCardDirectly();
+      return;
+    }
+    // Otherwise show birth date modal
+    setShowBirthDateModal(true);
+  };
+
+  const handleSaveBirthDate = async () => {
+    if (!birthDate || !user) return;
+    setBirthDateLoading(true);
+    const dateStr = format(birthDate, "yyyy-MM-dd");
+    const { error } = await supabase
+      .from("profiles")
+      .update({ birth_date: dateStr } as any)
+      .eq("id", user.id);
+    setBirthDateLoading(false);
+    if (error) {
+      toast.error("Erro ao salvar data de nascimento.");
+      return;
+    }
+    setSavedBirthDate(dateStr);
+    setShowBirthDateModal(false);
+    openCardDirectly();
   };
 
   const handleFlip = () => {
