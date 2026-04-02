@@ -531,6 +531,92 @@ const OracleCard = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Birth Date Modal */}
+      <AnimatePresence>
+        {showBirthDateModal && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center px-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="absolute inset-0 bg-background/80 backdrop-blur-md"
+              onClick={() => setShowBirthDateModal(false)}
+            />
+            <motion.div
+              className="relative z-10 w-full max-w-sm rounded-2xl border border-primary/20 bg-card/95 backdrop-blur-xl p-6 shadow-2xl shadow-primary/10"
+              initial={{ scale: 0.9, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 20, opacity: 0 }}
+              transition={{ type: "spring", damping: 20, stiffness: 100 }}
+            >
+              <button
+                onClick={() => setShowBirthDateModal(false)}
+                className="absolute top-3 right-3 p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+              >
+                <X className="h-4 w-4" />
+              </button>
+
+              <div className="flex flex-col items-center text-center gap-4">
+                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Sparkles className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground">
+                    {language === "en" ? "When were you born?" : language === "fr" ? "Quand êtes-vous né(e) ?" : language === "es" ? "¿Cuándo naciste?" : "Quando você nasceu?"}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {language === "en" ? "For a better prediction, tell me your date of birth." : language === "fr" ? "Pour une meilleure prédiction, dites-moi votre date de naissance." : language === "es" ? "Para una mejor predicción, dime tu fecha de nacimiento." : "Para uma melhor previsão, me diga sua data de nascimento."}
+                  </p>
+                </div>
+
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full justify-start text-left font-normal h-11",
+                        !birthDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {birthDate ? format(birthDate, "dd/MM/yyyy") : (language === "en" ? "Select your birth date" : language === "fr" ? "Sélectionnez votre date" : language === "es" ? "Selecciona tu fecha" : "Selecione sua data de nascimento")}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0 z-[60]" align="center">
+                    <Calendar
+                      mode="single"
+                      selected={birthDate}
+                      onSelect={setBirthDate}
+                      disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                      initialFocus
+                      className={cn("p-3 pointer-events-auto")}
+                      captionLayout="dropdown-buttons"
+                      fromYear={1930}
+                      toYear={new Date().getFullYear()}
+                    />
+                  </PopoverContent>
+                </Popover>
+
+                <Button
+                  onClick={handleSaveBirthDate}
+                  disabled={!birthDate || birthDateLoading}
+                  className="w-full h-11"
+                  variant="gold"
+                >
+                  {birthDateLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  ) : null}
+                  {language === "en" ? "See my card" : language === "fr" ? "Voir ma carte" : language === "es" ? "Ver mi carta" : "Ver minha carta"}
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <AuthGateModal open={showAuthGate} onClose={() => setShowAuthGate(false)} redirectTo="/" />
     </>
   );
