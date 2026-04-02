@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable";
 
 const GoogleIcon = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
@@ -59,10 +59,21 @@ const Register = () => {
 
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);
-    const { error } = await supabase.auth.signInWithOAuth({ provider: "google" });
-    if (error) {
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin,
+    });
+    if (result.error) {
       setGoogleLoading(false);
-      toast({ title: "Erro ao entrar com Google", description: error.message, variant: "destructive" });
+      toast({ title: "Erro ao entrar com Google", description: result.error.message, variant: "destructive" });
+      return;
+    }
+    if (result.redirected) return;
+    const redirect = sessionStorage.getItem("auth-redirect");
+    if (redirect) {
+      sessionStorage.removeItem("auth-redirect");
+      navigate(redirect);
+    } else {
+      navigate("/");
     }
   };
 
