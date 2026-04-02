@@ -1,9 +1,17 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, X } from "lucide-react";
+import { Sparkles, X, CalendarIcon, Loader2 } from "lucide-react";
+import { format } from "date-fns";
+import { pt } from "date-fns/locale";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import AuthGateModal from "@/components/AuthGateModal";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 import tarotBack from "@/assets/tarot-card-back.png";
 import tarotFront from "@/assets/tarot-card-front.png";
 import oracleCardImg from "@/assets/oracle-card-front.png";
@@ -192,6 +200,11 @@ const OracleCard = () => {
   const { language, t } = useLanguage();
   const { user } = useAuth();
   const [showAuthGate, setShowAuthGate] = useState(false);
+  const [showBirthDateModal, setShowBirthDateModal] = useState(false);
+  const [birthDate, setBirthDate] = useState<Date | undefined>(undefined);
+  const [savedBirthDate, setSavedBirthDate] = useState<string | null>(null);
+  const [birthDateLoading, setBirthDateLoading] = useState(false);
+  const [birthDateChecked, setBirthDateChecked] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -205,6 +218,27 @@ const OracleCard = () => {
   const userName = user?.user_metadata?.full_name
     ? (user.user_metadata.full_name as string).split(" ")[0]
     : null;
+
+  // Fetch saved birth date on mount
+  useEffect(() => {
+    if (!user) {
+      setBirthDateChecked(false);
+      setSavedBirthDate(null);
+      return;
+    }
+    const fetchBirthDate = async () => {
+      const { data } = await supabase
+        .from("profiles")
+        .select("birth_date")
+        .eq("id", user.id)
+        .maybeSingle();
+      if (data?.birth_date) {
+        setSavedBirthDate(data.birth_date);
+      }
+      setBirthDateChecked(true);
+    };
+    fetchBirthDate();
+  }, [user]);
 
   const getRandomMessage = useCallback(() => {
     let idx: number;
@@ -223,15 +257,43 @@ const OracleCard = () => {
     setTimeout(() => setSparkles([]), 1500);
   };
 
+  const openCardDirectly = () => {
+    setIsOpen(true);
+    setIsFlipped(false);
+    setIsAnimating(false);
+    setMessage(getRandomMessage());
+  };
+
   const handleOpen = () => {
     if (!user) {
       setShowAuthGate(true);
       return;
     }
-    setIsOpen(true);
-    setIsFlipped(false);
-    setIsAnimating(false);
-    setMessage(getRandomMessage());
+    // If birth date already saved, go straight to card
+    if (savedBirthDate) {
+      openCardDirectly();
+      return;
+    }
+    // Otherwise show birth date modal
+    setShowBirthDateModal(true);
+  };
+
+  const handleSaveBirthDate = async () => {
+    if (!birthDate || !user) return;
+    setBirthDateLoading(true);
+    const dateStr = format(birthDate, "yyyy-MM-dd");
+    const { error } = await supabase
+      .from("profiles")
+      .update({ birth_date: dateStr } as any)
+      .eq("id", user.id);
+    setBirthDateLoading(false);
+    if (error) {
+      toast.error("Erro ao salvar data de nascimento.");
+      return;
+    }
+    setSavedBirthDate(dateStr);
+    setShowBirthDateModal(false);
+    openCardDirectly();
   };
 
   const handleFlip = () => {
@@ -469,6 +531,92 @@ const OracleCard = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Birth Date Modal */}
+      <AnimatePresence>
+        {showBirthDateModal && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center px-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="absolute inset-0 bg-background/80 backdrop-blur-md"
+              onClick={() => setShowBirthDateModal(false)}
+            />
+            <motion.div
+              className="relative z-10 w-full max-w-sm rounded-2xl border border-primary/20 bg-card/95 backdrop-blur-xl p-6 shadow-2xl shadow-primary/10"
+              initial={{ scale: 0.9, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 20, opacity: 0 }}
+              transition={{ type: "spring", damping: 20, stiffness: 100 }}
+            >
+              <button
+                onClick={() => setShowBirthDateModal(false)}
+                className="absolute top-3 right-3 p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+              >
+                <X className="h-4 w-4" />
+              </button>
+
+              <div className="flex flex-col items-center text-center gap-4">
+                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Sparkles className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground">
+                    {language === "en" ? "When were you born?" : language === "fr" ? "Quand êtes-vous né(e) ?" : language === "es" ? "¿Cuándo naciste?" : "Quando você nasceu?"}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {language === "en" ? "For a better prediction, tell me your date of birth." : language === "fr" ? "Pour une meilleure prédiction, dites-moi votre date de naissance." : language === "es" ? "Para una mejor predicción, dime tu fecha de nacimiento." : "Para uma melhor previsão, me diga sua data de nascimento."}
+                  </p>
+                </div>
+
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full justify-start text-left font-normal h-11",
+                        !birthDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {birthDate ? format(birthDate, "dd/MM/yyyy") : (language === "en" ? "Select your birth date" : language === "fr" ? "Sélectionnez votre date" : language === "es" ? "Selecciona tu fecha" : "Selecione sua data de nascimento")}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0 z-[60]" align="center">
+                    <Calendar
+                      mode="single"
+                      selected={birthDate}
+                      onSelect={setBirthDate}
+                      disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                      initialFocus
+                      className={cn("p-3 pointer-events-auto")}
+                      captionLayout="dropdown-buttons"
+                      fromYear={1930}
+                      toYear={new Date().getFullYear()}
+                    />
+                  </PopoverContent>
+                </Popover>
+
+                <Button
+                  onClick={handleSaveBirthDate}
+                  disabled={!birthDate || birthDateLoading}
+                  className="w-full h-11"
+                  variant="gold"
+                >
+                  {birthDateLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  ) : null}
+                  {language === "en" ? "See my card" : language === "fr" ? "Voir ma carte" : language === "es" ? "Ver mi carta" : "Ver minha carta"}
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <AuthGateModal open={showAuthGate} onClose={() => setShowAuthGate(false)} redirectTo="/" />
     </>
   );
